@@ -4,20 +4,102 @@ html * {
   box-sizing: border-box;
 }
 
-header{
-  height: 20vh;
+/*HEADER*/
+
+header {
+  height: 15vh;
+  width: 100%;
+  padding: 10vh 0 10vh 2vw;
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
+
+nav {
+  display: flex !important;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #3A3A5A;
+  padding: 0 5px;
+}
+
+nav a:hover {
+  text-decoration: none;
+  color: #3A3A5A;
+}
+
+nav a.active {
+  text-decoration: underline;
+  border: 3px solid #3A3A5A;
+  border-radius: 35px;
+}
+
+nav a img {
+  width: 70px;
+}
+
+nav a p {
+  margin-top: 15px;
+}
+
+#fatherMenuSign {
+  position: relative;
+  cursor: pointer;
+}
+
+#logoMenuSign {
+  width: 100%;
+}
+
+#logoMenuSign img {
+  height: 13vh;
+}
+
+#displaySign {
+  width: 100%;
+  position: absolute;
+  top: 100%;
+}
+
+#displaySign nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #3A3A5A;
+}
+
+.signIconText {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid whitesmoke;
+  color: whitesmoke;
+}
+
+.signIconText p {
+  display: inline-block;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+/* HOME */
 
 .containerHome {
   /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   align-items: center;
-  /* gap: 3rem; */
+  gap: 3rem;
 }
 
-.backGImgHero {
+.imageHero {
   width: 100%;
   height: 80vh;
   background-image: url("../src/assets/heroPlain.jpeg");
@@ -40,4 +122,29 @@ header{
   /* justify-content: space-between; */
   align-items: center;
   gap: 1rem;
+}
+
+.carousel {
+  width: 80%;
+}
+
+.divSlide {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.imageCityCarousel {
+  width: 35vw;
+  height: 35vh;
+  background-size: cover;
+  background-position: center;
+  margin: 10px;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  color: #3A3A5A;
+  background-color: black !important;
 }

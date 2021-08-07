@@ -1,68 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import { Link } from "react-router-dom";
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Carousel } from "reactstrap";
-// import React, { useState } from 'react';
 import {
   Carousel,
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
-  CarouselCaption
+  // CarouselCaption,
 } from 'reactstrap';
-
-const Home =() => {
-    useEffect(()=>{
-        Aos.init({}); //cuando se monta Home inicializo la animacion de callAction
-        // puedo darle duracion usando la propiedad duration: en el objeto que recibe como parametro
-        // la duracion es en milisegundos
-    },[])
-    
-    const items = [
-        {
-          src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa1d%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa1d%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.921875%22%20y%3D%22218.3%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-          altText: 'Slide 1',
-          caption: 'Slide 1'
-        },
-        {
-          src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa20%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa20%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3203125%22%20y%3D%22218.3%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-          altText: 'Slide 2',
-          caption: 'Slide 2'
-        },
-        {
-          src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa21%20text%20%7B%20fill%3A%23333%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa21%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22277%22%20y%3D%22218.3%22%3EThird%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-          altText: 'Slide 3',
-          caption: 'Slide 3'
-        }
-    ];
-      
-
-    return(
-        <div className="containerHome">
-            <div className="backGImgHero">
-                <h1>
-                    MyTinerary
-                </h1>
-                <h3>
-                    Find  your  perfect  trip, designed by insiders who know and love their cities!
-                </h3>
-            </div>
-            <div data-aos="flip-up" className="callAction">
-                <h4>Are you searching for a new adventure, but still don´t know where ?</h4>
-                <Link><button>Choose from HERE!</button></Link>
-            </div>
-
-        </div>
-    )
-};
-
-export default Home;
-
-
-
-const Example = (props) => {
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Cities from "./Cities";
+const Home = () => {
+  useEffect(() => {
+    Aos.init({ duration: 1000 }); //cuando se monta Home inicializo la animacion de callAction
+    // puedo darle duracion usando la propiedad duration: en el objeto que recibe como parametro
+    // la duracion es en milisegundos
+  }, []);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -83,31 +37,85 @@ const Example = (props) => {
     setActiveIndex(newIndex);
   }
 
-  const slides = items.map((item) => {
+  const items = [
+    [
+      { id: 1, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 2, name: "London", country: "England", src: "london" },
+      { id: 3, name: "Pisa ", country: "Italy", src: "pisa" },
+      { id: 4, name: "Warsaw", country: "Poland", src: "warsaw" },
+    ],
+    [
+      { id: 5, name: "New York", country: "United States", src: "newYork" },
+      { id: 6, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 7, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 8, name: "Hong Kong", country: "China", src: "hongKong" },
+    ],
+    [
+      { id: 9, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 10, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 11, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 12, name: "Hong Kong", country: "China", src: "hongKong" },
+    ]
+  ];
+
+  const showText = () => {
+
+  }
+  const slides = items.map((slide, index) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
-        key={item.src}
+        key={index}
+        style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
       >
-        <img src={item.src} alt={item.altText} />
-        <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+        <div className="divSlide">
+          {slide.map(city => {
+            let picture = require(`../assets/${city.src}_carousel.jpeg`);
+            return (
+              <div
+                className="imageCityCarousel"
+                style={{ backgroundImage: `url(${picture.default})` }}
+                key={city.id}
+                onMouseOver={showText}
+              >
+                <h5>{city.name}</h5>
+                <h5>{city.country}</h5>
+              </div>
+
+            );
+          })}
+        </div>
+        {/* <CarouselCaption captionText={slide.caption} captionHeader={slide.caption} /> */}
       </CarouselItem>
-    );
+    )
   });
-
   return (
-    <Carousel
-      activeIndex={activeIndex}
-      next={next}
-      previous={previous}
-    >
-      <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={goToIndex} />
-      {slides}
-      <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
-      <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
-    </Carousel>
-  );
-}
+    <div className="containerHome">
+      <div className="imageHero">
+        <h1>
+          MyTinerary
+        </h1>
+        <h3>
+          Find  your  perfect  trip, designed by insiders who know and love their cities!
+        </h3>
+      </div>
+      <div data-aos="flip-up" className="callAction">
+        <h4>Are you searching for a new adventure, but still don´t know where ?</h4>
+        <Link to={Cities}><button>Choose from HERE!</button></Link>
+      </div>
+      <Carousel
+        activeIndex={activeIndex}
+        next={next}
+        previous={previous}
 
-export default Example;
+      >
+        <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={goToIndex} />
+        {slides}
+        <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
+        <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
+      </Carousel>
+    </div>
+  )
+};
+export default Home;
