@@ -1,7 +1,7 @@
 
 const Cities = () => {
     return (
-        <h1>NO HICE LA PAGINA TODAVIA</h1>
+        <div></div>
     )
 };
 export default Cities;

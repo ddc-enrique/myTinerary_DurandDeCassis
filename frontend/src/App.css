@@ -1,19 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+
 html * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Acme', sans-serif;
+}
+
+div.root{
+  background-color: whitesmoke;
 }
 
 /*HEADER*/
 
 header {
-  height: 15vh;
+  height: 17vh;
   width: 100%;
-  padding: 10vh 0 10vh 2vw;
+  padding: 7vh 0 7vh 2vw;
   display: flex !important;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-color: whitesmoke;
 }
 
 nav {
@@ -26,9 +34,14 @@ nav a {
   text-decoration: none;
   color: #3A3A5A;
   padding: 0 5px;
+  margin: 0 5px;
+  border: 3px solid whitesmoke;
+  border-radius: 35px;
 }
 
 nav a:hover {
+  border: 3px solid #3A3A5A;
+  border-radius: 35px;
   text-decoration: none;
   color: #3A3A5A;
 }
@@ -50,6 +63,7 @@ nav a p {
 #fatherMenuSign {
   position: relative;
   cursor: pointer;
+  margin-right: 1px;
 }
 
 #logoMenuSign {
@@ -104,35 +118,60 @@ nav a p {
   height: 80vh;
   background-image: url("../src/assets/heroPlain.jpeg");
   background-size: cover;
-  background-position: 0% 30%;
+  background-position: center;
   display: flex;
   flex-direction: column;
   gap: 3rem;
   justify-content: center;
   align-items: center;
+  color: #3A3A5A;
+  text-shadow: 3px 3px 2px whitesmoke;
+}
+
+.imageHero h1 {
+  font-size: 8vh !important;
+}
+
+.imageHero h3{
+  text-align: center;
+  font-size: 5vh !important;
 }
 
 .callAction {
   /* width: 50%; */
   padding: 1vh 2vw;
-  border: 3px solid black;
+  border: 3px solid #3a3a5a;
+  color: #3a3a5a;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   align-items: center;
   gap: 1rem;
 }
 
+.callAction button {
+  padding: 5px;
+  background-color: #3a3a5a;
+  color: whitesmoke;
+}
+
+h2 {
+  color: #3A3A5A;
+  text-decoration: underline;
+  font-size: 7vh !important;
+  text-align: center;
+}
+
 .carousel {
-  width: 80%;
+  width: 98vw;
 }
 
 .divSlide {
-  width: 100%;
+  width: 80%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  margin-left: 10%;
 }
 
 .imageCityCarousel {
@@ -140,11 +179,87 @@ nav a p {
   height: 35vh;
   background-size: cover;
   background-position: center;
-  margin: 10px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cityData{
+  display: none;
+  color: whitesmoke;
+  width: 100%;
+  height: 100%;
+  background-color: #3a3a5a5b;
 }
 
 .carousel-control-next-icon,
 .carousel-control-prev-icon {
   color: #3A3A5A;
   background-color: black !important;
+  /* margin: 0 50px !important; */
+}
+
+/* FOOTER */
+
+footer{
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4vw;
+  width: 100%;
+  height: 25vh;
+  background-color: #3A3A5A;
+  margin-top: 5vh;
+}
+
+footer nav{
+  display: flex;
+  flex-direction: column;
+}
+
+footer nav a{
+  color: whitesmoke;
+  border: 3px solid #3A3A5A;
+  border-radius: 35px;
+}
+
+footer nav a:hover{
+  color: whitesmoke;
+}
+
+footer .logoFooter{
+  width: 150px;
+  height: 150px;
+  margin-right: 7vw;
+  background-size: cover;
+  background-position: center;
+}
+
+footer>div:last-child{
+  display: flex;
+  flex-direction: column;
+}
+
+footer div a{
+  color: whitesmoke;
+  margin: 9px 0;
+}
+
+@media screen and (max-width: 915px) {
+  
+  .callAction{
+    margin: 0 5vw;
+  }
+
+  .callAction h4{
+    text-align: center;
+  }
+
+  .imageCityCarousel{
+    width: 50vw;
+  }
+
 }

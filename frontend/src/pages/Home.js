@@ -20,6 +20,19 @@ const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
+  const showCityData = (e) => {
+    if (e.target.className == "imageCityCarousel"){
+      let divCityData = e.target.children[0].style;
+      divCityData.display = "flex";
+      divCityData.flexDirection = "column";
+      divCityData.justifyContent = "center";
+      divCityData.alignItems = "center";
+    }
+  }
+  const unShowCityData = (e) => {
+    (e.target.className=="cityData" && (e.target.style.display = "none" ))
+  }
+
   const next = () => {
     if (animating) return;
     const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
@@ -39,28 +52,26 @@ const Home = () => {
 
   const items = [
     [
-      { id: 1, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 1, name: "Corrientes", country: "Argentina", src: "corrientes" },
       { id: 2, name: "London", country: "England", src: "london" },
-      { id: 3, name: "Pisa ", country: "Italy", src: "pisa" },
+      { id: 3, name: "Rome", country: "Italy", src: "rome" },
       { id: 4, name: "Warsaw", country: "Poland", src: "warsaw" },
     ],
     [
       { id: 5, name: "New York", country: "United States", src: "newYork" },
-      { id: 6, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 6, name: "Amsterdam", country: "Netherlands", src: "amsterdam" },
       { id: 7, name: "Hong Kong", country: "China", src: "hongKong" },
-      { id: 8, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 8, name: "Barcelona", country: "Spain", src: "barcelona" },
     ],
     [
-      { id: 9, name: "Hong Kong", country: "China", src: "hongKong" },
-      { id: 10, name: "Hong Kong", country: "China", src: "hongKong" },
-      { id: 11, name: "Hong Kong", country: "China", src: "hongKong" },
-      { id: 12, name: "Hong Kong", country: "China", src: "hongKong" },
+      { id: 9, name: "Paris", country: "France", src: "paris" },
+      { id: 10, name: "Buenos Aires", country: "Argentina", src: "buenosAires" },
+      { id: 11, name: "Sydney", country: "Australia", src: "sydney" },
+      { id: 12, name: "Saint Petersburg", country: "Rusia", src: "stPetersburg" },
     ]
   ];
 
-  const showText = () => {
 
-  }
   const slides = items.map((slide, index) => {
     return (
       <CarouselItem
@@ -77,12 +88,17 @@ const Home = () => {
                 className="imageCityCarousel"
                 style={{ backgroundImage: `url(${picture.default})` }}
                 key={city.id}
-                onMouseOver={showText}
+                onMouseEnter={showCityData}
+                onMouseLeave={unShowCityData}
               >
-                <h5>{city.name}</h5>
-                <h5>{city.country}</h5>
+                <div 
+                  className="cityData"
+                  // style={{display: (displayCityData ) ? "block" : "none"}}
+                >
+                  <h5>{city.name}</h5>
+                  <h5>{city.country}</h5>
+                </div>
               </div>
-
             );
           })}
         </div>
@@ -102,15 +118,16 @@ const Home = () => {
       </div>
       <div data-aos="flip-up" className="callAction">
         <h4>Are you searching for a new adventure, but still don´t know where ?</h4>
-        <Link to={Cities}><button>Choose from HERE!</button></Link>
+        <Link to="/cities"><button>Choose from HERE!</button></Link>
       </div>
+      <h2>Popular MyTineraries</h2>
       <Carousel
         activeIndex={activeIndex}
         next={next}
         previous={previous}
 
       >
-        <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={goToIndex} />
+        {/* <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={goToIndex} /> */}
         {slides}
         <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
         <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
