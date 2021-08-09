@@ -71,6 +71,8 @@ nav a p {
 }
 
 #logoMenuSign img {
+  display: flex;
+  justify-content: flex-end;
   height: 13vh;
 }
 
@@ -125,16 +127,20 @@ nav a p {
   justify-content: center;
   align-items: center;
   color: #3A3A5A;
-  text-shadow: 3px 3px 2px whitesmoke;
+  /* text-shadow: 3px 3px 2px whitesmoke; */
 }
 
 .imageHero h1 {
   font-size: 8vh !important;
+  background-color: rgba(245, 245, 245, 0.3);
+  padding: 0 1vw;
 }
 
 .imageHero h3{
   text-align: center;
   font-size: 5vh !important;
+  width: 40vw;
+  background-color: rgba(245, 245, 245, 0.3);
 }
 
 .callAction {
@@ -175,7 +181,7 @@ h2 {
 }
 
 .imageCityCarousel {
-  width: 35vw;
+  width: 38vw;
   height: 35vh;
   background-size: cover;
   background-position: center;
@@ -197,8 +203,7 @@ h2 {
 .carousel-control-next-icon,
 .carousel-control-prev-icon {
   color: #3A3A5A;
-  background-color: black !important;
-  /* margin: 0 50px !important; */
+  background-color: #3A3A5A !important;
 }
 
 /* FOOTER */
@@ -233,7 +238,7 @@ footer nav a:hover{
 footer .logoFooter{
   width: 150px;
   height: 150px;
-  margin-right: 7vw;
+  margin-right: 3vw;
   background-size: cover;
   background-position: center;
 }
@@ -262,4 +267,7 @@ footer div a{
     width: 50vw;
   }
 
+  .imageHero h3 {
+    width: 60vw;
+  }
 }

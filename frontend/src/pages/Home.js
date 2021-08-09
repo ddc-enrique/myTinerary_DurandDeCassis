@@ -10,10 +10,9 @@ import {
   // CarouselCaption,
 } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Cities from "./Cities";
 const Home = () => {
   useEffect(() => {
-    Aos.init({ duration: 1000 }); //cuando se monta Home inicializo la animacion de callAction
+    Aos.init({ duration: 500 }); //cuando se monta Home inicializo la animacion de callAction
     // puedo darle duracion usando la propiedad duration: en el objeto que recibe como parametro
     // la duracion es en milisegundos
   }, []);
@@ -21,7 +20,7 @@ const Home = () => {
   const [animating, setAnimating] = useState(false);
 
   const showCityData = (e) => {
-    if (e.target.className == "imageCityCarousel"){
+    if (e.target.className === "imageCityCarousel"){
       let divCityData = e.target.children[0].style;
       divCityData.display = "flex";
       divCityData.flexDirection = "column";
@@ -30,7 +29,7 @@ const Home = () => {
     }
   }
   const unShowCityData = (e) => {
-    (e.target.className=="cityData" && (e.target.style.display = "none" ))
+    (e.target.className === "cityData" && (e.target.style.display = "none" ))
   }
 
   const next = () => {

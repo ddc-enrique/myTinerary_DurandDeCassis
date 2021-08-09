@@ -9,7 +9,7 @@ export default class Footer extends React.Component {
         return(
             <footer>
                 <nav>
-                    <Link exact to="/">
+                    <Link to="/">
                         <p>HOME</p>
                     </Link>
                     <Link to="/cities">
