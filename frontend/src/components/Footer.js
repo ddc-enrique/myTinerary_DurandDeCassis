@@ -21,9 +21,15 @@ export default class Footer extends React.Component {
                     style={{backgroundImage: `url(${require("../assets/thirdDesign.png").default})`}}
                 ></div>
                 <div>
-                    <Link to="https://www.instagram.com/"><Instagram  width="1.5em" height="1.5em"/></Link>
-                    <Link to="https://www.twitter.com/"><Twitter width="1.5em" height="1.5em"/></Link>
-                    <Link to="https://www.facebook.com/"><Facebook width="1.5em" height="1.5em"/></Link>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+                        <Instagram  width="1.5em" height="1.5em"/>
+                    </a>
+                    <a href="https://www.twitter.com/" target="_blank" rel="noreferrer">
+                        <Twitter width="1.5em" height="1.5em"/>
+                    </a>
+                    <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
+                        <Facebook width="1.5em" height="1.5em"/>
+                    </a>
                 </div>
             </footer>
         )

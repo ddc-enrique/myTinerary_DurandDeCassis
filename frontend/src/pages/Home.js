@@ -1,51 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Aos from 'aos';
-import 'aos/dist/aos.css';
-import { Link } from "react-router-dom";
-import {
-  Carousel,
-  CarouselItem,
-  CarouselControl,
-  CarouselIndicators,
-  // CarouselCaption,
-} from 'reactstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import CallAction from "../components/CallAction";
+import CarouselCities from "../components/Carousel";
+
 const Home = () => {
-  useEffect(() => {
-    Aos.init({ duration: 500 });
-  }, []);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
-
-  const showCityData = (e) => {
-    if (e.target.className === "imageCityCarousel"){
-      let divCityData = e.target.children[0].style;
-      divCityData.display = "flex";
-      divCityData.flexDirection = "column";
-      divCityData.justifyContent = "center";
-      divCityData.alignItems = "center";
-    }
-  }
-  const unShowCityData = (e) => {
-    (e.target.className === "cityData" && (e.target.style.display = "none" ))
-  }
-
-  const next = () => {
-    if (animating) return;
-    const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
-    setActiveIndex(nextIndex);
-  }
-
-  const previous = () => {
-    if (animating) return;
-    const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
-    setActiveIndex(nextIndex);
-  }
-
-  const goToIndex = (newIndex) => {
-    if (animating) return;
-    setActiveIndex(newIndex);
-  }
 
   const items = [
     [
@@ -68,43 +25,9 @@ const Home = () => {
     ]
   ];
 
-
-  const slides = items.map((slide, index) => {
-    return (
-      <CarouselItem
-        onExiting={() => setAnimating(true)}
-        onExited={() => setAnimating(false)}
-        key={index}
-        style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-      >
-        <div className="divSlide">
-          {slide.map(city => {
-            let picture = require(`../assets/${city.src}_carousel.jpeg`);
-            return (
-              <div
-                className="imageCityCarousel"
-                style={{ backgroundImage: `url(${picture.default})` }}
-                key={city.id}
-                onMouseEnter={showCityData}
-                onMouseLeave={unShowCityData}
-              >
-                <div 
-                  className="cityData"
-                  // style={{display: (displayCityData ) ? "block" : "none"}}
-                >
-                  <h5>{city.name}</h5>
-                  <h5>{city.country}</h5>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        {/* <CarouselCaption captionText={slide.caption} captionHeader={slide.caption} /> */}
-      </CarouselItem>
-    )
-  });
   return (
     <div className="containerHome">
+
       <div className="imageHero">
         <h1>
           MyTinerary
@@ -113,22 +36,11 @@ const Home = () => {
           Find  your  perfect  trip, designed by insiders who know and love their cities!
         </h3>
       </div>
-      <div data-aos="flip-up" className="callAction">
-        <h4>Are you searching for a new adventure, but still don´t know where ?</h4>
-        <Link to="/cities"><button>Choose from HERE!</button></Link>
-      </div>
-      <h2>Popular MyTineraries</h2>
-      <Carousel
-        activeIndex={activeIndex}
-        next={next}
-        previous={previous}
 
-      >
-        {/* <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={goToIndex} /> */}
-        {slides}
-        <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
-        <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
-      </Carousel>
+      <CallAction />
+
+      <h2>Popular MyTineraries</h2>
+      <CarouselCities items={items}/>
     </div>
   )
 };

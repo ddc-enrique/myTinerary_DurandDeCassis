@@ -60,7 +60,7 @@ nav a p {
   margin-top: 15px;
 }
 
-#fatherMenuSign {
+#menuSign {
   position: relative;
   cursor: pointer;
   margin-right: 1px;
@@ -107,7 +107,6 @@ nav a p {
 /* HOME */
 
 .containerHome {
-  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -127,7 +126,6 @@ nav a p {
   justify-content: center;
   align-items: center;
   color: #3A3A5A;
-  /* text-shadow: 3px 3px 2px whitesmoke; */
 }
 
 .imageHero h1 {
@@ -144,7 +142,6 @@ nav a p {
 }
 
 .callAction {
-  /* width: 50%; */
   padding: 1vh 2vw;
   border: 3px solid #3a3a5a;
   color: #3a3a5a;
@@ -204,6 +201,10 @@ h2 {
 .carousel-control-prev-icon {
   color: #3A3A5A;
   background-color: #3A3A5A !important;
+}
+
+.carousel-indicators .active {
+  background-color: #3a3a5a !important;
 }
 
 /* FOOTER */

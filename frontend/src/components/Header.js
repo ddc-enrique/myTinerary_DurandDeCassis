@@ -1,15 +1,8 @@
-import { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
-// import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
-import {PersonCheck, PersonPlus} from "react-bootstrap-icons";
+import MenuSign from "./MenuSign";
+
 const Header = () => {
-    const [displaySign, setDisplaySign] = useState(false);
-    const displayMenuSign = () => {
-        setDisplaySign(!displaySign);
-    };
-    const handleBlur = () => {
-        setDisplaySign(false);
-    }
     return (
             <header>
                 <nav>
@@ -22,30 +15,7 @@ const Header = () => {
                         <p>CITIES</p>
                     </NavLink>
                 </nav>
-                <div id="fatherMenuSign"> 
-                    <div id="logoMenuSign">
-                        <img
-                            src={require("../assets/sign_IN_UP.png").default}
-                            alt="menuSign"
-                            onClick={displayMenuSign}
-                            tabIndex= "0"
-                            onBlur={handleBlur}
-                        />
-                    </div>
-                    <div
-                        id="displaySign"
-                        style={{ display: displaySign ? "block" : "none"}}
-                    >
-                        <nav>
-                            <div className="signIconText">
-                                <PersonCheck></PersonCheck><p> SIGN-IN</p>
-                            </div>
-                            <div className="signIconText">
-                                <PersonPlus></PersonPlus><p> SIGN-UP</p>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
+                <MenuSign />
             </header>
     )
 };
