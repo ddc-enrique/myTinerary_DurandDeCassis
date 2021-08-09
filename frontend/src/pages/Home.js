@@ -12,9 +12,7 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 const Home = () => {
   useEffect(() => {
-    Aos.init({ duration: 500 }); //cuando se monta Home inicializo la animacion de callAction
-    // puedo darle duracion usando la propiedad duration: en el objeto que recibe como parametro
-    // la duracion es en milisegundos
+    Aos.init({ duration: 500 });
   }, []);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
