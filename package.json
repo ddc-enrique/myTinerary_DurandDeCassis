@@ -1,0 +1,24 @@
+{
+  "name": "mytinerary_duranddecassis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enrique-dc93/myTinerary_DurandDeCassis.git"
+  },
+  "author": "Enrique Durand de Cassis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enrique-dc93/myTinerary_DurandDeCassis/issues"
+  },
+  "homepage": "https://github.com/enrique-dc93/myTinerary_DurandDeCassis#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  }
+}

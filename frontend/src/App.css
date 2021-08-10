@@ -107,6 +107,7 @@ nav a p {
 /* HOME */
 
 .containerHome {
+  background-color: whitesmoke;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -143,7 +144,7 @@ nav a p {
 
 .callAction {
   padding: 1vh 2vw;
-  border: 3px solid #3a3a5a;
+  border: 10px ridge #3a3a5a;
   color: #3a3a5a;
   overflow: hidden;
   display: flex;
@@ -171,6 +172,7 @@ h2 {
 
 .divSlide {
   width: 80%;
+  height: 75vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -178,10 +180,11 @@ h2 {
 }
 
 .imageCityCarousel {
-  width: 38vw;
+  width: 37vw;
   height: 35vh;
   background-size: cover;
   background-position: center;
+  box-shadow: -1px 2px 5px 5px #3a3a5a5b;
   margin: 5px;
   display: flex;
   flex-direction: column;
@@ -264,8 +267,12 @@ footer div a{
     text-align: center;
   }
 
+  .divSlide{
+    height: auto;
+  }
   .imageCityCarousel{
-    width: 50vw;
+    width: 60vw;
+    margin-bottom: 2vh;
   }
 
   .imageHero h3 {

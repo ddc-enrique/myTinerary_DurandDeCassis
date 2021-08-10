@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CallAction from "../components/CallAction";
-import CarouselCities from "../components/Carousel";
+import CarouselCities from "../components/CarouselCities";
 
 const Home = () => {
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[]);
 
   const items = [
     [

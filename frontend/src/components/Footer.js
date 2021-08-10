@@ -4,15 +4,14 @@ import { Link } from "react-router-dom";
 
 
 export default class Footer extends React.Component {
-
     render(){
         return(
             <footer>
                 <nav>
-                    <Link to="/">
+                    <Link to="/" onClick={()=>{window.scrollTo(0,0)}}>
                         <p>HOME</p>
                     </Link>
-                    <Link to="/cities">
+                    <Link to="/cities" onClick={()=>{window.scrollTo(0,0)}}>
                         <p>CITIES</p>
                     </Link>
                 </nav>
