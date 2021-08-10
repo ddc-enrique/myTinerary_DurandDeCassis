@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import CallAction from "../components/CallAction";
 import CarouselCities from "../components/CarouselCities";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 const Home = () => {
-  useEffect(()=>{
-    window.scrollTo(0,0)
-  },[]);
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, []);
 
   const items = [
     [
@@ -30,6 +32,7 @@ const Home = () => {
 
   return (
     <div className="containerHome">
+      <Header />
 
       <div className="imageHero">
         <h1>
@@ -43,7 +46,9 @@ const Home = () => {
       <CallAction />
 
       <h2>Popular MyTineraries</h2>
-      <CarouselCities items={items}/>
+      <CarouselCities items={items} />
+
+      <Footer />
     </div>
   )
 };
