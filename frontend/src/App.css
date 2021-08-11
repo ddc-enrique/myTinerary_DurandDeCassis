@@ -62,7 +62,8 @@ nav a p {
 #menuSign {
   position: relative;
   cursor: pointer;
-  margin-right: 4px;
+  margin-right: 2px;
+  min-width: 85px;
 }
 
 #logoMenuSign {
@@ -243,12 +244,6 @@ nav a p {
 .containerCities .imageHero h1 {
   background-color: transparent;
 
-}
-
-.containerCities .imageHero div {
-  width: 410px;
-  display: flex;
-  justify-content: space-between;
 }
 
 .containerCities .imageHero div input {
