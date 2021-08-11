@@ -17,7 +17,9 @@ header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: #8d8d94;
+  background: rgb(68, 68, 93);
+  background: linear-gradient(0deg, rgba(68, 68, 93, 1) 0%, rgba(204, 204, 204, 1) 100%);
+  /* background-color: #8d8d94; */
   /*whitesmoke;*/
 }
 
@@ -32,7 +34,7 @@ nav a {
   color: #3A3A5A;
   padding: 0 5px;
   margin: 0 5px;
-  border: 3px solid #8d8d94;
+  border: 3px solid transparent;
   border-radius: 35px;
 }
 
@@ -60,7 +62,7 @@ nav a p {
 #menuSign {
   position: relative;
   cursor: pointer;
-  margin-right: 1px;
+  margin-right: 4px;
 }
 
 #logoMenuSign {
@@ -103,8 +105,11 @@ nav a p {
 
 /* HOME */
 
-.containerHome {
-  background-color: #8d8d94;
+.containerHome,
+.containerCities {
+  /* background-color: #8d8d94; */
+  background: rgb(204, 204, 204);
+  background: linear-gradient(90deg, rgba(204, 204, 204, 1) 0%, rgba(141, 141, 148, 1) 50%, rgba(204, 204, 204, 1) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -179,7 +184,7 @@ nav a p {
   margin-left: 10%;
 }
 
-.imageCityCarousel {
+.imageCity {
   width: 37vw;
   height: 35vh;
   background-size: cover;
@@ -194,7 +199,7 @@ nav a p {
   justify-content: center;
 }
 
-.cityData {
+.imageCity .cityData {
   display: none;
   color: whitesmoke;
   border-radius: inherit;
@@ -214,6 +219,11 @@ nav a p {
 }
 
 /* CITIES */
+.containerCities header {
+  background: rgb(68, 68, 93);
+  background: linear-gradient(0deg, rgba(68, 68, 93, 1) 0%, rgba(204, 204, 204, 1) 100%);
+}
+
 .containerCities .imageHero {
   width: 100%;
   height: 40vh;
@@ -236,7 +246,7 @@ nav a p {
 }
 
 .containerCities .imageHero div {
-  width: 420px;
+  width: 410px;
   display: flex;
   justify-content: space-between;
 }
@@ -251,7 +261,7 @@ nav a p {
   text-align: center;
 }
 
-.containerCities .imageHero div input::placeholder{
+.containerCities .imageHero div input::placeholder {
   color: whitesmoke;
 }
 
@@ -264,6 +274,35 @@ nav a p {
   gap: 5px;
 }
 
+.containerCitiesList {
+  width: 80%;
+  min-height: 50vh;
+  margin: 2vh 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.containerCities .imageCity {
+  margin: 2vh 0;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-evenly;
+}
+
+.containerCities .imageCity .cityData {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerCities .imageCity .cityData>* {
+  margin: 0 1vw;
+}
+
 /* FOOTER */
 
 footer {
@@ -274,7 +313,9 @@ footer {
   padding: 0 4vw;
   width: 100%;
   height: 25vh;
-  background-color: #3A3A5A;
+  /* background-color: #3A3A5A; */
+  background: rgb(58, 58, 90);
+  background: radial-gradient(circle, rgba(58, 58, 90, 1) 0%, rgba(204, 204, 204, 1) 100%);
 }
 
 footer nav {
@@ -282,8 +323,9 @@ footer nav {
   flex-direction: column;
 }
 
-footer nav a, footer nav a:hover {
-  color: whitesmoke;
+footer nav a,
+footer nav a:hover {
+  color: #3a3a5a;
   border: none;
 }
 
@@ -304,8 +346,9 @@ footer>div:last-child {
   flex-direction: column;
 }
 
-footer div a {
-  color: whitesmoke;
+footer div a,
+footer div a:hover {
+  color: #3a3a5a;
   margin: 9px 0;
 }
 
@@ -323,7 +366,7 @@ footer div a {
     height: auto;
   }
 
-  .imageCityCarousel {
+  .imageCity {
     width: 60vw;
     margin-bottom: 2vh;
   }

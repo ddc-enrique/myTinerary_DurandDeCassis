@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Carousel,
     CarouselItem,
@@ -7,13 +7,22 @@ import {
     // CarouselCaption,
 } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
-const CarouselCities = ({items}) => {
+const CarouselCities = () => {
+    const [items, setItems] = useState([]);
+    
+    useEffect(() => {
+        axios
+            .get('http://localhost:4000/api/carousel')
+            .then((res) => setItems(res.data.response))
+    }, []);
+
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
 
     const showCityData = (e) => {
-        if (e.target.className === "imageCityCarousel"){
+        if (e.target.className === "imageCity"){
         let divCityData = e.target.children[0].style;
         divCityData.display = "flex";
         divCityData.flexDirection = "column";
@@ -55,7 +64,7 @@ const CarouselCities = ({items}) => {
                     let picture = require(`../assets/${city.src}_carousel.jpeg`);
                     return (
                         <div
-                            className="imageCityCarousel"
+                            className="imageCity"
                             style={{ backgroundImage: `url(${picture.default})` }}
                             key={city.id}
                             onMouseEnter={showCityData}

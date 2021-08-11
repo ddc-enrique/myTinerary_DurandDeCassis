@@ -14,7 +14,7 @@ const MenuSign = () => {
         <div id="menuSign"> 
             <div id="logoMenuSign">
                 <img
-                    src={require("../assets/sign_IN_UP.png").default}
+                    src={require("../assets/sign_IN_UP3.png").default}
                     alt="menuSign"
                     onClick={displayMenuSign}
                     tabIndex= "0"

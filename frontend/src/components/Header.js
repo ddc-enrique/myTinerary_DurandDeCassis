@@ -7,11 +7,11 @@ const Header = () => {
             <header>
                 <nav>
                     <NavLink exact to="/">
-                        <img src={require("../assets/SecondDesign.png").default} alt="logo" />
+                        <img src={require("../assets/SecondDesign2.png").default} alt="logo" />
                         <p>HOME</p>
                     </NavLink>
                     <NavLink to="/cities">
-                        <img src={require("../assets/cities.png").default} alt="buildings" />
+                        <img src={require("../assets/cities1.png").default} alt="buildings" />
                         <p>CITIES</p>
                     </NavLink>
                 </nav>
