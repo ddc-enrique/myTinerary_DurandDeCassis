@@ -10,29 +10,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
 const CarouselCities = () => {
-    const [items, setItems] = useState([]);
-    
+    const [cities, setCities] = useState([]);
+    const [loading, setLoading] = useState(false)
+    let items= [[],[],[]];
+
     useEffect(() => {
         axios
-            .get('http://localhost:4000/api/carousel')
-            .then((res) => setItems(res.data.response))
+            .get('http://localhost:4000/api/cities')
+            .then((res) => {
+                setCities(res.data.response);
+                setLoading(true);
+            });
     }, []);
+    
+    items = items.map((slide, i) => {
+        for (let j = i*4; j < (i+1)*4; j++) {
+            slide.push(cities[j]);    
+        }
+        return slide
+    });
+    console.log(items);
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
-
-    const showCityData = (e) => {
-        if (e.target.className === "imageCity"){
-        let divCityData = e.target.children[0].style;
-        divCityData.display = "flex";
-        divCityData.flexDirection = "column";
-        divCityData.justifyContent = "center";
-        divCityData.alignItems = "center";
-        }
-    }
-    const unShowCityData = (e) => {
-        (e.target.className === "cityData" && (e.target.style.display = "none" ))
-    }
 
     const next = () => {
         if (animating) return;
@@ -51,6 +51,14 @@ const CarouselCities = () => {
         setActiveIndex(newIndex);
     }
 
+    if (!loading) {
+        return(
+            <div>
+                Loading Carousel...
+            </div>
+        )
+    }
+
     const slides = items.map((slide, index) => {
         return (
             <CarouselItem
@@ -67,8 +75,6 @@ const CarouselCities = () => {
                             className="imageCity"
                             style={{ backgroundImage: `url(${picture.default})` }}
                             key={city.id}
-                            onMouseEnter={showCityData}
-                            onMouseLeave={unShowCityData}
                         >
                             <div className="cityData">
                                 <h5>{city.name}</h5>
@@ -81,18 +87,19 @@ const CarouselCities = () => {
             </CarouselItem>
         )
     });
+    
     return(
-    <Carousel
-        activeIndex={activeIndex}
-        next={next}
-        previous={previous}
-    >
-        <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={goToIndex} />
-        {slides}
-        <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
-        <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
-    </Carousel>
-  )
+        <Carousel
+            activeIndex={activeIndex}
+            next={next}
+            previous={previous}
+        >
+            <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={goToIndex} />
+            {slides}
+            <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
+            <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
+        </Carousel>
+    )
 };
 
 export default CarouselCities

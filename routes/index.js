@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const myTineraryControllers = require("../controllers/myTineraryControllers")
+const citiesControllers = require("../controllers/citiesControllers")
 
-router.route("/cities").get(myTineraryControllers.getCitiesList);
-router.route("/carousel").get(myTineraryControllers.getPopularCities);
-router.route("/city/:id").get(myTineraryControllers.getCityByID);
+router.route("/cities").get(citiesControllers.getCitiesList);
+router.route("/city/:id").get(citiesControllers.getCityByID);
 
 module.exports = router;
