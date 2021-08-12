@@ -69,7 +69,7 @@ const CarouselCities = () => {
             >
                 <div className="divSlide">
                 {slide.map(city => {
-                    let picture = require(`../assets/${city.src}_carousel.jpeg`);
+                    let picture = require(`../assets/${city.src}.jpeg`);
                     return (
                         <div
                             className="imageCity"
