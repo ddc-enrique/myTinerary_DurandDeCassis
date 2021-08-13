@@ -4,14 +4,15 @@ import {
     CarouselItem,
     CarouselControl,
     CarouselIndicators,
-    // CarouselCaption,
 } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
 const CarouselCities = () => {
     const [cities, setCities] = useState([]);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true);
+    const [errorDB, setErrorDB] = useState(false);
+    const [errorFrontBack, setErrorFrontBack] = useState(false);
     let items= [[],[],[]];
     let citiesAux;
 
@@ -19,9 +20,20 @@ const CarouselCities = () => {
         axios
             .get('http://localhost:4000/api/cities')
             .then((res) => {
-                setCities(res.data.response);
-                setLoading(true);
-            });
+                if (res.data.success) {
+                    setCities(res.data.response);
+                } else {
+                    console.log(res.data.response);
+                    setErrorDB(true); //un setState tipo flag para que con un condicional
+                    //que en lugar de cargar en items en slides cargue un mensaje de error para el carrusel
+                }
+            })
+            .catch((err) => { 
+                console.log(err);
+                setErrorFrontBack(true); //un setState tipo flag para que con un condicional
+                //que en lugar de cargar en items en slides cargue un mensaje de error para el carrusel
+            })
+            .finally(()=> setLoading(false));
     }, []);
     citiesAux = cities.sort((cityA, cityB) => cityA.likes - cityB.likes);
 
@@ -53,7 +65,7 @@ const CarouselCities = () => {
         setActiveIndex(newIndex);
     }
 
-    if (!loading) {
+    if (loading) {
         return(
             <div>
                 Loading Carousel...

@@ -6,20 +6,31 @@ import Header from "../components/Header";
 
 const City = (props) => {
     const [city, setCity] = useState({});
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [errorDB, setErrorDB] = useState(false);
+    const [errorFrontBack, setErrorFrontBack] = useState(false);
+
     useEffect(()=>{
         axios
             .get(`http://localhost:4000/api/city/${props.match.params.id}`)
-            .then((res)=> {
-                setCity(res.data.response);
-                setLoading(true);
+            .then((res) => {
+                if(res.data.success){
+                    setCity(res.data.response);
+                    console.log(res.data.response);
+                } else {
+                    console.log(res.data.response);
+                    setErrorDB(true);
+                }
             })
-        }, []);
-    console.log(city.src);
-    if (!loading) {
-        return <p>Page under construction</p>
-    } else {
-        console.log(require(`../assets/${city.src}.jpeg`));
+            .catch((err) => {
+                console.log(err);
+                setErrorFrontBack(true);
+            })
+            .finally(() => setLoading(false))
+    }, []);
+
+    if (loading) {
+        return <p>Loading please wait...</p>
     }
     return(
         <div className="containerCityPage">
@@ -28,14 +39,13 @@ const City = (props) => {
                 className="imageHero"
                 style={{ backgroundImage: `url(${require(`../assets/${city.src}.jpeg`).default})` }}
             >
-
             </div>
             <p>Page of {city.name} it is under construction</p>
             {/* {props.match.params.id}
             {city.name}
             {city.country} */}
             <Link to="/cities">
-            <button>Go back to Cities</button>
+                <button>Go back to Cities</button>
             </Link>
             <Footer />
         </div>

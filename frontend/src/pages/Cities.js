@@ -8,16 +8,29 @@ import CitiesList from "../components/CitiesList";
 const Cities = () => {
     const [cities, setCities] = useState([]);
     const [inputSearch, setInputSearch] = useState("");
-
+    const [loading, setLoading] = useState(true);
+    const [errorDB, setErrorDB] = useState(false);
+    const [errorFrontBack, setErrorFrontBack] = useState(false);
     useEffect(() => {
         window.scrollTo(0, 0);
-
         axios
             .get('http://localhost:4000/api/cities')
-            .then((res) => setCities(res.data.response));
+            .then((res) => {
+                if(res.data.success){
+                    setCities(res.data.response);
+                } else {
+                    console.log(res.data.response)
+                    setErrorDB(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                setErrorFrontBack(true);
+            })
+            .finally(() => setLoading(false))
+
     }, []);
     let citiesFiltered = cities;
-    
     const inputHandler = (e) => {
         setInputSearch(e.target.value);
         console.log(inputSearch);
@@ -32,6 +45,14 @@ const Cities = () => {
     console.log(inputSearch);
     filterCities(inputSearch);
     console.log(citiesFiltered);
+
+    if (loading) {
+        return(
+            <div>
+                Loading Cities Page...
+            </div>
+        )
+    }
 
     return (
         <div className="containerCities">

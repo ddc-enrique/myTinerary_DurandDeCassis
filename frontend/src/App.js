@@ -1,8 +1,10 @@
-import './App.css';
+// import 'aos/dist/aos.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from './pages/Home';
 import Cities from './pages/Cities';
 import City from './pages/City';
+import './App.css';
 
 function App() {
   return (

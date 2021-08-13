@@ -40,14 +40,15 @@ const City = require("../models/City");
 
 const citiesControllers = {
     getAllCities: (req, res) => {
-        City.find().then((cities) => res.json({ response: cities}))
+        City.find()
+        .then((cities) => res.json({ success: true, response: cities}))
+        .catch((err)=> res.json({ success: false, response: err}));
     },
 
     getCityByID: (req, res) =>{
-        City.findOne( {_id: req.params.id }).then((city) => 
-            res.json({ response: city})
-        )
-        // City.find( (cty) => cty.id === parseInt(req.params.id));
+        City.findOne( {_id: req.params.id })
+        .then((city) => res.json({ success: true, response: city}))
+        .catch((err) => res.json({ success: false, response: err }));
     },
 
     uploadNewCity: (req, res) => {
@@ -66,19 +67,19 @@ const citiesControllers = {
         });
         cityToUpload
             .save()
-            .then( () => res.json({ succes: true}))
-            .catch((err) => res.json({ sucess: true, error: err }))
+            .then( () => res.json({ success: true}))
+            .catch((err) => res.json({ success: false, error: err }))
     },
 
     deleteCity: (req, res) =>{
         City.findOneAndDelete({ _id: req.params.id}).then(() => 
-            res.json({ succes: true }) 
+            res.json({ success: true }) 
         )
     },
 
     updateCity: (req, res) => {
         City.findOneAndUpdate({ _id: req.params.id}, { ...req.body }).then(
-            () => res.json({ sucees:true })
+            () => res.json({ success:true })
         )
     },
 };
