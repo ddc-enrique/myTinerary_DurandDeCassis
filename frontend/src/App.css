@@ -298,7 +298,7 @@ nav a p {
   display: flex;
 }
 
-.containerCities .imageCity .cityData .titleCity h5 {
+.containerCities .imageCity .cityData .titleCity h5, .containerCities .imageCity:hover .cityData .titleCity h5{
   margin: 1rem 1vw;
   text-decoration: none;
 }
@@ -309,7 +309,6 @@ nav a p {
 
 .containerCities a:hover .imageCity .cityData{
   height: 100%;
-
 }
 
 .containerCities a:hover .imageCity:hover .cityData .description{
@@ -320,10 +319,10 @@ nav a p {
   margin-bottom: 2vh;
 }
 
-.containerCities a .imageCity .cityData .description p, .containerCities a:hover .imageCity .cityData .description p{
+.containerCities a .imageCity .cityData .description h6, .containerCities a:hover .imageCity .cityData .description h6{
   margin: 0 1vw;
   text-align: center;
-  text-decoration: none transparent !important;
+  text-decoration: none;
 }
 
 .containerCities #emptyCitiesList img{

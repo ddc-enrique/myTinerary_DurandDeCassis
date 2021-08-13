@@ -11,7 +11,7 @@ const CitiesList = ({cities}) => {
     if (cities.length) {
         return (
             cities.map((city, index) => (
-                <Link to={`/city/${city.id}`} key={city.id}>
+                <Link to={`/city/${city._id}`} key={city._id} style={{textDecoration: "none"}}>
                     <div
                         data-aos={index%2 === 0 ? "fade-right" : "fade-left"}
                         className="imageCity"
@@ -23,11 +23,11 @@ const CitiesList = ({cities}) => {
                                 <h5>Country: {city.country}</h5>
                             </div>
                             <div className="description">
-                                <p>ALGUN TEXTO QUE SE MUESTRE AL HACER 
-                                    HOVER SOBRE LA IMAGEN. NI TIENE QUE SER UN TEXTO MUY LARGO. 
-                                    PERO ESTOY PROBANDO QUE TAN LARGO PUEDE SER. INCLUSO DE QUE SEA 
-                                    RESPONSIVE.
-                                </p>
+                                <h6
+                                    style={{textDecoration: "none"}}
+                                >
+                                    {city.description}
+                                </h6>
                             </div>
                         </div>
                     </div>

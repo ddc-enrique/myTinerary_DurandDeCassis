@@ -13,6 +13,7 @@ const CarouselCities = () => {
     const [cities, setCities] = useState([]);
     const [loading, setLoading] = useState(false)
     let items= [[],[],[]];
+    let citiesAux;
 
     useEffect(() => {
         axios
@@ -22,10 +23,11 @@ const CarouselCities = () => {
                 setLoading(true);
             });
     }, []);
-    
+    citiesAux = cities.sort((cityA, cityB) => cityA.likes - cityB.likes);
+
     items = items.map((slide, i) => {
         for (let j = i*4; j < (i+1)*4; j++) {
-            slide.push(cities[j]);    
+            slide.push(citiesAux[j]);    
         }
         return slide
     });
@@ -69,12 +71,13 @@ const CarouselCities = () => {
             >
                 <div className="divSlide">
                 {slide.map(city => {
+                    console.log(city);
                     let picture = require(`../assets/${city.src}.jpeg`);
                     return (
                         <div
                             className="imageCity"
                             style={{ backgroundImage: `url(${picture.default})` }}
-                            key={city.id}
+                            key={city._id}
                         >
                             <div className="cityData">
                                 <h5>{city.name}</h5>

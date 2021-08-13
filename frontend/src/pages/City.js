@@ -30,7 +30,7 @@ const City = (props) => {
             >
 
             </div>
-            <p>Page under construction</p>
+            <p>Page of {city.name} it is under construction</p>
             {/* {props.match.params.id}
             {city.name}
             {city.country} */}
