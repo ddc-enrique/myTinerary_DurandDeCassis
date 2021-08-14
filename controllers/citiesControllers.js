@@ -1,10 +1,4 @@
 // const cities = [
-//     { id: 1, name: "Corrientes", country: "Argentina", src: "corrientes", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 2, name: "London", country: "England", src: "london", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
 //     { id: 3, name: "Rome", country: "Italy", src: "rome", 
 //         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
 //     },
@@ -41,13 +35,25 @@ const City = require("../models/City");
 const citiesControllers = {
     getAllCities: (req, res) => {
         City.find()
-        .then((cities) => res.json({ success: true, response: cities}))
+        .then((cities) => {
+            if(cities.length) {
+                res.json({ success: true, response: cities});
+            } else {
+                throw new Error("The Database Cities it is empty");
+            }
+        })
         .catch((err)=> res.json({ success: false, response: err}));
     },
 
     getCityByID: (req, res) =>{
         City.findOne( {_id: req.params.id })
-        .then((city) => res.json({ success: true, response: city}))
+        .then((city) =>{
+            if (city) {
+            res.json({ success: true, response: city});
+            } else {
+                throw new Error(`I doesnt exist a City with the _id: ${req.params.id}`);
+            }
+        })
         .catch((err) => res.json({ success: false, response: err }));
     },
 
@@ -72,15 +78,18 @@ const citiesControllers = {
     },
 
     deleteCity: (req, res) =>{
-        City.findOneAndDelete({ _id: req.params.id}).then(() => 
+        City.findOneAndDelete({ _id: req.params.id})
+        .then(() => 
             res.json({ success: true }) 
+        )
+        .catch((err) => 
+            res.json({ success: false, response: err.message })
         )
     },
 
     updateCity: (req, res) => {
-        City.findOneAndUpdate({ _id: req.params.id}, { ...req.body }).then(
-            () => res.json({ success:true })
-        )
+        City.findOneAndUpdate({ _id: req.params.id}, { ...req.body })
+        .then( () => res.json({ success:true }) )
     },
 };
 

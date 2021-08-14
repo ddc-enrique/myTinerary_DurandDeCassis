@@ -9,25 +9,25 @@ const Cities = () => {
     const [cities, setCities] = useState([]);
     const [inputSearch, setInputSearch] = useState("");
     const [loading, setLoading] = useState(true);
-    const [errorDB, setErrorDB] = useState(false);
-    const [errorFrontBack, setErrorFrontBack] = useState(false);
+    const [errorDB, setErrorDB] = useState("");
+    const [errorFrontBack, setErrorFrontBack] = useState("");
     useEffect(() => {
         window.scrollTo(0, 0);
         axios
             .get('http://localhost:4000/api/cities')
             .then((res) => {
-                if(res.data.success){
+                if (res.data.success) {
                     setCities(res.data.response);
                 } else {
-                    console.log(res.data.response)
-                    setErrorDB(true);
+                    console.log(res.data.response.message);
+                    setErrorDB(res.data.response.message);
                 }
             })
-            .catch((err) => {
-                console.log(err);
-                setErrorFrontBack(true);
+            .catch((err) => { 
+                console.log(err.message);
+                setErrorFrontBack(err.message); 
             })
-            .finally(() => setLoading(false))
+            .finally(()=> setLoading(false));
 
     }, []);
     let citiesFiltered = cities;

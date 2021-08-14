@@ -7,8 +7,8 @@ import Header from "../components/Header";
 const City = (props) => {
     const [city, setCity] = useState({});
     const [loading, setLoading] = useState(true);
-    const [errorDB, setErrorDB] = useState(false);
-    const [errorFrontBack, setErrorFrontBack] = useState(false);
+    const [errorDB, setErrorDB] = useState("");
+    const [errorFrontBack, setErrorFrontBack] = useState("");
 
     useEffect(()=>{
         axios
@@ -19,12 +19,12 @@ const City = (props) => {
                     console.log(res.data.response);
                 } else {
                     console.log(res.data.response);
-                    setErrorDB(true);
+                    setErrorDB(res.data.response.message);
                 }
             })
             .catch((err) => {
                 console.log(err);
-                setErrorFrontBack(true);
+                setErrorFrontBack(err.message);
             })
             .finally(() => setLoading(false))
     }, []);

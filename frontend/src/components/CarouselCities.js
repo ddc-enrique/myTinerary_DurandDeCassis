@@ -11,8 +11,8 @@ import axios from 'axios';
 const CarouselCities = () => {
     const [cities, setCities] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [errorDB, setErrorDB] = useState(false);
-    const [errorFrontBack, setErrorFrontBack] = useState(false);
+    const [errorDB, setErrorDB] = useState("");
+    const [errorFrontBack, setErrorFrontBack] = useState("");
     let items= [[],[],[]];
     let citiesAux;
 
@@ -23,14 +23,14 @@ const CarouselCities = () => {
                 if (res.data.success) {
                     setCities(res.data.response);
                 } else {
-                    console.log(res.data.response);
-                    setErrorDB(true); //un setState tipo flag para que con un condicional
+                    console.log(res.data.response.message);
+                    setErrorDB(res.data.response.message); //un setState tipo flag para que con un condicional
                     //que en lugar de cargar en items en slides cargue un mensaje de error para el carrusel
                 }
             })
             .catch((err) => { 
-                console.log(err);
-                setErrorFrontBack(true); //un setState tipo flag para que con un condicional
+                console.log(err.message);
+                setErrorFrontBack(err.message); //un setState tipo flag para que con un condicional
                 //que en lugar de cargar en items en slides cargue un mensaje de error para el carrusel
             })
             .finally(()=> setLoading(false));
