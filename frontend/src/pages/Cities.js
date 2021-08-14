@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import axios from "axios";
 import CitiesList from "../components/CitiesList";
+import PreLoader from "../components/PreLoader";
 
 
 const Cities = () => {
@@ -47,11 +48,7 @@ const Cities = () => {
     console.log(citiesFiltered);
 
     if (loading) {
-        return(
-            <div>
-                Loading Cities Page...
-            </div>
-        )
+        return <PreLoader />
     }
 
     return (

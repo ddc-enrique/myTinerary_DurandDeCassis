@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import PreLoader from "../components/PreLoader";
 
 const City = (props) => {
     const [city, setCity] = useState({});
@@ -30,7 +31,7 @@ const City = (props) => {
     }, []);
 
     if (loading) {
-        return <p>Loading please wait...</p>
+        return <PreLoader />
     }
     return(
         <div className="containerCityPage">

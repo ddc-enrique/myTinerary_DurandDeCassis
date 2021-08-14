@@ -39,7 +39,7 @@ const citiesControllers = {
             if(cities.length) {
                 res.json({ success: true, response: cities});
             } else {
-                throw new Error("The Database Cities it is empty");
+                throw new Error("The Database Cities is empty");
             }
         })
         .catch((err)=> res.json({ success: false, response: err}));
@@ -51,7 +51,7 @@ const citiesControllers = {
             if (city) {
             res.json({ success: true, response: city});
             } else {
-                throw new Error(`I doesnt exist a City with the _id: ${req.params.id}`);
+                throw new Error(`It doesnt exist a City with the _id: ${req.params.id}`);
             }
         })
         .catch((err) => res.json({ success: false, response: err }));
@@ -73,23 +73,20 @@ const citiesControllers = {
         });
         cityToUpload
             .save()
-            .then( () => res.json({ success: true}))
-            .catch((err) => res.json({ success: false, error: err }))
+            .then( () => res.json({ success: true}) )
+            .catch( (err) => res.json({ success: false, response: err }) )
     },
 
     deleteCity: (req, res) =>{
         City.findOneAndDelete({ _id: req.params.id})
-        .then(() => 
-            res.json({ success: true }) 
-        )
-        .catch((err) => 
-            res.json({ success: false, response: err.message })
-        )
+        .then( () => res.json({ success: true }) )
+        .catch( (err) => res.json({ success: false, response: err }) )
     },
 
     updateCity: (req, res) => {
         City.findOneAndUpdate({ _id: req.params.id}, { ...req.body })
         .then( () => res.json({ success:true }) )
+        .catch( (err) => res.json( { success: false, response: err }) )
     },
 };
 

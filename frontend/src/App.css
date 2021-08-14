@@ -403,25 +403,38 @@ footer div a:hover {
 }
 
 @media screen and (max-width: 915px) {
-
+  
   .callAction {
     margin: 0 5vw;
   }
-
+  
   .callAction h4 {
     text-align: center;
   }
-
+  
   .divSlide {
     height: auto;
   }
-
+  
   .imageCity {
     width: 60vw;
     margin-bottom: 2vh;
   }
-
+  
   .imageHero h3 {
     width: 60vw;
   }
+}
+
+/* PRELOADER */
+.preLoader {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preLoader img {
+  width: 25vw;
 }
