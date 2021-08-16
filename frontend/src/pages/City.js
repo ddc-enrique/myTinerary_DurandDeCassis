@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import PreLoader from "../components/PreLoader";
+import ConnectionError from "./ConnectionError";
 
 const City = (props) => {
     const [city, setCity] = useState({});
@@ -11,7 +12,7 @@ const City = (props) => {
     const [errorDB, setErrorDB] = useState("");
     const [errorFrontBack, setErrorFrontBack] = useState("");
 
-    useEffect(()=>{
+    useEffect(() => {
         axios
             .get(`http://localhost:4000/api/city/${props.match.params.id}`)
             .then((res) => {
@@ -19,23 +20,35 @@ const City = (props) => {
                     setCity(res.data.response);
                     console.log(res.data.response);
                 } else {
-                    console.log(res.data.response);
-                    setErrorDB(res.data.response.message);
+                    setErrorDB((typeof(res.data.response)==="string" 
+                            ? res.data.response 
+                            : res.data.response.message));
                 }
             })
             .catch((err) => {
                 console.log(err);
-                setErrorFrontBack(err.message);
+                setErrorFrontBack(err);
             })
             .finally(() => setLoading(false))
     }, []);
 
     if (loading) {
         return <PreLoader />
-    }
+    };
+    
+    if (errorDB || errorFrontBack) {
+        return(
+            <ConnectionError 
+                errorMessage={errorDB ? errorDB : errorFrontBack } 
+                showButton={true} 
+            />
+        )
+    };
+
     return(
         <div className="containerCityPage">
             <Header />
+            
             <div 
                 className="imageHero"
                 style={{ backgroundImage: `url(${require(`../assets/${city.src}.jpeg`).default})` }}

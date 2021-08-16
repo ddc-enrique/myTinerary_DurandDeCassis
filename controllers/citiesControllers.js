@@ -1,35 +1,3 @@
-// const cities = [
-//     { id: 3, name: "Rome", country: "Italy", src: "rome", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 4, name: "Warsaw", country: "Poland", src: "warsaw", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 5, name: "New York", country: "United States", src: "newYork", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 6, name: "Amsterdam", country: "Netherlands", src: "amsterdam", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 7, name: "Hong Kong", country: "China", src: "hongKong", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 8, name: "Barcelona", country: "Spain", src: "barcelona", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 9, name: "Paris", country: "France", src: "paris", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 10, name: "Buenos Aires", country: "Argentina", src: "buenosAires", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 11, name: "Sydney", country: "Australia", src: "sydney", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-//     { id: 12, name: "Saint Petersburg", country: "Rusia", src: "stPetersburg", 
-//         transportHubs: { airports: [], ferryports: [], busStations: [], trainStations: [] } 
-//     },
-// ];
 const City = require("../models/City");
 
 const citiesControllers = {
@@ -49,10 +17,11 @@ const citiesControllers = {
         City.findOne( {_id: req.params.id })
         .then((city) =>{
             if (city) {
-            res.json({ success: true, response: city});
+                res.json({ success: true, response: city});
             } else {
-                throw new Error(`It doesnt exist a City with the _id: ${req.params.id}`);
+                res.json( { success:false, response: `It doesnt exist a City with the _id: ${req.params.id}`})
             }
+                // throw new Error (`It doesnt exist a City with the _id: ${req.params.id}`);
         })
         .catch((err) => res.json({ success: false, response: err }));
     },

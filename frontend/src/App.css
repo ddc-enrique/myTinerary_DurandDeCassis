@@ -402,6 +402,43 @@ footer div a:hover {
   margin: 9px 0;
 }
 
+
+/* PRELOADER */
+.preLoader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preLoader img {
+  width: 25vw;
+}
+
+/* ERROR PAGE */
+#connectionError {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: red;
+  background: rgb(204, 204, 204);
+  background: linear-gradient(90deg, rgba(204, 204, 204, 1) 0%, rgba(141, 141, 148, 1) 50%, rgba(204, 204, 204, 1) 100%);
+}
+
+#connectionError a button{
+  width: 90px;
+  border-radius: 5px;
+  background-color: #3A3A5A;
+  color: whitesmoke;
+}
+
+#connectionError a button img{
+  width: 80px;
+}
+
 @media screen and (max-width: 915px) {
   
   .callAction {
@@ -424,17 +461,4 @@ footer div a:hover {
   .imageHero h3 {
     width: 60vw;
   }
-}
-
-/* PRELOADER */
-.preLoader {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.preLoader img {
-  width: 25vw;
 }

@@ -7,6 +7,8 @@ import {
 } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
+import PreLoader from "../components/PreLoader"
+import ConnectionError from "../pages/ConnectionError";
 
 const CarouselCities = () => {
     const [cities, setCities] = useState([]);
@@ -23,15 +25,11 @@ const CarouselCities = () => {
                 if (res.data.success) {
                     setCities(res.data.response);
                 } else {
-                    console.log(res.data.response.message);
-                    setErrorDB(res.data.response.message); //un setState tipo flag para que con un condicional
-                    //que en lugar de cargar en items en slides cargue un mensaje de error para el carrusel
+                    setErrorDB(res.data.response.message); 
                 }
             })
             .catch((err) => { 
-                console.log(err.message);
-                setErrorFrontBack(err.message); //un setState tipo flag para que con un condicional
-                //que en lugar de cargar en items en slides cargue un mensaje de error para el carrusel
+                setErrorFrontBack(err.message); 
             })
             .finally(()=> setLoading(false));
     }, []);
@@ -67,13 +65,33 @@ const CarouselCities = () => {
 
     if (loading) {
         return(
-            <div>
-                Loading Carousel...
+            <div className="divSlide">
+                <PreLoader />
             </div>
         )
     }
 
-    const slides = items.map((slide, index) => {
+    let slides;
+
+    if (errorDB || errorFrontBack) {
+        slides = [
+            <CarouselItem
+                onExiting={() => setAnimating(false)}
+                onExited={() => setAnimating(false)}
+                key={1}
+                style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+            >
+                <div className="divSlide">
+                    <ConnectionError 
+                        errorMessage={errorDB ? errorDB : errorFrontBack }
+                        showButton={false}
+                    />
+                </div>
+            </CarouselItem>
+        ];
+    } else {
+
+    slides = items.map((slide, index) => {
         return (
             <CarouselItem
                 onExiting={() => setAnimating(true)}
@@ -82,27 +100,27 @@ const CarouselCities = () => {
                 style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
             >
                 <div className="divSlide">
-                {slide.map(city => {
-                    console.log(city);
-                    let picture = require(`../assets/${city.src}.jpeg`);
-                    return (
-                        <div
-                            className="imageCity"
-                            style={{ backgroundImage: `url(${picture.default})` }}
-                            key={city._id}
-                        >
-                            <div className="cityData">
-                                <h5>{city.name}</h5>
-                                <h5>{city.country}</h5>
+                    {slide.map(city => {
+                        let picture = require(`../assets/${city.src}.jpeg`);
+                        return (
+                            <div
+                                className="imageCity"
+                                style={{ backgroundImage: `url(${picture.default})` }}
+                                key={city._id}
+                            >
+                                <div className="cityData">
+                                    <h5>{city.name}</h5>
+                                    <h5>{city.country}</h5>
+                                </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
                 </div>
             </CarouselItem>
         )
     });
-    
+    };
+
     return(
         <Carousel
             activeIndex={activeIndex}

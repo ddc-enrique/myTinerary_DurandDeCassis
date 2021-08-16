@@ -4,6 +4,8 @@ import Header from "../components/Header";
 import axios from "axios";
 import CitiesList from "../components/CitiesList";
 import PreLoader from "../components/PreLoader";
+import ConnectionError from "./ConnectionError";
+
 
 
 const Cities = () => {
@@ -32,10 +34,12 @@ const Cities = () => {
 
     }, []);
     let citiesFiltered = cities;
+
     const inputHandler = (e) => {
         setInputSearch(e.target.value);
         console.log(inputSearch);
     }
+
     const filterCities = (cityFilter) => {
         citiesFiltered = cities.filter(city => (
             city.name.toUpperCase().startsWith(
@@ -43,13 +47,21 @@ const Cities = () => {
             )
         ));
     }
-    console.log(inputSearch);
+
     filterCities(inputSearch);
-    console.log(citiesFiltered);
 
     if (loading) {
         return <PreLoader />
     }
+
+    if (errorDB || errorFrontBack) {
+        return(
+            <ConnectionError 
+                error={errorDB ? errorDB : errorFrontBack } 
+                showButton={true}    
+            />
+        )
+    };
 
     return (
         <div className="containerCities">
