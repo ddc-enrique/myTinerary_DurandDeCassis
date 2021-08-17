@@ -1,6 +1,5 @@
 import React from "react";
 import Aos from 'aos';
-import 'aos/dist/aos.css';
 import { Link } from "react-router-dom";
 
 export default class CallAction extends React.Component{

@@ -1,10 +1,10 @@
-// import 'aos/dist/aos.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'aos/dist/aos.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Home from './pages/Home';
 import Cities from './pages/Cities';
 import City from './pages/City';
-import './App.css';
 import ConnectionError from "./pages/ConnectionError";
 
 function App() {

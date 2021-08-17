@@ -10,6 +10,7 @@ html * {
 /*HEADER*/
 
 header {
+  z-index: 1;
   height: 17vh;
   width: 100%;
   padding: 7vh 0 7vh 2vw;
@@ -60,6 +61,7 @@ nav a p {
 }
 
 #menuSign {
+  z-index: 2;
   position: relative;
   cursor: pointer;
   margin-right: 2px;
@@ -77,12 +79,14 @@ nav a p {
 }
 
 #displaySign {
+  z-index: 3;
   width: 100%;
   position: absolute;
   top: 100%;
 }
 
 #displaySign nav {
+  z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center !important;
@@ -90,6 +94,7 @@ nav a p {
 }
 
 .signIconText {
+  z-index: 5;
   width: 100%;
   display: flex;
   justify-content: center !important;
@@ -347,7 +352,104 @@ nav a p {
   align-items: center;
 }
 
-.containerCityPage .imageHero{
+/* CITY PAGE */
+
+.containerCityPage{
+  /* z-index: 1; */
+}
+
+.subContainerCityPage{
+  position: relative;
+  display: flex;
+}
+
+.subContainerCityPage aside {
+  z-index: 2;
+}
+/* full menu transport hub */
+.subContainerCityPage aside .containerTranportHubs{
+  display: none;
+  height: 90%;
+  width: 150px;
+  position: fixed;
+  background-color: #3A3A5A;
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: space-evenly;
+
+}
+/* logo of the correspondent transport hub */
+.subContainerCityPage aside .containerTranportHubs .transportHub{
+  width: 140px;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-size: 36% 36%;
+  margin-left: 20px;
+  cursor: pointer;
+}
+/* list of each transport hub */
+.containerTranportHubs .transportHub div{ 
+  margin-top: 36%;
+  display: none;
+  color: whitesmoke;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* sign > to display TH */
+aside .displayTransportHubs{
+  font-size: 80px;
+  background-color: #3A3A5A;
+  color: whitesmoke;
+  width: 42px;
+  height: 80px;
+  border-radius: 0% 100% 100% 0% / 50% 50% 50% 50% ;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+  top: 50%;
+  cursor: pointer;
+}
+
+aside .displayTransportHubs p {
+  margin-bottom: 15px;
+}
+
+/* google maps of the TH */
+
+#mapsTH{
+  z-index: 3;
+  position: absolute;
+  left: 220px;
+  top: 20%;
+  width: calc(70vw - 220px);
+  height: 45vh;
+}
+
+#mapsTH svg{
+  position: absolute;
+  top:-4%;
+  right: -2%;
+  color: red;
+  cursor: pointer;
+}
+
+#mapsTH iframe{
+  width: 100%;
+  height: 100%;
+}
+
+/* here goes the hero and the iteneraries */
+.subContainerCityPage main{
+  /* z-index: 1; */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerCityPage .subContainerCityPage main .imageHero{
   width: 100%;
   height: 40vh;
   background-size: cover;
@@ -458,7 +560,7 @@ footer div a:hover {
     margin-bottom: 2vh;
   }
   
-  .imageHero h3 {
+  .containerHome .imageHero h3 {
     width: 60vw;
   }
 }
