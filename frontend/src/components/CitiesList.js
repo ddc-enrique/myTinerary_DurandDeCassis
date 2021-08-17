@@ -40,7 +40,7 @@ const CitiesList = ({cities}) => {
                 id="emptyCitiesList"
             >
                 <img src={require("../assets/errorW.png").default} alt="logo MyTinerary" />
-                <p> Oh NO! We are sorry, but we still dont have any itenerary register in a city with that name.</p>
+                <p> Oh NO! We are sorry, but we still don't have any itenerary registered in a city with that name.</p>
             </div>
         )
     }

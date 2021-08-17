@@ -354,9 +354,9 @@ nav a p {
 
 /* CITY PAGE */
 
-.containerCityPage{
-  /* z-index: 1; */
-}
+/* .containerCityPage{
+  z-index: 1;
+} */
 
 .subContainerCityPage{
   position: relative;
@@ -423,7 +423,7 @@ aside .displayTransportHubs p {
   position: absolute;
   left: 220px;
   top: 20%;
-  width: calc(70vw - 220px);
+  width: calc(90vw - 220px);
   height: 45vh;
 }
 
