@@ -48,14 +48,26 @@ const citiesControllers = {
 
     deleteCity: (req, res) =>{
         City.findOneAndDelete({ _id: req.params.id})
-        .then( () => res.json({ success: true }) )
+        .then( (city) => {
+            if(city) {
+                res.json({ success:true })
+            } else {
+                throw new Error("No city found with that id")
+            }
+        })
         .catch( (err) => res.json({ success: false, response: err }) )
     },
 
     updateCity: (req, res) => {
         City.findOneAndUpdate({ _id: req.params.id}, { ...req.body })
-        .then( () => res.json({ success:true }) )
-        .catch( (err) => res.json( { success: false, response: err }) )
+        .then( (city) => {
+            if(city) {
+                res.json({ success:true })
+            } else {
+                throw new Error("No city found with that id")
+            }
+        })
+        .catch( (err) => res.json({ success: false, response: err }) )
     },
 };
 

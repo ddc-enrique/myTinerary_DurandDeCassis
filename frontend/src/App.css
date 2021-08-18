@@ -56,10 +56,6 @@ nav a img {
   width: 70px;
 }
 
-nav a p {
-  margin-top: 15px;
-}
-
 #menuSign {
   z-index: 2;
   position: relative;
@@ -105,8 +101,8 @@ nav a p {
 
 .signIconText p {
   display: inline-block !important;
+  margin: 10px 0;
   margin-left: 10px;
-  margin-top: 10px;
 }
 
 /* HOME */
@@ -375,18 +371,19 @@ nav a p {
   background-color: #3A3A5A;
   /* display: flex; */
   flex-direction: column;
-  justify-content: space-evenly;
-
+  justify-content: space-around;
+  padding: 10px 0;
 }
 /* logo of the correspondent transport hub */
 .subContainerCityPage aside .containerTranportHubs .transportHub{
   width: 140px;
   height: 200px;
   background-repeat: no-repeat;
-  background-size: 36% 36%;
+  background-size: 72px 51px;
   margin-left: 20px;
   cursor: pointer;
 }
+
 /* list of each transport hub */
 .containerTranportHubs .transportHub div{ 
   margin-top: 36%;
@@ -394,9 +391,14 @@ nav a p {
   color: whitesmoke;
   text-decoration: underline;
   cursor: pointer;
+  padding-right: 10px;
 }
 
-/* sign > to display TH */
+.containerTranportHubs .transportHub div:last-child ul{
+  margin-bottom: 100px;
+} 
+
+/* symbol > to display TH */
 aside .displayTransportHubs{
   font-size: 80px;
   background-color: #3A3A5A;
@@ -411,7 +413,7 @@ aside .displayTransportHubs{
   top: 50%;
   cursor: pointer;
 }
-
+/* the symbol itself */
 aside .displayTransportHubs p {
   margin-bottom: 15px;
 }

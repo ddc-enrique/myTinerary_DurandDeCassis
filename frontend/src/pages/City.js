@@ -31,7 +31,7 @@ const City = (props) => {
             })
             .catch((err) => {
                 console.log(err);
-                setErrorFrontBack(err);
+                setErrorFrontBack(err.message);
             })
             .finally(() => setLoading(false))
     }, []);
@@ -42,8 +42,8 @@ const City = (props) => {
         if (e.target.className === "transportHub") {
             let list = e.target.children[0];
             list.style.display = "block";
-            if (list.children.length === 0) {
-                list.innerText = "This city does't have a Transport Hub of this type"
+            if (list.firstChild.children.length === 0) {
+                list.innerHTML = "<p>This city doesn't have a Transport Hub of this type</p>";
                 list.style.textDecoration = "none";
                 list.style.cursor = "auto";
             }
@@ -99,18 +99,20 @@ const City = (props) => {
                                     key={index}
                                 >
                                     <div>
+                                        <ul>
                                         {city.transportHubs[transportHub].map(eachHub => {
                                             let { _id, name, maps } = eachHub;
                                             return (
-                                                <p
+                                                <li
                                                     className="maps"
                                                     key={_id}
                                                     onClick={() => displayMaps(maps)}
                                                 >
                                                     {name}
-                                                </p>
+                                                </li>
                                             )
                                         })}
+                                        </ul>
                                     </div>
                                 </div>
                             ))
