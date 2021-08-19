@@ -365,16 +365,15 @@ nav a img {
 /* full menu transport hub */
 .subContainerCityPage aside .containerTranportHubs{
   display: none;
-  height: 90%;
+  height: 100%;
   width: 150px;
   position: fixed;
   background-color: #3A3A5A;
-  /* display: flex; */
   flex-direction: column;
   justify-content: space-around;
   padding: 10px 0;
 }
-/* logo of the correspondent transport hub */
+/* logoIMG of the correspondent transport hub */
 .subContainerCityPage aside .containerTranportHubs .transportHub{
   width: 140px;
   height: 200px;
@@ -422,17 +421,17 @@ aside .displayTransportHubs p {
 
 #mapsTH{
   z-index: 3;
-  position: absolute;
+  position: fixed;
   left: 220px;
   top: 20%;
   width: calc(90vw - 220px);
-  height: 45vh;
+  height: 55vh;
 }
 
 #mapsTH svg{
   position: absolute;
   top:-4%;
-  right: -2%;
+  right: -1.5%;
   color: red;
   cursor: pointer;
 }

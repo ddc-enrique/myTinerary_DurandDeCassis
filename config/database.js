@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 mongoose
-   .connect(process.env.MONGODB, {// conecto la direccion del cluster0 
+   .connect(process.env.MONGODB, {
       useUnifiedTopology: true,
       useCreateIndex: true,
       useNewUrlParser: true,

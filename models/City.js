@@ -11,7 +11,7 @@ const CitySchema = new mongoose.Schema({
     src: { type: String },
     description: { type: String },
     transportHubs: {
-        airports: [ TransportHubSchema ], 
+        airports: [ TransportHubSchema ],
         ferryPorts: [ TransportHubSchema ],
         busTerminals: [ TransportHubSchema ],
         trainStations: [ TransportHubSchema ], 

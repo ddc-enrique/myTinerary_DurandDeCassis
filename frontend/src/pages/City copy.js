@@ -4,7 +4,6 @@ import { XCircle } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import Itinerary from "../components/Itinerary";
 import PreLoader from "../components/PreLoader";
 import ConnectionError from "./ConnectionError";
 
@@ -16,8 +15,6 @@ const City = (props) => {
     const [showMap, setShowMap] = useState(false);
     const iframeMap = useRef(null)
     const [showTH, setShowTH] = useState(false);
-    const menuTransportHub = useRef(null);
-    const [itineraries, setItineraries] = useState([]);
 
     useEffect(() => {
         axios
@@ -25,33 +22,22 @@ const City = (props) => {
             .then((res) => {
                 if (res.data.success) {
                     setCity(res.data.response);
+                    console.log(res.data.response);
                 } else {
-                    setErrorDB(res.data.response);
-                    // setErrorDB((typeof (res.data.response) === "string"
-                    //     ? res.data.response
-                    //     : res.data.response.message));
+                    setErrorDB((typeof (res.data.response) === "string"
+                        ? res.data.response
+                        : res.data.response.message));
                 }
             })
             .catch((err) => {
-                setErrorFrontBack(err.message);
-            });
-        axios
-            .get("http://localhost:4000/api/itineraries")
-            .then((res) => {
-                if (res.data.success) {
-                    setItineraries(res.data.response)
-                } else {
-                    setErrorDB("An Error has occurred, we are working to solve it")
-                }
-            })
-            .catch((err) => {
+                console.log(err);
                 setErrorFrontBack(err.message);
             })
-            .finally(() => setLoading(false));
-        window.addEventListener("scroll",(e) => changeHeight(e));
+            .finally(() => setLoading(false))
     }, []);
 
     const showList = (e) => {
+        // console.log(e.target.tagName);
         console.log(e.target.className === "transportHub");
         if (e.target.className === "transportHub") {
             let list = e.target.children[0];
@@ -62,26 +48,21 @@ const City = (props) => {
                 list.style.cursor = "auto";
             }
         }
+
     }
 
     const unShowList = (e) => {
         console.log(e.target.className === "trasnportHub");
         if (e.target.className === "transportHub") {
-            e.target.children[0].style.display= "none";
+            let list = e.target.children[0];
+            list.style.display = "none";
         }
     }
+
 
     const displayMaps = (maps) => {
         iframeMap.current.src = maps;
         setShowMap(true);
-    }
-
-    const changeHeight = (e) => {
-        let menu = menuTransportHub.current; 
-        if (menu && window.pageYOffset<(window.innerHeight*0.17)) {
-            menu.style.height = `${window.innerHeight-(window.innerHeight*0.17-window.pageYOffset)}px`;
-            menu.style.bottom = "0px";
-        }
     }
 
     if (loading) {
@@ -98,17 +79,13 @@ const City = (props) => {
     };
 
     return (
-        <div 
-            className="containerCityPage"
-            onScroll={changeHeight}    
-        >
+        <div className="containerCityPage">
             <Header />
             <div className="subContainerCityPage">
                 <aside className="tranportHubs">
                     <div
                         className="containerTranportHubs"
                         style={{ display: showTH ? "flex" : "none", }}
-                        ref={menuTransportHub}
                     >
                         {
                             Object.keys(city.transportHubs).map((transportHub, index) => (
@@ -172,18 +149,11 @@ const City = (props) => {
                         style={{ backgroundImage: `url(${require(`../assets/${city.src}.jpeg`).default})` }}
                     >
                     </div>
-                    <div
-                        className="containerItineraries"
-                    >
-                        {
-                            itineraries.map( itinerary => (
-                                <Itinerary key={itinerary._id} itinerary={itinerary} />
-                            ))
-                        }
-                    </div>
+                    <p>Page of {city.name} it is under construction</p>
                     <Link to="/cities">
                         <button>Go back to Cities</button>
                     </Link>
+
                 </main>
             </div>
 

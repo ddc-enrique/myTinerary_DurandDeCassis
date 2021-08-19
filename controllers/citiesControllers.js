@@ -19,11 +19,11 @@ const citiesControllers = {
             if (city) {
                 res.json({ success: true, response: city});
             } else {
-                res.json( { success:false, response: `It doesnt exist a City with the _id: ${req.params.id}`})
+                res.json( { success:false, response: "Page Not Found"})
             }
                 // throw new Error (`It doesnt exist a City with the _id: ${req.params.id}`);
         })
-        .catch((err) => res.json({ success: false, response: err }));
+        .catch(() => res.json({ success: false, response: "Page Not Found"}));
     },
 
     uploadNewCity: (req, res) => {
@@ -52,7 +52,7 @@ const citiesControllers = {
             if(city) {
                 res.json({ success:true })
             } else {
-                throw new Error("No city found with that id")
+                throw new Error(`No city found with the _id: ${req.params._id}`)
             }
         })
         .catch( (err) => res.json({ success: false, response: err }) )
@@ -64,7 +64,7 @@ const citiesControllers = {
             if(city) {
                 res.json({ success:true })
             } else {
-                throw new Error("No city found with that id")
+                throw new Error(`No city found with the _id: ${req.params._id}`)
             }
         })
         .catch( (err) => res.json({ success: false, response: err }) )
