@@ -442,7 +442,7 @@ aside .displayTransportHubs p {
 }
 
 /* here goes the hero and the iteneraries */
-.subContainerCityPage main{
+.containerCityPage .subContainerCityPage main{
   /* z-index: 1; */
   flex-grow: 1;
   display: flex;
@@ -456,10 +456,26 @@ aside .displayTransportHubs p {
   background-size: cover;
   background-position-y: center;
 }
-
-.containerItineraries{
+/* container of itineraries */
+.containerCityPage .subContainerCityPage main .containerItineraries{
   display: flex;
   flex-direction: column;
+}
+
+/* button "go back to cities" and "View More Less */
+.containerCityPage .subContainerCityPage main a button,
+.itinerary button{
+  margin-bottom: 1vh;
+  padding: 5px;
+  border-radius: 3px;
+  color: whitesmoke;
+  background-color: rgb(58, 58, 90);
+  align-self: center;
+  vertical-align: middle;
+}
+
+.containerCityPage .subContainerCityPage main a button img{
+  width: 50px;
 }
 
 /* ITINERARY */
@@ -558,6 +574,7 @@ in mediaquerie keeping the ux responsive*/
 /* likes heart color */
 .bodyItinerary .social .likes svg{
   color: red;
+  cursor: pointer;
 }
 
 /* order hashtgs */
@@ -565,8 +582,6 @@ in mediaquerie keeping the ux responsive*/
   text-align: center;
   padding: 10px 0;
 }
-
-
 
 /* FOOTER */
 footer {

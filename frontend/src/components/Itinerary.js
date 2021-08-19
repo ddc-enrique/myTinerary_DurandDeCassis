@@ -49,7 +49,7 @@ const Itinerary = ({itinerary}) => {
                 </div>
                 <div className="social">
                     <p className="likes">
-                        {(itinerary.likes ? <HeartFill /> : <Heart />)} {itinerary.likes.toString()}
+                            {(itinerary.likes ? <HeartFill /> : <Heart />)} {itinerary.likes.toString()}
                     </p>
                     <div className="hashtags">
                         {itinerary.hashtags.map((hashtag, index)=> (

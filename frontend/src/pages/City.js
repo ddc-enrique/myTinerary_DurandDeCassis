@@ -14,9 +14,9 @@ const City = (props) => {
     const [errorDB, setErrorDB] = useState("");
     const [errorFrontBack, setErrorFrontBack] = useState("");
     const [showMap, setShowMap] = useState(false);
-    const iframeMap = useRef(null)
+    const iframeMap = useRef({})
     const [showTH, setShowTH] = useState(false);
-    const menuTransportHub = useRef(null);
+    const menuTransportHub = useRef({});
     const [itineraries, setItineraries] = useState([]);
 
     useEffect(() => {
@@ -182,7 +182,10 @@ const City = (props) => {
                         }
                     </div>
                     <Link to="/cities">
-                        <button>Go back to Cities</button>
+                        <button>
+                            Go back to Cities 
+                            <img src={require("../assets/cities1.png").default} alt="buildings" />
+                        </button>
                     </Link>
                 </main>
             </div>
