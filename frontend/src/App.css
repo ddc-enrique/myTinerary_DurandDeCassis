@@ -457,8 +457,118 @@ aside .displayTransportHubs p {
   background-position-y: center;
 }
 
-/* FOOTER */
+.containerItineraries{
+  display: flex;
+  flex-direction: column;
+}
 
+/* ITINERARY */
+.itinerary{
+  min-height: 40hv;
+  width: 70vw;
+  margin: 2vh 0;
+  border-radius: 10px;
+  border: 5px solid rgb(58, 58, 90);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+/*div of the title and image */
+.headerItinerary{
+  width: 100%;
+  height: 35vh;
+  background-size: cover;
+  background-position-y: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+.headerItinerary h3{
+  background: rgba(110, 110, 143, 0.637);
+  color: whitesmoke;
+  padding: 10px;
+  text-align: center;
+}
+
+/* author picture & name, short description */
+.author{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 25vh;
+}
+
+.author .authorPic{
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.author p {
+  max-width: 50%;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.bodyItinerary{
+  width: 100%;
+  margin-top: 10vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* order the content of the itinerary, 
+in mediaquerie keeping the ux responsive*/
+.bodyItinerary>div{
+  width: 22%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bodyItinerary .description {
+  width: 30%;
+  text-align: center;
+}
+
+/* align center bootstrap icons with text */
+.bodyItinerary .details p, p.likes{
+  display: flex;
+  align-items: center;
+}
+
+.bodyItinerary svg{
+  margin: 0 3px
+}
+/* price cash color*/
+.bodyItinerary .details p:first-child svg {
+  color: green;
+}
+/* clock duration color */
+.bodyItinerary .details p:last-child svg {
+  color: #3A3A5A;
+}
+/* likes heart color */
+.bodyItinerary .social .likes svg{
+  color: red;
+}
+
+/* order hashtgs */
+.bodyItinerary .social .hashtags{
+  text-align: center;
+  padding: 10px 0;
+}
+
+
+
+/* FOOTER */
 footer {
   display: flex !important;
   flex-direction: row;
@@ -563,5 +673,24 @@ footer div a:hover {
   
   .containerHome .imageHero h3 {
     width: 60vw;
+  }
+  /* order the content to keep description on center
+  and first to appear */
+  .bodyItinerary .description {
+    width: 90%;
+    order: 1;
+    padding-top: 10px;
+  }
+  .bodyItinerary>div{
+    width: 35%;
+    order: 2;
+  }
+/* put the heart on the center on responsive */
+  .bodyItinerary .social{
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
   }
 }
