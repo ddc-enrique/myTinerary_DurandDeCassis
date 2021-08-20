@@ -1,67 +1,43 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import axios from "axios";
 import CitiesList from "../components/CitiesList";
 import PreLoader from "../components/PreLoader";
 import ConnectionError from "./ConnectionError";
+import { connect } from "react-redux";
+import citiesActions from "../redux/actions/citiesActions";
 
 
 
-const Cities = () => {
-    const [cities, setCities] = useState([]);
-    const [inputSearch, setInputSearch] = useState("");
+const Cities = ({getCities, cities, citiesFiltered, filterCities}) => {
     const [loading, setLoading] = useState(true);
     const [errorDB, setErrorDB] = useState("");
     const [errorFrontBack, setErrorFrontBack] = useState("");
-    useEffect(() => {
+    useEffect( async() => {
         window.scrollTo(0, 0);
-        axios
-            .get('http://localhost:4000/api/cities')
-            .then((res) => {
-                if (res.data.success) {
-                    setCities(res.data.response);
-                } else {
-                    console.log(res.data.response.message);
-                    setErrorDB(res.data.response.message);
-                }
-            })
-            .catch((err) => { 
-                console.log(err.message);
-                setErrorFrontBack(err.message); 
-            })
-            .finally(()=> setLoading(false));
-
+        if (!cities.length) await getCities();
+        setLoading(false);
     }, []);
-    let citiesFiltered = cities;
 
     const inputHandler = (e) => {
-        setInputSearch(e.target.value);
-        console.log(inputSearch);
+
+        filterCities(e.target.value.toUpperCase().trim());
     }
 
-    const filterCities = (cityFilter) => {
-        citiesFiltered = cities.filter(city => (
-            city.name.toUpperCase().startsWith(
-                cityFilter.toUpperCase().trim()
-            )
-        ));
-    }
 
-    filterCities(inputSearch);
 
     if (loading) {
         return <PreLoader />
     }
 
-    if (errorDB || errorFrontBack) {
-        return(
-            <ConnectionError 
-                error={errorDB ? errorDB : errorFrontBack } 
-                showButton={true}    
-            />
-        )
-    };
+    // if (errorDB || errorFrontBack) {
+    //     return(
+    //         <ConnectionError 
+    //             error={errorDB ? errorDB : errorFrontBack } 
+    //             showButton={true}    
+    //         />
+    //     )
+    // };
 
     return (
         <div className="containerCities">
@@ -85,4 +61,17 @@ const Cities = () => {
         </div>
     )
 };
-export default Cities;
+
+const mapDispatchToProps = {
+    getCities: citiesActions.getCitiesList,
+    filterCities: citiesActions.filterCitiesList,
+};
+
+const mapStateToProps = (state) => {
+    return{
+        cities: state.cities.citiesList,
+        citiesFiltered: state.cities.citiesFiltered,
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cities);

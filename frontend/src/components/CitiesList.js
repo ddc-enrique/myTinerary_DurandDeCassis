@@ -10,7 +10,11 @@ const CitiesList = ({cities}) => {
     if (cities.length) {
         return (
             cities.map((city, index) => (
-                <Link to={`/city/${city._id}`} key={city._id} style={{textDecoration: "inherit"}}>
+                <Link 
+                    to={`/city/${city._id}`} 
+                    key={city._id} 
+                    style={{textDecoration: "inherit"}}
+                >
                     <div
                         data-aos={index%2 === 0 ? "fade-right" : "fade-left"}
                         className="imageCity"

@@ -5,32 +5,21 @@ import {
     CarouselControl,
     CarouselIndicators,
 } from 'reactstrap';
-import axios from 'axios';
 import PreLoader from "../components/PreLoader"
 import ConnectionError from "../pages/ConnectionError";
+import { connect } from "react-redux";
+import citiesActions from "../redux/actions/citiesActions";
 
-const CarouselCities = () => {
-    const [cities, setCities] = useState([]);
+const CarouselCities = ({getCities, cities}) => {
     const [loading, setLoading] = useState(true);
     const [errorDB, setErrorDB] = useState("");
     const [errorFrontBack, setErrorFrontBack] = useState("");
     let items= [[],[],[]];
     let citiesAux;
 
-    useEffect(() => {
-        axios
-            .get('http://localhost:4000/api/cities')
-            .then((res) => {
-                if (res.data.success) {
-                    setCities(res.data.response);
-                } else {
-                    setErrorDB(res.data.response.message); 
-                }
-            })
-            .catch((err) => { 
-                setErrorFrontBack(err.message); 
-            })
-            .finally(()=> setLoading(false));
+    useEffect( async() => {
+        await getCities();
+        setLoading(false);
     }, []);
     citiesAux = cities.sort((cityA, cityB) => cityA.likes - cityB.likes);
 
@@ -40,7 +29,6 @@ const CarouselCities = () => {
         }
         return slide
     });
-    console.log(items);
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
@@ -134,4 +122,14 @@ const CarouselCities = () => {
     )
 };
 
-export default CarouselCities
+const mapDispatchToProps = {
+    getCities: citiesActions.getCitiesList,
+};
+
+const mapStateToProps = (state) => {
+    return{
+        cities: state.cities.citiesList,
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CarouselCities);

@@ -1,15 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { XCircle } from "react-bootstrap-icons";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Itinerary from "../components/Itinerary";
 import PreLoader from "../components/PreLoader";
+import citiesActions from "../redux/actions/citiesActions";
+import itinerariesActions from "../redux/actions/itinerariesActions";
 import ConnectionError from "./ConnectionError";
 
-const City = (props) => {
-    const [city, setCity] = useState({});
+const City = ({match, findCityById, city, getItineraries, itineraries}) => {
     const [loading, setLoading] = useState(true);
     const [errorDB, setErrorDB] = useState("");
     const [errorFrontBack, setErrorFrontBack] = useState("");
@@ -17,39 +19,22 @@ const City = (props) => {
     const iframeMap = useRef({})
     const [showTH, setShowTH] = useState(false);
     const menuTransportHub = useRef({});
-    const [itineraries, setItineraries] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get(`http://localhost:4000/api/city/${props.match.params.id}`)
-            .then((res) => {
-                if (res.data.success) {
-                    setCity(res.data.response);
-                } else {
-                    setErrorDB(res.data.response);
-                    // setErrorDB((typeof (res.data.response) === "string"
-                    //     ? res.data.response
-                    //     : res.data.response.message));
-                }
-            })
-            .catch((err) => {
-                setErrorFrontBack(err.message);
-            });
-        axios
-            .get("http://localhost:4000/api/itineraries")
-            .then((res) => {
-                if (res.data.success) {
-                    setItineraries(res.data.response)
-                } else {
-                    setErrorDB("An Error has occurred, we are working to solve it")
-                }
-            })
-            .catch((err) => {
-                setErrorFrontBack(err.message);
-            })
-            .finally(() => setLoading(false));
-        window.addEventListener("scroll",(e) => changeHeight(e));
+    useEffect( async() => {
+        await findCityById(match.params.id);
+        await getItineraries();
+        setLoading(false);
+        window.addEventListener("scroll",() => changeHeight());
     }, []);
+        
+        
+    const changeHeight = () => {
+        let menu = menuTransportHub.current; 
+        if (menu && window.pageYOffset<(window.innerHeight*0.17)) {
+            menu.style.height = `${window.innerHeight-(window.innerHeight*0.17-window.pageYOffset)}px`;
+            menu.style.bottom = "0px";
+        }
+    }
 
     const showList = (e) => {
         console.log(e.target.className === "transportHub");
@@ -62,6 +47,7 @@ const City = (props) => {
                 list.style.cursor = "auto";
             }
         }
+        changeHeight();
     }
 
     const unShowList = (e) => {
@@ -74,14 +60,6 @@ const City = (props) => {
     const displayMaps = (maps) => {
         iframeMap.current.src = maps;
         setShowMap(true);
-    }
-
-    const changeHeight = (e) => {
-        let menu = menuTransportHub.current; 
-        if (menu && window.pageYOffset<(window.innerHeight*0.17)) {
-            menu.style.height = `${window.innerHeight-(window.innerHeight*0.17-window.pageYOffset)}px`;
-            menu.style.bottom = "0px";
-        }
     }
 
     if (loading) {
@@ -171,6 +149,7 @@ const City = (props) => {
                         className="imageHero"
                         style={{ backgroundImage: `url(${require(`../assets/${city.src}.jpeg`).default})` }}
                     >
+                        <h2>{city.name}</h2>
                     </div>
                     <div
                         className="containerItineraries"
@@ -195,4 +174,16 @@ const City = (props) => {
     )
 };
 
-export default City
+const mapDispatchToProps = {
+    findCityById: citiesActions.findCityById,
+    getItineraries: itinerariesActions.getItinerariesList,
+};
+
+const mapStateToProps = (state) => {
+    return{
+        city: state.cities.cityByID,
+        itineraries: state.itineraries.itinerariesList,
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(City);
