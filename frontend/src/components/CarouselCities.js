@@ -6,20 +6,23 @@ import {
     CarouselIndicators,
 } from 'reactstrap';
 import PreLoader from "../components/PreLoader"
-import ConnectionError from "../pages/ConnectionError";
+// import ConnectionError from "../pages/ConnectionError";
 import { connect } from "react-redux";
 import citiesActions from "../redux/actions/citiesActions";
 
 const CarouselCities = ({getCities, cities}) => {
     const [loading, setLoading] = useState(true);
-    const [errorDB, setErrorDB] = useState("");
-    const [errorFrontBack, setErrorFrontBack] = useState("");
+    // const [errorDB, setErrorDB] = useState("");
+    // const [errorFrontBack, setErrorFrontBack] = useState("");
     let items= [[],[],[]];
     let citiesAux;
 
-    useEffect( async() => {
-        await getCities();
-        setLoading(false);
+    useEffect( () => {
+        async function mountComponent() {
+            await getCities();
+            setLoading(false);
+        };
+        mountComponent();
     }, []);
     citiesAux = cities.sort((cityA, cityB) => cityA.likes - cityB.likes);
 
@@ -60,23 +63,23 @@ const CarouselCities = ({getCities, cities}) => {
 
     let slides;
 
-    if (errorDB || errorFrontBack) {
-        slides = [
-            <CarouselItem
-                onExiting={() => setAnimating(false)}
-                onExited={() => setAnimating(false)}
-                key={1}
-                style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-            >
-                <div className="divSlide">
-                    <ConnectionError 
-                        errorMessage={errorDB ? errorDB : errorFrontBack }
-                        showButton={false}
-                    />
-                </div>
-            </CarouselItem>
-        ];
-    } else {
+    // if (errorDB || errorFrontBack) {
+    //     slides = [
+    //         <CarouselItem
+    //             onExiting={() => setAnimating(false)}
+    //             onExited={() => setAnimating(false)}
+    //             key={1}
+    //             style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+    //         >
+    //             <div className="divSlide">
+    //                 <ConnectionError 
+    //                     errorMessage={errorDB ? errorDB : errorFrontBack }
+    //                     showButton={false}
+    //                 />
+    //             </div>
+    //         </CarouselItem>
+    //     ];
+    // } else {
 
     slides = items.map((slide, index) => {
         return (
@@ -106,7 +109,7 @@ const CarouselCities = ({getCities, cities}) => {
             </CarouselItem>
         )
     });
-    };
+    // };
 
     return(
         <Carousel

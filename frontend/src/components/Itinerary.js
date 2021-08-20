@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowBarDown, ArrowBarUp, Cash, Heart, HeartFill, Stopwatch } from 'react-bootstrap-icons';
+import { Cash, Heart, HeartFill, Stopwatch } from 'react-bootstrap-icons';
 import Aos from 'aos';
 
 

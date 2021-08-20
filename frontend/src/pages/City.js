@@ -6,24 +6,29 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Itinerary from "../components/Itinerary";
 import PreLoader from "../components/PreLoader";
+import citiesActions from "../redux/actions/citiesActions";
 import itinerariesActions from "../redux/actions/itinerariesActions";
-import ConnectionError from "./ConnectionError";
+// import ConnectionError from "./ConnectionError";
 
-const City = ({match, cities, getItineraries, itineraries}) => {
+const City = ({match, getCities, cities, getItineraries, itineraries}) => {
     const [city, setCity] = useState({});
     const [loading, setLoading] = useState(true);
-    const [errorDB, setErrorDB] = useState("");
-    const [errorFrontBack, setErrorFrontBack] = useState("");
+    // const [errorDB, setErrorDB] = useState("");
+    // const [errorFrontBack, setErrorFrontBack] = useState("");
     const [showMap, setShowMap] = useState(false);
     const iframeMap = useRef({})
     const [showTH, setShowTH] = useState(false);
     const menuTransportHub = useRef({});
 
-    useEffect( async() => {
-        let newObject = cities.find(city => city._id === match.params.id);
-        setCity(newObject);
-        await getItineraries();
-        setLoading(false);
+    useEffect( () => {
+        async function mountPage() {
+            if (!cities.length) await getCities();
+            let newObject = cities.find(city => city._id === match.params.id);
+            setCity(newObject);
+            await getItineraries();
+            setLoading(false);
+        };
+        mountPage();
         window.addEventListener("scroll",() => changeHeight());
     }, []);
         
@@ -66,14 +71,14 @@ const City = ({match, cities, getItineraries, itineraries}) => {
         return <PreLoader />
     };
 
-    if (errorDB || errorFrontBack) {
-        return (
-            <ConnectionError
-                errorMessage={errorDB ? errorDB : errorFrontBack}
-                showButton={true}
-            />
-        )
-    };
+    // if (errorDB || errorFrontBack) {
+    //     return (
+    //         <ConnectionError
+    //             errorMessage={errorDB ? errorDB : errorFrontBack}
+    //             showButton={true}
+    //         />
+    //     )
+    // };
 
     return (
         <div 
@@ -175,6 +180,7 @@ const City = ({match, cities, getItineraries, itineraries}) => {
 };
 
 const mapDispatchToProps = {
+    getCities: citiesActions.getCitiesList,
     getItineraries: itinerariesActions.getItinerariesList,
 };
 

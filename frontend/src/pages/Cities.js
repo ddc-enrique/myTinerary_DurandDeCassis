@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import CitiesList from "../components/CitiesList";
 import PreLoader from "../components/PreLoader";
-import ConnectionError from "./ConnectionError";
+// import ConnectionError from "./ConnectionError";
 import { connect } from "react-redux";
 import citiesActions from "../redux/actions/citiesActions";
 
@@ -11,12 +11,16 @@ import citiesActions from "../redux/actions/citiesActions";
 
 const Cities = ({getCities, cities, citiesFiltered, filterCities}) => {
     const [loading, setLoading] = useState(true);
-    const [errorDB, setErrorDB] = useState("");
-    const [errorFrontBack, setErrorFrontBack] = useState("");
-    useEffect( async() => {
+    // const [errorDB, setErrorDB] = useState("");
+    // const [errorFrontBack, setErrorFrontBack] = useState("");
+    useEffect( () => {
         window.scrollTo(0, 0);
-        if (!cities.length) await getCities();
-        setLoading(false);
+        async function mountComponent() {
+            if (!cities.length) await getCities();
+            setLoading(false);
+        };
+        mountComponent();
+
     }, []);
 
     const inputHandler = (e) => {
