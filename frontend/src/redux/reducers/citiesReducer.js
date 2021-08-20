@@ -1,4 +1,4 @@
-const citiesReducer = ( state = { citiesList: [], citiesFiltered: [], cityByID: {}, }, action) => {
+const citiesReducer = ( state = { citiesList: [], citiesFiltered: [],}, action) => {
     switch(action.type) {
         case "GET_ALL_CITIES":
             return{
@@ -15,13 +15,6 @@ const citiesReducer = ( state = { citiesList: [], citiesFiltered: [], cityByID: 
                 ...state,
                 citiesFiltered: newList,
             };
-        case "FIND_CITY_BY_ID":
-            let newObject = state.citiesList.find(city => 
-                city._id === action.payload);
-            return {
-                ...state,
-                cityByID: newObject,
-            }
         default: 
             return state;
     }

@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { XCircle } from "react-bootstrap-icons";
 import { connect } from "react-redux";
@@ -7,11 +6,11 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Itinerary from "../components/Itinerary";
 import PreLoader from "../components/PreLoader";
-import citiesActions from "../redux/actions/citiesActions";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import ConnectionError from "./ConnectionError";
 
-const City = ({match, findCityById, city, getItineraries, itineraries}) => {
+const City = ({match, cities, getItineraries, itineraries}) => {
+    const [city, setCity] = useState({});
     const [loading, setLoading] = useState(true);
     const [errorDB, setErrorDB] = useState("");
     const [errorFrontBack, setErrorFrontBack] = useState("");
@@ -21,7 +20,8 @@ const City = ({match, findCityById, city, getItineraries, itineraries}) => {
     const menuTransportHub = useRef({});
 
     useEffect( async() => {
-        await findCityById(match.params.id);
+        let newObject = cities.find(city => city._id === match.params.id);
+        setCity(newObject);
         await getItineraries();
         setLoading(false);
         window.addEventListener("scroll",() => changeHeight());
@@ -149,7 +149,7 @@ const City = ({match, findCityById, city, getItineraries, itineraries}) => {
                         className="imageHero"
                         style={{ backgroundImage: `url(${require(`../assets/${city.src}.jpeg`).default})` }}
                     >
-                        <h2>{city.name}</h2>
+                        <h2>{city.name}, {city.country}</h2>
                     </div>
                     <div
                         className="containerItineraries"
@@ -175,13 +175,12 @@ const City = ({match, findCityById, city, getItineraries, itineraries}) => {
 };
 
 const mapDispatchToProps = {
-    findCityById: citiesActions.findCityById,
     getItineraries: itinerariesActions.getItinerariesList,
 };
 
 const mapStateToProps = (state) => {
     return{
-        city: state.cities.cityByID,
+        cities: state.cities.citiesList,
         itineraries: state.itineraries.itinerariesList,
     }
 };

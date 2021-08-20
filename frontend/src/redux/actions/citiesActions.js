@@ -15,12 +15,6 @@ const citiesActions = {
         }
     },
 
-    findCityById: (cityID) => {
-        return (dispatch) => {
-            dispatch({ type:"FIND_CITY_BY_ID", payload: cityID});
-        }
-    }
-
 };
 
 export default citiesActions;
