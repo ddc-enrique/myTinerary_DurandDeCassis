@@ -2,7 +2,7 @@ const Itinerary = require("../models/Itinerary");
 
 const itinerariesControllers = {
 
-    getAllItineraries: (res) => {
+    getAllItineraries: (req, res) => {
         Itinerary.find()
         .then( (itineraries) => {
             if(itineraries.length) {

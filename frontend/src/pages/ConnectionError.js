@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-const ConnectionError = ({errorMessage, showButton}) => {
+const ConnectionError = ({error, showButton}) => {
     return (
         <div id="connectionError">
-            <h3>{errorMessage}</h3>
+            <h3>{error.message}</h3>
             <img src={require("../assets/errorB.png").default} alt="Error Logo MyTinerary" />
             {showButton 
             ? <Link to="/">

@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import CitiesList from "../components/CitiesList";
 import PreLoader from "../components/PreLoader";
-// import ConnectionError from "./ConnectionError";
+import ConnectionError from "./ConnectionError";
 import { connect } from "react-redux";
 import citiesActions from "../redux/actions/citiesActions";
 
@@ -11,37 +11,38 @@ import citiesActions from "../redux/actions/citiesActions";
 
 const Cities = ({getCities, cities, citiesFiltered, filterCities}) => {
     const [loading, setLoading] = useState(true);
-    // const [errorDB, setErrorDB] = useState("");
-    // const [errorFrontBack, setErrorFrontBack] = useState("");
+    const [error, setError] = useState({ flag: false, err: {} });
+    
     useEffect( () => {
         window.scrollTo(0, 0);
-        async function mountComponent() {
-            if (!cities.length) await getCities();
+        async function getCitiesList() {
+            try{
+                if (!cities.length) await getCities();
+            } catch(e) {
+                setError({flag:true, err: e});
+            }
             setLoading(false);
         };
-        mountComponent();
-
+        getCitiesList();
+        
     }, []);
 
     const inputHandler = (e) => {
-
         filterCities(e.target.value.toUpperCase().trim());
-    }
-
-
+    };
 
     if (loading) {
         return <PreLoader />
-    }
+    };
 
-    // if (errorDB || errorFrontBack) {
-    //     return(
-    //         <ConnectionError 
-    //             error={errorDB ? errorDB : errorFrontBack } 
-    //             showButton={true}    
-    //         />
-    //     )
-    // };
+    if (error.flag) {
+        return(
+            <ConnectionError 
+                error={error.err} 
+                showButton={true}    
+            />
+        )
+    };
 
     return (
         <div className="containerCities">

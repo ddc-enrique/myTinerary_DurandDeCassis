@@ -6,6 +6,7 @@ import Aos from 'aos';
 
 const Itinerary = ({itinerary}) => {
     const [ extraContent, setExtraContent] = useState(false);
+    const [hovered, setHovered] = useState(false);
     
     useEffect(() => {
         Aos.init({ duration: 500 });
@@ -15,11 +16,14 @@ const Itinerary = ({itinerary}) => {
     for (let i = 1; i <= itinerary.price; i++) {
         cash.push(<Cash key={itinerary._id + "P" + i.toString() }/>)
     }
-    console.log(cash);
     return (
         <div 
             className="itinerary"
             data-aos="zoom-out-up"
+            style={{boxShadow: (extraContent || hovered) ? "-1px 2px 5px 5px #3a3a5a"
+                                            : "-1px 2px 5px 5px rgba(245, 245, 245, 0.342)"}}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
         >
             <div 
                 className="headerItinerary"
@@ -76,6 +80,6 @@ const Itinerary = ({itinerary}) => {
             </button>
         </div>
     )
-}
+};
 
-export default Itinerary
+export default Itinerary;

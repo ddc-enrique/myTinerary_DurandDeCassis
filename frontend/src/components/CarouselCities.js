@@ -5,24 +5,26 @@ import {
     CarouselControl,
     CarouselIndicators,
 } from 'reactstrap';
-import PreLoader from "../components/PreLoader"
-// import ConnectionError from "../pages/ConnectionError";
+import ConnectionError from "../pages/ConnectionError";
 import { connect } from "react-redux";
 import citiesActions from "../redux/actions/citiesActions";
 
 const CarouselCities = ({getCities, cities}) => {
     const [loading, setLoading] = useState(true);
-    // const [errorDB, setErrorDB] = useState("");
-    // const [errorFrontBack, setErrorFrontBack] = useState("");
+    const [error, setError] = useState({ flag: false, err: {} });
     let items= [[],[],[]];
     let citiesAux;
 
     useEffect( () => {
-        async function mountComponent() {
-            await getCities();
+        async function getCitiesList() {
+            try{
+                if (!cities.length) await getCities();
+            } catch(e) {
+                setError({flag: true, err: e});
+            }
             setLoading(false);
         };
-        mountComponent();
+        getCitiesList();
     }, []);
     citiesAux = cities.sort((cityA, cityB) => cityA.likes - cityB.likes);
 
@@ -56,60 +58,59 @@ const CarouselCities = ({getCities, cities}) => {
     if (loading) {
         return(
             <div className="divSlide">
-                <PreLoader />
+                <p>Loading...</p>
             </div>
         )
     }
 
     let slides;
 
-    // if (errorDB || errorFrontBack) {
-    //     slides = [
-    //         <CarouselItem
-    //             onExiting={() => setAnimating(false)}
-    //             onExited={() => setAnimating(false)}
-    //             key={1}
-    //             style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-    //         >
-    //             <div className="divSlide">
-    //                 <ConnectionError 
-    //                     errorMessage={errorDB ? errorDB : errorFrontBack }
-    //                     showButton={false}
-    //                 />
-    //             </div>
-    //         </CarouselItem>
-    //     ];
-    // } else {
-
-    slides = items.map((slide, index) => {
-        return (
+    if (error.flag) {
+        slides = [
             <CarouselItem
-                onExiting={() => setAnimating(true)}
+                onExiting={() => setAnimating(false)}
                 onExited={() => setAnimating(false)}
-                key={index}
+                key={1}
                 style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
             >
                 <div className="divSlide">
-                    {slide.map(city => {
-                        let picture = require(`../assets/${city.src}.jpeg`);
-                        return (
-                            <div
-                                className="imageCity"
-                                style={{ backgroundImage: `url(${picture.default})` }}
-                                key={city._id}
-                            >
-                                <div className="cityData">
-                                    <h5>{city.name}</h5>
-                                    <h5>{city.country}</h5>
-                                </div>
-                            </div>
-                        );
-                    })}
+                    <ConnectionError 
+                        error={error.err}
+                        showButton={false}
+                    />
                 </div>
             </CarouselItem>
-        )
-    });
-    // };
+        ];
+    } else {
+        slides = items.map((slide, index) => {
+            return (
+                <CarouselItem
+                    onExiting={() => setAnimating(true)}
+                    onExited={() => setAnimating(false)}
+                    key={index}
+                    style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+                >
+                    <div className="divSlide">
+                        {slide.map(city => {
+                            let picture = require(`../assets/${city.src}.jpeg`);
+                            return (
+                                <div
+                                    className="imageCity"
+                                    style={{ backgroundImage: `url(${picture.default})` }}
+                                    key={city._id}
+                                >
+                                    <div className="cityData">
+                                        <h5>{city.name}</h5>
+                                        <h5>{city.country}</h5>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </CarouselItem>
+            )
+        });
+    };
 
     return(
         <Carousel

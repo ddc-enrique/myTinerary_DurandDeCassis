@@ -8,37 +8,66 @@ import Itinerary from "../components/Itinerary";
 import PreLoader from "../components/PreLoader";
 import citiesActions from "../redux/actions/citiesActions";
 import itinerariesActions from "../redux/actions/itinerariesActions";
-// import ConnectionError from "./ConnectionError";
+import ConnectionError from "./ConnectionError";
 
-const City = ({match, getCities, cities, getItineraries, itineraries}) => {
+const City = ({match, history, cities, getItineraries, itineraries}) => {
     const [city, setCity] = useState({});
+    const [cityItineraries, setCityItineraries] = useState([]);
     const [loading, setLoading] = useState(true);
-    // const [errorDB, setErrorDB] = useState("");
-    // const [errorFrontBack, setErrorFrontBack] = useState("");
+    const [error, setError] = useState({ flag: false, err: {} });
     const [showMap, setShowMap] = useState(false);
     const iframeMap = useRef({})
     const [showTH, setShowTH] = useState(false);
     const menuTransportHub = useRef({});
+    useEffect(() => {
+        // let newObject = cities.find(city => city._id === match.params.id);
+        // setCity(newObject);
+        // setLoading(false);
+        let filterItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
+        setCityItineraries(filterItineraries);
+        console.log(filterItineraries);
+    }, [itineraries])
 
     useEffect( () => {
-        async function mountPage() {
-            if (!cities.length) await getCities();
-            let newObject = cities.find(city => city._id === match.params.id);
-            setCity(newObject);
-            await getItineraries();
-            setLoading(false);
+        window.scrollTo(0, 0);
+        if(!cities.length) history.push("/cities");
+
+        async function getItinerariesList() {
+            try{
+                await getItineraries();
+            } catch(e) {
+                setError({flag:true, err: e});
+            }
         };
-        mountPage();
-        window.addEventListener("scroll",() => changeHeight());
-    }, []);
+        if(!itineraries.length) getItinerariesList();
+
+        let newObject = cities.find(city => city._id === match.params.id);
+        setCity(newObject);
         
+        console.log(match.params.id);
+        let filterItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
+        setCityItineraries(filterItineraries);
+        console.log(filterItineraries);
+
+        if(!cityItineraries.length) setLoading(false);
+
+        window.addEventListener("scroll", () => changeHeight());
+        return () => {
+            console.log("me desmonte");
+            window.removeEventListener("scroll", () => changeHeight());
+        }
+    }, []);
+
         
     const changeHeight = () => {
-        let menu = menuTransportHub.current; 
-        if (menu && window.pageYOffset<(window.innerHeight*0.17)) {
+        let menu = menuTransportHub.current;
+        // if (menu){
+            // if ((Object.entries(menu).length === 0) && window.pageYOffset<(window.innerHeight*0.17)) {
+        if (window.pageYOffset<(window.innerHeight*0.17)) {                
             menu.style.height = `${window.innerHeight-(window.innerHeight*0.17-window.pageYOffset)}px`;
             menu.style.bottom = "0px";
         }
+        // }
     }
 
     const showList = (e) => {
@@ -71,19 +100,19 @@ const City = ({match, getCities, cities, getItineraries, itineraries}) => {
         return <PreLoader />
     };
 
-    // if (errorDB || errorFrontBack) {
-    //     return (
-    //         <ConnectionError
-    //             errorMessage={errorDB ? errorDB : errorFrontBack}
-    //             showButton={true}
-    //         />
-    //     )
-    // };
+    if (error.flag) {
+        return (
+            <ConnectionError
+                error={error.err}
+                showButton={true}
+            />
+        )
+    };
 
     return (
         <div 
             className="containerCityPage"
-            onScroll={changeHeight}    
+            onScroll={(e) => changeHeight(e)}    
         >
             <Header />
             <div className="subContainerCityPage">
@@ -148,7 +177,7 @@ const City = ({match, getCities, cities, getItineraries, itineraries}) => {
                     ></iframe>
                 </div>
                 <main
-                    style={{ filter: showTH ? "blur(4px)" : "blur(0px)" }}
+                    style={{filter: showTH ? "blur(4px)" : "blur(0px)" }}
                 >
                     <div
                         className="imageHero"
@@ -159,10 +188,19 @@ const City = ({match, getCities, cities, getItineraries, itineraries}) => {
                     <div
                         className="containerItineraries"
                     >
-                        {
-                            itineraries.map( itinerary => (
-                                <Itinerary key={itinerary._id} itinerary={itinerary} />
-                            ))
+                        {   cityItineraries.length 
+                                ?
+                                cityItineraries.map( itinerary => (
+                                    <Itinerary key={itinerary._id} itinerary={itinerary} />
+                                ))
+                                :
+                                <div
+                                    data-aos="zoom-out" 
+                                    id="emptyItinerariesList"
+                                >
+                                    <img src={require("../assets/errorW.png").default} alt="logo MyTinerary" />
+                                    <p> Oh NO! We are sorry, but we still don't have any itenerary registered in this city.</p>
+                                </div>
                         }
                     </div>
                     <Link to="/cities">
