@@ -10,23 +10,23 @@ import citiesActions from "../redux/actions/citiesActions";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import ConnectionError from "./ConnectionError";
 
-const City = ({match, history, cities, getItineraries, itineraries}) => {
+const City = ({match, history, cities, getItineraries, cityItineraries, clearItineraries}) => {
     const [city, setCity] = useState({});
-    const [cityItineraries, setCityItineraries] = useState([]);
+    // const [cityItineraries, setCityItineraries] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState({ flag: false, err: {} });
     const [showMap, setShowMap] = useState(false);
     const iframeMap = useRef({})
     const [showTH, setShowTH] = useState(false);
     const menuTransportHub = useRef({});
-    useEffect(() => {
-        // let newObject = cities.find(city => city._id === match.params.id);
-        // setCity(newObject);
-        // setLoading(false);
-        let filterItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
-        setCityItineraries(filterItineraries);
-        console.log(filterItineraries);
-    }, [itineraries])
+    // useEffect(() => {
+    //     // let newObject = cities.find(city => city._id === match.params.id);
+    //     // setCity(newObject);
+    //     // setLoading(false);
+    //     let filterItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
+    //     setCityItineraries(filterItineraries);
+    //     console.log(filterItineraries);
+    // }, [itineraries])
 
     useEffect( () => {
         window.scrollTo(0, 0);
@@ -34,40 +34,41 @@ const City = ({match, history, cities, getItineraries, itineraries}) => {
 
         async function getItinerariesList() {
             try{
-                await getItineraries();
+                await getItineraries(match.params.id);
             } catch(e) {
                 setError({flag:true, err: e});
             }
         };
-        if(!itineraries.length) getItinerariesList();
+        getItinerariesList();
 
         let newObject = cities.find(city => city._id === match.params.id);
         setCity(newObject);
         
         console.log(match.params.id);
-        let filterItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
-        setCityItineraries(filterItineraries);
-        console.log(filterItineraries);
+        // let filterItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
+        // setCityItineraries(filterItineraries);
+        // console.log(filterItineraries);
 
-        if(!cityItineraries.length) setLoading(false);
+        setLoading(false);
 
         window.addEventListener("scroll", () => changeHeight());
         return () => {
             console.log("me desmonte");
             window.removeEventListener("scroll", () => changeHeight());
+            clearItineraries();
         }
     }, []);
 
         
     const changeHeight = () => {
         let menu = menuTransportHub.current;
-        // if (menu){
-            // if ((Object.entries(menu).length === 0) && window.pageYOffset<(window.innerHeight*0.17)) {
-        if (window.pageYOffset<(window.innerHeight*0.17)) {                
-            menu.style.height = `${window.innerHeight-(window.innerHeight*0.17-window.pageYOffset)}px`;
-            menu.style.bottom = "0px";
+        if (menu){
+            if ((Object.entries(menu).length > 0) && window.pageYOffset<(window.innerHeight*0.17)) {
+        // if (window.pageYOffset<(window.innerHeight*0.17)) {                
+                menu.style.height = `${window.innerHeight-(window.innerHeight*0.17-window.pageYOffset)}px`;
+                menu.style.bottom = "0px";
+            }
         }
-        // }
     }
 
     const showList = (e) => {
@@ -220,12 +221,13 @@ const City = ({match, history, cities, getItineraries, itineraries}) => {
 const mapDispatchToProps = {
     getCities: citiesActions.getCitiesList,
     getItineraries: itinerariesActions.getItinerariesList,
+    clearItineraries: itinerariesActions.clearItinerariesList,
 };
 
 const mapStateToProps = (state) => {
     return{
         cities: state.cities.citiesList,
-        itineraries: state.itineraries.itinerariesList,
+        cityItineraries: state.itineraries.itinerariesList,
     }
 };
 

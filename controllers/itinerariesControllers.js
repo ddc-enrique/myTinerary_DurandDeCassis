@@ -16,13 +16,7 @@ const itinerariesControllers = {
 
     getItinerariesByCityId: (req, res) => {
         Itinerary.find( {cityId: req.params.cityId} )
-        .then( (itineraries) => {
-            if(itineraries.length) {
-                res.json({ success: true, response: itineraries});
-            } else {
-                throw new Error (`The City with the _id: ${req.params.cityId} doesn't has at least one itinerary upload`);
-            }
-        })
+        .then( (itineraries) => res.json({ success: true, response: itineraries }))
         .catch( (err) => res.json({ success: false, response: err }));
     },
 
