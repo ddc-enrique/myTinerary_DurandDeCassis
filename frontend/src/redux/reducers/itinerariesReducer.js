@@ -5,10 +5,6 @@ const itinerariesReducer = ( state = { itinerariesList: [] }, action) => {
                 ...state,
                 itinerariesList: action.payload,
             };
-        case "CLEAR_ITINERARIES_LIST":
-            return{
-                itinerariesList: action.payload,
-            }
         default:
             return state;
     }

@@ -10,61 +10,51 @@ import citiesActions from "../redux/actions/citiesActions";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import ConnectionError from "./ConnectionError";
 
-const City = ({match, history, cities, getItineraries, cityItineraries, clearItineraries}) => {
-    const [city, setCity] = useState({});
-    // const [cityItineraries, setCityItineraries] = useState([]);
+const City = ({match, cities, getCities, getItineraries, itineraries}) => {
+    // const [city, setCity] = useState({});
+    // const [cityItineraries, setCityItenaries] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState({ flag: false, err: {} });
     const [showMap, setShowMap] = useState(false);
     const iframeMap = useRef({})
     const [showTH, setShowTH] = useState(false);
     const menuTransportHub = useRef({});
-    // useEffect(() => {
-    //     // let newObject = cities.find(city => city._id === match.params.id);
-    //     // setCity(newObject);
-    //     // setLoading(false);
-    //     let filterItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
-    //     setCityItineraries(filterItineraries);
-    //     console.log(filterItineraries);
-    // }, [itineraries])
+    let cityItineraries = [];
+    let city = {};
 
     useEffect( () => {
         window.scrollTo(0, 0);
-        if(!cities.length) history.push("/cities");
+
+        async function getCitiesList() {
+            try{
+                if (!cities.length) await getCities();
+            } catch(e) {
+                setError({flag:true, err: e});
+            }
+        };
+        getCitiesList();
 
         async function getItinerariesList() {
             try{
-                await getItineraries(match.params.id);
+                if(!itineraries.length) await getItineraries();
             } catch(e) {
                 setError({flag:true, err: e});
             }
         };
         getItinerariesList();
-
-        let newObject = cities.find(city => city._id === match.params.id);
-        setCity(newObject);
-        
-        console.log(match.params.id);
-        // let filterItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
-        // setCityItineraries(filterItineraries);
-        // console.log(filterItineraries);
-
         setLoading(false);
 
         window.addEventListener("scroll", () => changeHeight());
         return () => {
-            console.log("me desmonte");
             window.removeEventListener("scroll", () => changeHeight());
-            clearItineraries();
         }
     }, []);
-
+    
         
     const changeHeight = () => {
         let menu = menuTransportHub.current;
         if (menu){
             if ((Object.entries(menu).length > 0) && window.pageYOffset<(window.innerHeight*0.17)) {
-        // if (window.pageYOffset<(window.innerHeight*0.17)) {                
                 menu.style.height = `${window.innerHeight-(window.innerHeight*0.17-window.pageYOffset)}px`;
                 menu.style.bottom = "0px";
             }
@@ -100,6 +90,13 @@ const City = ({match, history, cities, getItineraries, cityItineraries, clearIti
     if (loading) {
         return <PreLoader />
     };
+
+    if(!cities.length) {return false;} else{
+        city = cities.find(city => city._id === match.params.id);
+        cityItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
+    };
+
+    console.log(cityItineraries);
 
     if (error.flag) {
         return (
@@ -221,13 +218,12 @@ const City = ({match, history, cities, getItineraries, cityItineraries, clearIti
 const mapDispatchToProps = {
     getCities: citiesActions.getCitiesList,
     getItineraries: itinerariesActions.getItinerariesList,
-    clearItineraries: itinerariesActions.clearItinerariesList,
 };
 
 const mapStateToProps = (state) => {
     return{
         cities: state.cities.citiesList,
-        cityItineraries: state.itineraries.itinerariesList,
+        itineraries: state.itineraries.itinerariesList,
     }
 };
 
