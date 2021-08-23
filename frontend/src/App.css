@@ -606,6 +606,10 @@ in mediaquerie keeping the ux responsive*/
   padding: 10px 0;
 }
 
+.itinerary button{
+  min-width: 90px;
+}
+
 /* FOOTER */
 footer {
   display: flex !important;

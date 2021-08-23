@@ -5,18 +5,20 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Itinerary from "../components/Itinerary";
-import MenuTH from "../components/MenuTH";
 import PreLoader from "../components/PreLoader";
 import citiesActions from "../redux/actions/citiesActions";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import ConnectionError from "./ConnectionError";
 
 const City = ({match, cities, getCities, getItineraries, itineraries}) => {
+    // const [city, setCity] = useState({});
+    // const [cityItineraries, setCityItenaries] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState({ flag: false, err: {} });
     const [showMap, setShowMap] = useState(false);
     const iframeMap = useRef({})
     const [showTH, setShowTH] = useState(false);
+    const menuTransportHub = useRef({});
     let cityItineraries = [];
     let city = {};
 
@@ -42,7 +44,43 @@ const City = ({match, cities, getCities, getItineraries, itineraries}) => {
         getItinerariesList();
         setLoading(false);
 
+        window.addEventListener("scroll", () => changeHeight());
+        return () => {
+            window.removeEventListener("scroll", () => changeHeight());
+        }
     }, []);
+    
+        
+    const changeHeight = () => {
+        let menu = menuTransportHub.current;
+        if (menu){
+            if ((Object.entries(menu).length > 0) && window.pageYOffset<(window.innerHeight*0.17)) {
+                menu.style.height = `${window.innerHeight-(window.innerHeight*0.17-window.pageYOffset)}px`;
+                menu.style.bottom = "0px";
+            }
+        }
+    }
+
+    const showList = (e) => {
+        console.log(e.target.className === "transportHub");
+        if (e.target.className === "transportHub") {
+            let list = e.target.children[0];
+            list.style.display = "block";
+            if (list.firstChild.children.length === 0) {
+                list.innerHTML = "<p>This city doesn't have a Transport Hub of this type</p>";
+                list.style.textDecoration = "none";
+                list.style.cursor = "auto";
+            }
+        }
+        changeHeight();
+    }
+
+    const unShowList = (e) => {
+        console.log(e.target.className === "trasnportHub");
+        if (e.target.className === "transportHub") {
+            e.target.children[0].style.display= "none";
+        }
+    }
 
     const displayMaps = (maps) => {
         iframeMap.current.src = maps;
@@ -53,9 +91,7 @@ const City = ({match, cities, getCities, getItineraries, itineraries}) => {
         return <PreLoader />
     };
 
-    if(!cities.length) {
-        return false;
-    } else{
+    if(!cities.length) {return false;} else{
         city = cities.find(city => city._id === match.params.id);
         cityItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
     };
@@ -74,13 +110,58 @@ const City = ({match, cities, getCities, getItineraries, itineraries}) => {
     return (
         <div 
             className="containerCityPage"
+            onScroll={(e) => changeHeight(e)}    
         >
             <Header />
             <div className="subContainerCityPage">
-                <MenuTH city={city} displayMaps={displayMaps} showTH={showTH} setShowTH={setShowTH}/>
+                <aside className="tranportHubs">
+                    <div
+                        className="containerTranportHubs"
+                        style={{ display: showTH ? "flex" : "none", }}
+                        ref={menuTransportHub}
+                    >
+                        {
+                            Object.keys(city.transportHubs).map((transportHub, index) => (
+                                <div
+                                    style={{ backgroundImage: `url(${require(`../assets/${transportHub}.png`).default})` }}
+                                    alt={`${transportHub} logo`}
+                                    onClick={(event) => showList(event)}
+                                    tabIndex={1}
+                                    onBlur={(event) => unShowList(event)}
+                                    className="transportHub"
+                                    key={index}
+                                >
+                                    <div>
+                                        <ul>
+                                        {city.transportHubs[transportHub].map(eachHub => {
+                                            let { _id, name, maps } = eachHub;
+                                            return (
+                                                <li
+                                                    className="maps"
+                                                    key={_id}
+                                                    onClick={() => displayMaps(maps)}
+                                                >
+                                                    {name}
+                                                </li>
+                                            )
+                                        })}
+                                        </ul>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <div
+                        className="displayTransportHubs"
+                        onClick={() => setShowTH(!showTH)}
+                        style={{ left: showTH ? "150px" : "0px" }}
+                    >
+                        <p>{showTH ? "<" : ">"}</p>
+                    </div>
+                </aside>
                 <div
                     id="mapsTH"
-                    style={{ display: (showMap && showTH) ? "block" : "none" }}
+                    style={{ display: showMap ? "block" : "none" }}
                 >
                     <XCircle
                         onClick={() => setShowMap(false)}
@@ -128,6 +209,7 @@ const City = ({match, cities, getCities, getItineraries, itineraries}) => {
                     </Link>
                 </main>
             </div>
+
             <Footer />
         </div>
     )
