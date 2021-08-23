@@ -20,7 +20,6 @@ const MenuTH = ({city, displayMaps, showTH, setShowTH}) => {
     }
 
     const showList = (e) => {
-        console.log(e.target.className === "transportHub");
         if (e.target.className === "transportHub") {
             let list = e.target.children[0];
             list.style.display = "block";
@@ -34,7 +33,6 @@ const MenuTH = ({city, displayMaps, showTH, setShowTH}) => {
     }
 
     const unShowList = (e) => {
-        console.log(e.target.className === "trasnportHub");
         if (e.target.className === "transportHub") {
             e.target.children[0].style.display= "none";
         }

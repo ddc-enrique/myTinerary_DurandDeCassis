@@ -27,18 +27,16 @@ const citiesControllers = {
     },
 
     uploadNewCity: (req, res) => {
-        const cityToUpload = new City ({
-            name: req.body.name,
-            country: req.body.country,
-            src: req.body.src,
-            description: req.body.description,
+        const {name, country, src, description, transportHubs, likes} = req.body;
+        const {airports, ferryPorts, busTerminals, trainStations} = transportHubs;
+        const cityToUpload = new City ({ 
+            name, country, src, description, likes,
             transportHubs: {
-                airports: [...req.body.transportHubs.airports],
-                ferryPorts: [...req.body.transportHubs.ferryPorts],
-                busTerminals: [...req.body.transportHubs.busTerminals],
-                trainStations: [...req.body.transportHubs.trainStations],
+                airports: [...airports],
+                ferryPorts: [...ferryPorts],
+                busTerminals: [...busTerminals],
+                trainStations: [...trainStations],
             },
-            likes: req.body.likes,
         });
         cityToUpload
             .save()

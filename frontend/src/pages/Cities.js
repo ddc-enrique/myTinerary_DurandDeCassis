@@ -24,7 +24,7 @@ const Cities = ({getCities, cities, citiesFiltered, filterCities}) => {
             setLoading(false);
         };
         getCitiesList();
-        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const inputHandler = (e) => {
@@ -51,7 +51,7 @@ const Cities = ({getCities, cities, citiesFiltered, filterCities}) => {
                 <h1>Cities</h1>
                 <div>
                     <input
-                        type="text"
+                        type="search"
                         name="cities"
                         placeholder="Are you looking for a specific City ?"
                         onChange={inputHandler}

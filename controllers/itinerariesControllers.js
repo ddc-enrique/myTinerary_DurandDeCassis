@@ -16,23 +16,21 @@ const itinerariesControllers = {
 
     getItinerariesByCityId: (req, res) => {
         Itinerary.find( {cityId: req.params.cityId} )
-        .then( (itineraries) => res.json({ success: true, response: itineraries }))
-        .catch( (err) => res.json({ success: false, response: err }));
+        .then( (itineraries) => 
+            res.json({ success: true, response: itineraries })
+        )
+        .catch( () => res.json({ success: false, response: "Page Not Found" }));
     },
 
     uploadNewItinerary: (req, res) => {
+        const {title, author, price, duration, hashtags, description, src, cityId} = req.body;
+        const {name, profilePic} = author;
         const itineraryToUpload = new Itinerary ({
-            title: req.body.title,
+            title, price, duration, hashtags, description, src, cityId,
             author: {
-                name: req.body.author.name,
-                profilePic: req.body.author.profilePic,
+                name: name,
+                profilePic: profilePic,
             },
-            price: req.body.price,
-            duration: req.body.duration,
-            hashtags: [ ...req.body.hashtags],
-            description: req.body.description,
-            src: req.body.src,
-            cityId: req.body.cityId,
         });
         itineraryToUpload
             .save()

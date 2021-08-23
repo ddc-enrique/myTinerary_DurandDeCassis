@@ -11,13 +11,12 @@ import citiesActions from "../redux/actions/citiesActions";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import ConnectionError from "./ConnectionError";
 
-const City = ({match, cities, getCities, getItineraries, itineraries}) => {
+const City = ({match, cities, getCities, getItineraries, clearItineraries, itineraries}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState({ flag: false, err: {} });
     const [showMap, setShowMap] = useState(false);
     const iframeMap = useRef({})
     const [showTH, setShowTH] = useState(false);
-    let cityItineraries = [];
     let city = {};
 
     useEffect( () => {
@@ -34,14 +33,17 @@ const City = ({match, cities, getCities, getItineraries, itineraries}) => {
 
         async function getItinerariesList() {
             try{
-                if(!itineraries.length) await getItineraries();
-            } catch(e) {
-                setError({flag:true, err: e});
+                await getItineraries(match.params.id);
+            } catch(message) {
+                setError({flag:true, err: new Error(message)});
             }
         };
         getItinerariesList();
         setLoading(false);
-
+        return () => {
+            clearItineraries();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const displayMaps = (maps) => {
@@ -57,10 +59,7 @@ const City = ({match, cities, getCities, getItineraries, itineraries}) => {
         return false;
     } else{
         city = cities.find(city => city._id === match.params.id);
-        cityItineraries = itineraries.filter(itinerary => itinerary.cityId === match.params.id);
     };
-
-    console.log(cityItineraries);
 
     if (error.flag) {
         return (
@@ -105,9 +104,9 @@ const City = ({match, cities, getCities, getItineraries, itineraries}) => {
                     <div
                         className="containerItineraries"
                     >
-                        {   cityItineraries.length 
+                        {   itineraries.length 
                                 ?
-                                cityItineraries.map( itinerary => (
+                                itineraries.map( itinerary => (
                                     <Itinerary key={itinerary._id} itinerary={itinerary} />
                                 ))
                                 :
@@ -136,6 +135,7 @@ const City = ({match, cities, getCities, getItineraries, itineraries}) => {
 const mapDispatchToProps = {
     getCities: citiesActions.getCitiesList,
     getItineraries: itinerariesActions.getItinerariesList,
+    clearItineraries: itinerariesActions.clearItinerariesList,
 };
 
 const mapStateToProps = (state) => {
