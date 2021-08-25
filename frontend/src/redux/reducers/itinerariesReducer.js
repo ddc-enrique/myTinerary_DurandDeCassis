@@ -1,4 +1,4 @@
-const itinerariesReducer = ( state = { itinerariesList: [] }, action) => {
+const itinerariesReducer = ( state = { itinerariesList: null }, action) => {
     switch (action.type) {
         case "GET_ITINERARIES":
             return{

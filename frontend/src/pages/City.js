@@ -51,7 +51,7 @@ const City = ({match, cities, getCities, getItineraries, clearItineraries, itine
         setShowMap(true);
     }
 
-    if (loading) {
+    if (loading || !itineraries) {
         return <PreLoader />
     };
 

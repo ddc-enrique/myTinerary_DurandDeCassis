@@ -12,7 +12,7 @@ const itinerariesActions = {
     },
     clearItinerariesList: () => {
         return (dispatch) => {
-            dispatch({ type:"CLEAR_ITINERARIES_LIST", payload: [] });
+            dispatch({ type:"CLEAR_ITINERARIES_LIST", payload: null });
         }
     },
 };

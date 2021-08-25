@@ -28,7 +28,7 @@ nav {
   display: flex !important;
 }
 
-nav a {
+header>nav>a {
   display: flex;
   align-items: center !important;
   text-decoration: none;
@@ -39,24 +39,24 @@ nav a {
   border-radius: 30px;
 }
 
-nav a:hover {
+header>nav>a:hover {
   border: 2px solid whitesmoke;
   border-radius: 30px;
   text-decoration: none;
   color: whitesmoke;
 }
 
-nav a.active {
+header>nav>a.active {
   text-decoration: underline;
   border: 2px solid whitesmoke;
   border-radius: 30px;
 }
 
-nav a img {
+header>nav>a>img {
   width: 70px;
 }
 
-#menuSign {
+header>#menuSign {
   z-index: 2;
   position: relative;
   cursor: pointer;
@@ -87,6 +87,12 @@ nav a img {
   flex-direction: column;
   align-items: center !important;
   background-color: #3A3A5A;
+  width: 100%;
+}
+
+header #displaySign nav a {
+  width: 100%;
+  text-decoration: none;
 }
 
 .signIconText {
@@ -616,6 +622,77 @@ in mediaquerie keeping the ux responsive*/
   min-width: 90px;
 }
 
+/* SIGN-UP and SIGN-IN */
+
+.containerSign{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.containerSign .containerForm {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* align form titles and spacing */
+.containerSign .containerForm .formTitle, .formTitle *{
+  text-align: center;
+  margin: 1vh 0;
+}
+
+.containerSign .containerForm .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerSign .containerForm .form input{
+  width: 35vw;
+  text-align: center;
+}
+
+.containerSign .containerForm .form input::placeholder{
+  text-align: center;
+  color: #3A3A5A;
+}
+
+.containerSign .containerForm .form>*{
+  margin: 1vh 0;
+}
+
+/* errors in validation */
+.containerSign .containerForm .form p.error {
+  color: red;
+  font-size: small;
+}
+
+.containerSign .containerForm .sign {
+  width: 35vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerSign .containerForm .sign>*{
+  text-align: center;
+  margin: 1vh 0;
+}
+.containerSign .containerForm .sign div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.containerSign .containerForm .sign hr{
+  width: 42%;
+  color: #3A3A5A;
+  background-color: #3A3A5A;
+  height: 4px;
+  /* border-width:0; */
+}
+
 /* FOOTER */
 footer {
   display: flex !important;
@@ -630,8 +707,10 @@ footer {
 }
 
 footer nav {
+  height: 50%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 footer nav a,
