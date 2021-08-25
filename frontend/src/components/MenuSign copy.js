@@ -44,20 +44,13 @@ const MenuSign = () => {
             id="menuSign" 
             onClick={displayMenuSign}
             tabIndex= "0"
-            // onBlur={handleBlur}
+            onBlur={handleBlur}
         > 
             <div id="logoMenuSign">
                 <img
                     src={require("../assets/sign_IN_UP3.png").default}
                     alt="menuSign"
                 />
-            </div>
-            <div
-                style={{display: displaySign ? "block" : "none"}}
-                onClick={() => setDisplaySign(!displaySign)}
-                className="divToClickAndClose"
-            >
-
             </div>
             <div
                 id="displaySign"

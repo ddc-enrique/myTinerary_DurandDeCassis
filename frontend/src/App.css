@@ -74,6 +74,16 @@ header>#menuSign {
   height: 13vh;
 }
 
+
+.divToClickAndClose{
+  cursor: context-menu;
+  position: absolute;
+  width: 100vw;
+  height: 83vh;
+  top: 20vh;
+  left: -100vw;
+}
+
 #displaySign {
   z-index: 3;
   width: 100%;
@@ -649,12 +659,14 @@ in mediaquerie keeping the ux responsive*/
   align-items: center;
 }
 
-.containerSign .containerForm .form input{
-  width: 35vw;
+.containerSign .containerForm .form input, 
+.containerSign .containerForm .form select{
+  width: 400px;
   text-align: center;
 }
 
-.containerSign .containerForm .form input::placeholder{
+.containerSign .containerForm .form input::placeholder,
+.containerSign .containerForm .form select{
   text-align: center;
   color: #3A3A5A;
 }
@@ -670,7 +682,7 @@ in mediaquerie keeping the ux responsive*/
 }
 
 .containerSign .containerForm .sign {
-  width: 35vw;
+  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -819,5 +831,11 @@ footer div a:hover {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+  }
+
+  .containerSign .containerForm .form input, 
+  .containerSign .containerForm .form select,
+  .containerSign .containerForm .sign{
+    width: 65vw;
   }
 }

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import usersActions from "../redux/actions/usersActions";
 
-const SignIn = ({history}) => {
+const SignIn = ({history, signIn}) => {
     const [checkUser, setCheckUser] = useState({
                                         email: "",
                                         password: "",
@@ -51,20 +52,20 @@ const SignIn = ({history}) => {
     const submitUser = async() => {
         if (handleValidation()) {
             try {
-                let data = JSON.stringify( checkUser );
-                let response = await axios.post("http://localhost:4000/api/user/signin", data, {headers:{"Content-Type" : "application/json"}});
+                let response = await signIn(checkUser);
                 console.log(response.data);
-                if(response.data.success){
-                    console.log(response.data);
-                    alert("Sign In successfully!");
-                    setTimeout(() => {
-                        history.push("/");
-                    }, 2000);
-                } else {
-                    throw new Error(response.data.error);
-                }
+                // if(response.data.success){
+                //     console.log(response.data);
+                //     alert("Sign In successfully!");
+                //     setTimeout(() => {
+                //         history.push("/");
+                //     }, 2000);
+                // } else {
+                //     throw new Error(response.data.error);
+                // }
             } catch(error) {
-                    alert(error.message);
+                    console.log(error);
+                    alert(error);
             }
         }
     }
@@ -112,6 +113,10 @@ const SignIn = ({history}) => {
             <Footer />
         </div>
     )
-}
+};
 
-export default SignIn
+const mapDispatchToProps = {
+    signIn: usersActions.signIn,
+};
+
+export default connect(null, mapDispatchToProps)(SignIn)

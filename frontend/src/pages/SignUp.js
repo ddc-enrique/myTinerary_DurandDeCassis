@@ -4,11 +4,13 @@ import Footer from "../components/Footer";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import PreLoader from '../components/PreLoader';
+import { connect } from 'react-redux';
+import usersActions from '../redux/actions/usersActions';
 
 
 
-const SignUp = ({history}) => {
-    
+const SignUp = ({history, signUp}) => {
+    const [countriesSelect, setCountriesSelect] = useState([]);
     const [loading, setLoading] = useState(true);
     const [newUser, setNewUser] = useState({
                                     firstName: "",
@@ -20,13 +22,10 @@ const SignUp = ({history}) => {
                                     });
     const { firstName, lastName, email, password, profilePic, country } = newUser;
     const [errorsValidation, setErrorsValidation] = useState({});
-    let countries = ["Argentina", "Brazil", "Cameroon", "Chile", "Denmark", "Paraguay", "Russia", "Uruguay"];
+    
     useEffect(() => {
-        const getCountries = async() => {
-            let response = await axios.get("https://restcountries.eu/rest/v2/all?fields=name");
-            countries = response.data;
-        };
-        // getCountries();
+        axios.get("https://restcountries.eu/rest/v2/all?fields=name")
+            .then( res => setCountriesSelect(res.data));
         setLoading(false);
     }, []);
 
@@ -89,18 +88,19 @@ const SignUp = ({history}) => {
     const submitUser = async () => {
         if ( handleValidation() ) {
             try {
-                let data = JSON.stringify( newUser );
-                let response = await axios.post("http://localhost:4000/api/user/signup", data, {headers:{"Content-Type" : "application/json"}});
-                if(response.data.success){
-                    alert("Account created successfully!");
-                    console.log(response.data);
-                    setTimeout(() => {
-                        history.push("/");
-                    }, 1000);
-                } else {
-                    throw new Error(response.data.error.message);
-                }
+                let response = await signUp(newUser);
+                // if(response.data.success){
+                //     alert("Account created successfully!");
+                //     console.log(response.data);
+                //     setTimeout(() => {
+                //         history.push("/");
+                //     }, 1000);
+                // } else {
+                //     throw new Error(response.data.error.message);
+                // }
+                console.log(response.data.response);
             } catch(error) {
+                    console.log(error);
                     alert(error);
             }
         }
@@ -169,8 +169,8 @@ const SignUp = ({history}) => {
                             Choose your Country
                         </option>
                         {
-                            countries.map((country, index) => (
-                                <option value={country} key={index}>{country}</option>
+                            countriesSelect.map((country, index) => (
+                                <option value={country.name} key={index}>{country.name}</option>
                             ))
                         }
                     </select>
@@ -193,4 +193,8 @@ const SignUp = ({history}) => {
     )
 };
 
-export default SignUp
+const mapDispatchToProps = {
+    signUp: usersActions.signUp,
+};
+
+export default connect(null, mapDispatchToProps)(SignUp)
