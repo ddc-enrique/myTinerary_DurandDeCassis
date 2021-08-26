@@ -7,7 +7,7 @@ const usersControllers = require("../controllers/usersControllers");
 
 router
     .route("/cities")
-    .get(citiesControllers.getAllCities)
+    .get(passport.authenticate("jwt", {session:false}) ,citiesControllers.getAllCities)
     .post(citiesControllers.uploadNewCity);
 
 router

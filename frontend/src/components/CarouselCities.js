@@ -9,7 +9,7 @@ import ConnectionError from "../pages/ConnectionError";
 import { connect } from "react-redux";
 import citiesActions from "../redux/actions/citiesActions";
 
-const CarouselCities = ({getCities, cities}) => {
+const CarouselCities = ({getCities, cities, token}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState({ flag: false, err: {} });
     let items= [[],[],[]];
@@ -17,8 +17,9 @@ const CarouselCities = ({getCities, cities}) => {
 
     useEffect( () => {
         async function getCitiesList() {
-            try{
-                if (!cities.length) await getCities();
+            try {
+                console.log(token);
+                if (!cities.length) await getCities(token);
             } catch(e) {
                 setError({flag: true, err: e});
             }
@@ -134,6 +135,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
     return{
         cities: state.cities.citiesList,
+        token: state.users.token,
     }
 };
 
