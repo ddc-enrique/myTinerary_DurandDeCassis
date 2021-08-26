@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require(("passport"));
 const citiesControllers = require("../controllers/citiesControllers");
 const itinerariesControllers = require("../controllers/itinerariesControllers");
 const usersControllers = require("../controllers/usersControllers");
