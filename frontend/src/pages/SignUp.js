@@ -89,19 +89,9 @@ const SignUp = ({history, signUp}) => {
         if ( handleValidation() ) {
             try {
                 let response = await signUp(newUser);
-                // if(response.data.success){
-                //     alert("Account created successfully!");
-                //     console.log(response.data);
-                //     setTimeout(() => {
-                //         history.push("/");
-                //     }, 1000);
-                // } else {
-                //     throw new Error(response.data.error.message);
-                // }
-                console.log(response.data.response);
             } catch(error) {
-                    console.log(error);
-                    alert(error);
+                console.log(error);
+                alert(error);
             }
         }
     }

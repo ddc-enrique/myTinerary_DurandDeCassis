@@ -44,7 +44,7 @@ const SignIn = ({history, signIn}) => {
                 errors["password"] = "Please enter a password with at least 5 charachters";
             }
         };
-
+        
         setErrorsValidation(errors);
         return validate
     };
@@ -52,20 +52,10 @@ const SignIn = ({history, signIn}) => {
     const submitUser = async() => {
         if (handleValidation()) {
             try {
-                let response = await signIn(checkUser);
-                console.log(response.data);
-                // if(response.data.success){
-                //     console.log(response.data);
-                //     alert("Sign In successfully!");
-                //     setTimeout(() => {
-                //         history.push("/");
-                //     }, 2000);
-                // } else {
-                //     throw new Error(response.data.error);
-                // }
+                await signIn(checkUser);
             } catch(error) {
-                    console.log(error);
-                    alert(error);
+                console.log(error);
+                alert(error);
             }
         }
     }

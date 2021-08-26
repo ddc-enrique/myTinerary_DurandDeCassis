@@ -68,14 +68,25 @@ header>#menuSign {
   width: 100%;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 #logoMenuSign img {
   height: 13vh;
 }
 
+#logoMenuSign .userProfilePic {
+  height: 7vh;
+  width: 50px;
+  border: 1px solid #3A3A5A;
+  display: none;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 3vh;
+}
 
-.divToClickAndClose{
+.divToCloseMenuSign{
   cursor: context-menu;
   position: absolute;
   width: 100vw;
