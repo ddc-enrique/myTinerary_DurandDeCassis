@@ -30,6 +30,7 @@ const usersControllers = {
         User.findOne({ email: email })
             .then((userFound) => {
                 if (!userFound) {
+                    if(googleFlag) throw new Error("Please Sign Up first");
                     throw new Error(errorMessage);
                 } else {
                     if (userFound.google && !googleFlag) throw new Error("You Sign Up with your Google account, please Sign In with Google");

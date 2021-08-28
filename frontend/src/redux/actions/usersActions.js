@@ -11,7 +11,6 @@ const usersActions = {
             console.log("hice le fetcheo a la api");
             if(!response.data.success) throw (response.data.err || response.data.errors);
             dispatch({ type: "SIGN_USER_ON_LS_&_STORE", payload: response.data.response });
-            return response
         }
     },
 

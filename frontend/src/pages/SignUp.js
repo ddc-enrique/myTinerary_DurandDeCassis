@@ -66,10 +66,10 @@ const SignUp = ({history, signUp}) => {
             validate = false;
             errors["password"] = "The field password is required";
         } else {
-            // if(fields["password"].length < 5) {
-            //     validate = false;
-            //     errors["password"] = "The password is too short, please enter a password with at least 5 charachters";
-            // }
+            if(fields["password"].length < 5) {
+                validate = false;
+                errors["password"] = "The password is too short, please enter a password with at least 5 charachters";
+            }
         };
 
         if (!fields["profilePic"]) {
@@ -87,7 +87,7 @@ const SignUp = ({history, signUp}) => {
     };
 
     const responseGoogle = async (response) => {
-        console.log(response);
+
         let newUser = {
             firstName: response.profileObj.givenName,
             lastName: response.profileObj.familyName,
@@ -99,16 +99,14 @@ const SignUp = ({history, signUp}) => {
         }
         try {
             await signUp(newUser);
-            console.log("console log despues de signup")
         } catch (error) {
-            
+            alert(error);
         }
     }
 
     const submitUser = async () => {
         if ( handleValidation() ) {
             try {
-                console.log("envio el usuario");
                 await signUp(newUser);
             } catch(error) {
                 if(Array.isArray(error)){
