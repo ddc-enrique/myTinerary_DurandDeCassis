@@ -1,12 +1,9 @@
 import axios from "axios";
 
 const citiesActions = {
-    getCitiesList: (...token) => {
+    getCitiesList: () => {
         return async (dispatch) => {
-            console.log(!token.length);
-            let response = !token.length ? await axios.get("http://localhost:4000/api/cities")
-                : await axios.get("http://localhost:4000/api/cities", { headers: { Authorizathion: "Bearer " + token[0] } });
-            console.log(response)
+            let response =await axios.get("http://localhost:4000/api/cities");
             let data = response.data.response;
             if (!response.data.success) throw data;
             dispatch({ type: "GET_ALL_CITIES", payload: data });

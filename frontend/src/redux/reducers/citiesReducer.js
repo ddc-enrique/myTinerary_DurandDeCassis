@@ -5,6 +5,7 @@ const citiesReducer = ( state = { citiesList: [], citiesFiltered: [],}, action) 
                 ...state,
                 citiesList: action.payload, citiesFiltered: action.payload,
             };
+
         case "FILTER_CITIES":
             let newList = state.citiesList.filter(city => (
                 city.name.toUpperCase().startsWith(
@@ -15,6 +16,7 @@ const citiesReducer = ( state = { citiesList: [], citiesFiltered: [],}, action) 
                 ...state,
                 citiesFiltered: newList,
             };
+            
         default: 
             return state;
     }

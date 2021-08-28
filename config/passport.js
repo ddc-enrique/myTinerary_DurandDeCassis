@@ -12,8 +12,10 @@ module.exports = passport.use(new jwtStategy({
             if (userFound) {
                 return done(null, userFound)
             } else {
-                return done(null, null)
+                return done(null, false)
             }
         })
-        .catch(error => done(error, null));
+        .catch(error => { 
+            return done(error, false)
+        });
 }))

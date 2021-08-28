@@ -2,11 +2,14 @@ import axios from "axios";
 
 const usersActions = {
     signUp: (user) => {
+        console.log("entre al action");
         return async (dispatch) => {
+
             // let data = JSON.stringify(user);
             let response = await axios.post("http://localhost:4000/api/user/signup", user );
             // data, {headers:{"Content-Type" : "application/json"}});
-            if(!response.data.success) throw response.data.err;
+            console.log("hice le fetcheo a la api");
+            if(!response.data.success) throw (response.data.err || response.data.errors);
             dispatch({ type: "SIGN_USER_ON_LS_&_STORE", payload: response.data.response });
             return response
         }
@@ -29,10 +32,21 @@ const usersActions = {
         }
     },
 
-    signFromLS: (token, user) => {
-        
-        return(dispatch, getState) => {
-            dispatch({ type:"SIGN_USER_ON_LS_&_STORE", payload: {token, user} });
+    signFromLS: (token) => {
+        return async (dispatch, getState) => {
+            console.log(token);
+            try {
+                let response = await axios
+                    .get("http://localhost:4000/api/verifyToken", { 
+                    headers: { Authorization: "Bearer " + token } 
+                });
+                console.log(response.data.user);
+                dispatch({ type:"SIGN_USER_ON_LS_&_STORE", payload: {
+                    token, user: response.data.user } 
+                });
+            } catch (error) {
+                dispatch({ type:"SIGN_OUT"});
+            }
         }
     }
 }

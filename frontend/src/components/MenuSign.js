@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import usersActions from "../redux/actions/usersActions";
 
 
-const MenuSign = ({token, user, signOut}) => {
+const MenuSign = ({token, profilePic, signOut}) => {
     const [displaySign, setDisplaySign] = useState(false);
 
     return(
@@ -20,7 +20,7 @@ const MenuSign = ({token, user, signOut}) => {
                     alt="menuSign"
                 />
                 <div
-                    style={token && {backgroundImage: `url(/assets/${user.profilePic}.jpg)`, display: "block"}}
+                    style={token && {backgroundImage: `url(${profilePic})`, display: "block"}}
                     className="userProfilePic"
                 >
 
@@ -74,7 +74,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
     return{
         token: state.users.token,
-        user: state.users.user,
+        profilePic: state.users.profilePic,
     }
 };
 

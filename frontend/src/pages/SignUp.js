@@ -6,8 +6,9 @@ import axios from 'axios';
 import PreLoader from '../components/PreLoader';
 import { connect } from 'react-redux';
 import usersActions from '../redux/actions/usersActions';
+import GoogleLogin from 'react-google-login';
 
-
+//123395486350-7vkdk0812656ukr4p18pi6h4gc40jm8s.apps.googleusercontent.com
 
 const SignUp = ({history, signUp}) => {
     const [countriesSelect, setCountriesSelect] = useState([]);
@@ -65,10 +66,10 @@ const SignUp = ({history, signUp}) => {
             validate = false;
             errors["password"] = "The field password is required";
         } else {
-            if(fields["password"].length < 5) {
-                validate = false;
-                errors["password"] = "Please enter a password with at least 5 charachters";
-            }
+            // if(fields["password"].length < 5) {
+            //     validate = false;
+            //     errors["password"] = "The password is too short, please enter a password with at least 5 charachters";
+            // }
         };
 
         if (!fields["profilePic"]) {
@@ -85,13 +86,40 @@ const SignUp = ({history, signUp}) => {
         return validate
     };
 
+    const responseGoogle = async (response) => {
+        console.log(response);
+        let newUser = {
+            firstName: response.profileObj.givenName,
+            lastName: response.profileObj.familyName,
+            email: response.profileObj.email,
+            password: response.profileObj.googleId,
+            profilePic: response.profileObj.imageUrl,
+            country: "Argentina",
+            google: true,
+        }
+        try {
+            await signUp(newUser);
+            console.log("console log despues de signup")
+        } catch (error) {
+            
+        }
+    }
+
     const submitUser = async () => {
         if ( handleValidation() ) {
             try {
-                let response = await signUp(newUser);
+                console.log("envio el usuario");
+                await signUp(newUser);
             } catch(error) {
-                console.log(error);
-                alert(error);
+                if(Array.isArray(error)){
+                    let errors = {};
+                    error.forEach(err => {
+                        errors[err.path[0]] = err.message;
+                    });
+                    setErrorsValidation(errors);
+                } else {
+                    alert(error);
+                }
             }
         }
     }
@@ -170,7 +198,14 @@ const SignUp = ({history, signUp}) => {
                         <div>
                             <hr /> OR <hr />
                         </div>
-                        <button> SIGN-UP with Google</button>
+                        <GoogleLogin
+                            clientId="123395486350-7vkdk0812656ukr4p18pi6h4gc40jm8s.apps.googleusercontent.com"
+                            buttonText="Sign Up with Google"
+                            onSuccess={responseGoogle}
+                            onFailure={responseGoogle}
+                            cookiePolicy={'single_host_origin'}
+                        />
+                        {/* <button> SIGN-UP with Google</button> */}
                     </div>
                 </div>
                 <div className="switchSign">

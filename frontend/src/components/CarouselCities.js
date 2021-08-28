@@ -9,7 +9,7 @@ import ConnectionError from "../pages/ConnectionError";
 import { connect } from "react-redux";
 import citiesActions from "../redux/actions/citiesActions";
 
-const CarouselCities = ({getCities, cities, token}) => {
+const CarouselCities = ({getCities, cities}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState({ flag: false, err: {} });
     let items= [[],[],[]];
@@ -18,16 +18,17 @@ const CarouselCities = ({getCities, cities, token}) => {
     useEffect( () => {
         async function getCitiesList() {
             try {
-                console.log(token);
-                if (!cities.length) await getCities(token);
+                if (!cities.length) await getCities();
             } catch(e) {
                 setError({flag: true, err: e});
             }
             setLoading(false);
         };
         getCitiesList();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     citiesAux = cities.sort((cityA, cityB) => cityA.likes - cityB.likes);
 
     items = items.map((slide, i) => {
@@ -130,12 +131,12 @@ const CarouselCities = ({getCities, cities, token}) => {
 
 const mapDispatchToProps = {
     getCities: citiesActions.getCitiesList,
+    clearCities: citiesActions.clearCitiesList,
 };
 
 const mapStateToProps = (state) => {
     return{
         cities: state.cities.citiesList,
-        token: state.users.token,
     }
 };
 

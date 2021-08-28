@@ -12,7 +12,6 @@ import citiesActions from "../redux/actions/citiesActions";
 const Cities = ({getCities, cities, citiesFiltered, filterCities}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState({ flag: false, err: {} });
-    
     useEffect( () => {
         window.scrollTo(0, 0);
         async function getCitiesList() {
@@ -24,6 +23,7 @@ const Cities = ({getCities, cities, citiesFiltered, filterCities}) => {
             setLoading(false);
         };
         getCitiesList();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

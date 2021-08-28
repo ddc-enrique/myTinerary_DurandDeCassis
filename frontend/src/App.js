@@ -15,13 +15,9 @@ import { useEffect } from 'react';
 function App({token, signFromLS}) {
   useEffect (() => {
     let tokenLS = localStorage.getItem("token");
-    let userLS = JSON.parse(localStorage.getItem("user"));
+    // let userLS = JSON.parse(localStorage.getItem("user"));
     if (tokenLS) {
-      signFromLS(tokenLS, userLS)
-      //  props.logInLS(
-      //     localStorage.getItem('token'),
-      //     localStorage.getItem('user')
-      //  )
+      signFromLS(tokenLS)
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
  }, [])

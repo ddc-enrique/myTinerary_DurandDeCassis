@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const passport = require(("passport"));
+const passport = require("passport");
 const citiesControllers = require("../controllers/citiesControllers");
 const itinerariesControllers = require("../controllers/itinerariesControllers");
 const usersControllers = require("../controllers/usersControllers");
+const validator = require("../controllers/validator");
 
 router
     .route("/cities")
-    .get(passport.authenticate("jwt", {session:false}) ,citiesControllers.getAllCities)
+    .get(citiesControllers.getAllCities)
     .post(citiesControllers.uploadNewCity);
 
 router
@@ -33,10 +34,14 @@ router
 
 router
     .route("/user/signup")
-    .post(usersControllers.createUser);
+    .post(validator, usersControllers.createUser);
 
 router
     .route("/user/signin")
     .post(usersControllers.checkUser);
+
+router
+    .route("/verifyToken")
+    .get(passport.authenticate("jwt", { session: false }), usersControllers.verifyToken);
 
 module.exports = router;

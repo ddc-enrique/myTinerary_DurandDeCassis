@@ -4,6 +4,9 @@ import Footer from "../components/Footer";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import usersActions from "../redux/actions/usersActions";
+import GoogleLogin from 'react-google-login';
+import { CodeSlash } from 'react-bootstrap-icons';
+
 
 const SignIn = ({history, signIn}) => {
     const [checkUser, setCheckUser] = useState({
@@ -49,6 +52,20 @@ const SignIn = ({history, signIn}) => {
         return validate
     };
     
+    const responseGoogle = async (response) => {
+        console.log(response);
+        let googleUser = {
+            email: response.profileObj.email,
+            password: response.profileObj.googleId,
+            googleFlag: true,
+        }
+        try {
+            await signIn(googleUser);
+        } catch (error) {
+            
+        }
+    }
+
     const submitUser = async() => {
         if (handleValidation()) {
             try {
@@ -92,7 +109,14 @@ const SignIn = ({history, signIn}) => {
                         <div>
                             <hr /> OR <hr />
                         </div>
-                        <button> SIGN-IN with Google</button>
+                        <GoogleLogin
+                            clientId="123395486350-7vkdk0812656ukr4p18pi6h4gc40jm8s.apps.googleusercontent.com"
+                            buttonText="Sign In with Google"
+                            onSuccess={responseGoogle}
+                            onFailure={responseGoogle}
+                            cookiePolicy={'single_host_origin'}
+                        />
+                        {/* <button> SIGN-IN with Google</button> */}
                     </div>
                 </div>
                 <div className="switchSign">
