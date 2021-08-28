@@ -11,8 +11,8 @@ const usersControllers = {
         User.findOne({ email: email }).then(
             (user) => { 
                 if(user) {
-                    if(user.google) throw new Error("You already Sign Up with this Google account, now you just have to Sign In");
-                    throw new Error("User with that email already exist");
+                    if(user.google) throw new Error("1");
+                    throw new Error("2");
                 } else {
                     newUser.save().then( (savedUser) => {
                             const token = jwt.sign({...savedUser}, process.env.SECRETORKEY);
@@ -25,17 +25,16 @@ const usersControllers = {
     },
 
     checkUser: (req, res) => {
-        let errorMessage = "Wrong email and/or password";
         const {email, password, googleFlag} = req.body;
         User.findOne({ email: email })
             .then((userFound) => {
                 if (!userFound) {
-                    if(googleFlag) throw new Error("Please Sign Up first");
-                    throw new Error(errorMessage);
+                    if(googleFlag) throw new Error("1");
+                    throw new Error("3");
                 } else {
-                    if (userFound.google && !googleFlag) throw new Error("You Sign Up with your Google account, please Sign In with Google");
+                    if (userFound.google && !googleFlag) throw new Error("2");
                     let comparePasswords = bcryptjs.compareSync(password, userFound.password);
-                    if (!comparePasswords) throw new Error(errorMessage);
+                    if (!comparePasswords) throw new Error("3");
                     const token = jwt.sign({...userFound}, process.env.SECRETORKEY);
                     res.json({ success: true, response: {token, user: userFound}});
                 }

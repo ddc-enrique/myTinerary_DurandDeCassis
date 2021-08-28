@@ -1,5 +1,6 @@
 import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-notifications-component/dist/theme.css'
 import './App.css';
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Home from './pages/Home';
@@ -11,11 +12,12 @@ import SignUp from './pages/SignUp';
 import { connect } from 'react-redux';
 import usersActions from './redux/actions/usersActions';
 import { useEffect } from 'react';
+import ReactNotification from 'react-notifications-component';
+
 
 function App({token, signFromLS}) {
   useEffect (() => {
     let tokenLS = localStorage.getItem("token");
-    // let userLS = JSON.parse(localStorage.getItem("user"));
     if (tokenLS) {
       signFromLS(tokenLS)
     }
@@ -27,6 +29,7 @@ function App({token, signFromLS}) {
 
   return (
     <BrowserRouter>
+      <ReactNotification />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/cities" component={Cities} />

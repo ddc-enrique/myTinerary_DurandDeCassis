@@ -5,10 +5,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import usersActions from "../redux/actions/usersActions";
 import GoogleLogin from 'react-google-login';
-import { CodeSlash } from 'react-bootstrap-icons';
+import { store } from 'react-notifications-component';
 
-
-const SignIn = ({history, signIn}) => {
+const SignIn = ({signIn}) => {
     const [checkUser, setCheckUser] = useState({
                                         email: "",
                                         password: "",
@@ -51,31 +50,79 @@ const SignIn = ({history, signIn}) => {
         setErrorsValidation(errors);
         return validate
     };
+
+    const handleSignIn = async (user) => {
+        try {
+            let response = await signIn(user);
+            store.addNotification({
+                title: `WELCOME BACK ${(response.data.response.user.firstName).toUpperCase()}!`,
+                message: "Thanks for choosing MyTinerary",
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    pauseOnHover: true
+                }
+            });
+        } catch(error) {
+            let errorsOptions = {title:"", message:"", type:"warning"};
+            if((typeof error) === "string") {
+                switch (error) {
+                    case "1":
+                        errorsOptions.title = "Please Sign Up first";
+                        errorsOptions.message = " ";
+                        break;
+                    case "2":
+                        errorsOptions.title = "You Sign Up with your Google account";
+                        errorsOptions.message = "Please Sign In with Google";
+                        break;
+                    case "3":
+                        setErrorsValidation({signIn: "Wrong email and/or password"});
+                        break;
+                    default:
+                        errorsOptions.title = "Sorry, we are having connection errors";
+                        errorsOptions.message = "Please come back later";
+                        errorsOptions.type = "danger";
+                        break;
+                }
+            } else {
+                errorsOptions.title = "Sorry, we are having connection errors";
+                errorsOptions.message = "Please come back later";
+                errorsOptions.type = "danger";
+            };
+            if (!(error === "3")) {
+                store.addNotification({
+                    ...errorsOptions,
+                    insert: "top",
+                    container: "center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        pauseOnHover: true
+                    }
+                });
+            };
+        };
+    };
     
-    const responseGoogle = async (response) => {
-        console.log(response);
+    const responseGoogle = (response) => {
         let googleUser = {
             email: response.profileObj.email,
             password: response.profileObj.googleId,
             googleFlag: true,
-        }
-        try {
-            await signIn(googleUser);
-        } catch (error) {
-            
-        }
-    }
+        };
+        handleSignIn(googleUser);
+    };
 
-    const submitUser = async() => {
+    const submitUser = () => {
         if (handleValidation()) {
-            try {
-                await signIn(checkUser);
-            } catch(error) {
-                console.log(error);
-                alert(error);
-            }
-        }
-    }
+            handleSignIn(checkUser);
+        };
+    };
 
     return (
         <div className="containerSign">
@@ -105,6 +152,7 @@ const SignIn = ({history, signIn}) => {
                     <p className="error">&nbsp;{errorsValidation["password"]}</p>
                     
                     <div className="sign">
+                        <p className="error">&nbsp;{errorsValidation["signIn"]}</p>
                         <button onClick={submitUser}> SIGN-IN </button>
                         <div>
                             <hr /> OR <hr />
@@ -132,5 +180,6 @@ const SignIn = ({history, signIn}) => {
 const mapDispatchToProps = {
     signIn: usersActions.signIn,
 };
+
 
 export default connect(null, mapDispatchToProps)(SignIn)

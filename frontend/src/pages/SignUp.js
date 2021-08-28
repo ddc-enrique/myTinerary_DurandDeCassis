@@ -7,10 +7,11 @@ import PreLoader from '../components/PreLoader';
 import { connect } from 'react-redux';
 import usersActions from '../redux/actions/usersActions';
 import GoogleLogin from 'react-google-login';
+import { store } from 'react-notifications-component';
 
 //123395486350-7vkdk0812656ukr4p18pi6h4gc40jm8s.apps.googleusercontent.com
 
-const SignUp = ({history, signUp}) => {
+const SignUp = ({signUp}) => {
     const [countriesSelect, setCountriesSelect] = useState([]);
     const [loading, setLoading] = useState(true);
     const [newUser, setNewUser] = useState({
@@ -86,9 +87,61 @@ const SignUp = ({history, signUp}) => {
         return validate
     };
 
-    const responseGoogle = async (response) => {
+    const handleSignUp = async(user) => {
+        try {
+            let response = await signUp(user);
+            store.addNotification({
+                title: `WELCOME ${(response.data.response.user.firstName).toUpperCase()}!`,
+                message: "Thanks for choosing MyTinerary",
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    pauseOnHover: true
+                }
+            });
+        } catch(error) {
+            let errorsOptions = {title:"", message:"", type:"danger"};
+            if((typeof error) === "string") {
+                switch (error) {
+                    case "1":
+                        errorsOptions.title = "You already Sign Up with this Google account";
+                        errorsOptions.message = "Now you just have to Sign In";
+                        errorsOptions.type = "warning";
+                        break;
+                    case "2":
+                        setErrorsValidation({email: "User with this email already exist"});
+                        break;
+                    default:
+                        errorsOptions.title = "Sorry, we are having connection errors";
+                        errorsOptions.message = "Please come back later";
+                        break;
+                }
+            } else {
+                errorsOptions.title = "Sorry, we are having connection errors";
+                errorsOptions.message = "Please come back later";
+            };
+            if (!(error === "2")) {
+                store.addNotification({
+                    ...errorsOptions,
+                    insert: "top",
+                    container: "center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        pauseOnHover: true
+                    }
+                });
+            };
+        };
+    }
 
-        let newUser = {
+    const responseGoogle = (response) => {
+        let googleUser = {
             firstName: response.profileObj.givenName,
             lastName: response.profileObj.familyName,
             email: response.profileObj.email,
@@ -97,28 +150,12 @@ const SignUp = ({history, signUp}) => {
             country: "Argentina",
             google: true,
         }
-        try {
-            await signUp(newUser);
-        } catch (error) {
-            alert(error);
-        }
+        handleSignUp(googleUser);
     }
 
-    const submitUser = async () => {
+    const submitUser = () => {
         if ( handleValidation() ) {
-            try {
-                await signUp(newUser);
-            } catch(error) {
-                if(Array.isArray(error)){
-                    let errors = {};
-                    error.forEach(err => {
-                        errors[err.path[0]] = err.message;
-                    });
-                    setErrorsValidation(errors);
-                } else {
-                    alert(error);
-                }
-            }
+            handleSignUp(newUser);
         }
     }
 
