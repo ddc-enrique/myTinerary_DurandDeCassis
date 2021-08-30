@@ -742,9 +742,13 @@ in mediaquerie keeping the ux responsive*/
 }
 
 /* errors in validation */
-.containerSign .containerForm .form .inputContainer p.error {
-  display: block;
+.containerSign .containerForm .form .inputContainer p.error,
+.containerSign .containerForm .sign p.error{
   color: red;
+}
+
+.containerSign .containerForm .form .inputContainer p.error{
+  display: block;
   align-self: center;
   margin-left: 60px;
   margin-top: -12px;

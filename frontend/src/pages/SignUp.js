@@ -115,19 +115,27 @@ const SignUp = ({signUp}) => {
                         notificationOptions.type = "danger";
                         break;
                 }
+            } else if (Array.isArray(error)){
+                let errors = {};
+                error.forEach(err=> {
+                    errors[err.path[0]] = err.message;
+                })
+                setErrorsValidation(errors);
+                showNotification = false;
             } else {
                 notificationOptions.title = "Sorry, we are having connection errors";
                 notificationOptions.message = "Please come back later";
                 notificationOptions.type = "danger";
             };
-        };
-        if (showNotification) {
-            store.addNotification({
-                ...notificationOptions,
-                insert: "top",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-            });
+        } finally {
+            if (showNotification) {
+                store.addNotification({
+                    ...notificationOptions,
+                    insert: "top",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                });
+            };
         };
     }
 
