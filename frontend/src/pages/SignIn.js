@@ -29,7 +29,7 @@ const SignIn = ({signIn}) => {
 
         if(!fields["email"]) {
             validate = false;
-            errors["email"] = "The field email is required";
+            errors["email"] = "Please enter your email";
         } else {
             if (!fields["email"].includes("@")) {
                 validate = false;
@@ -39,11 +39,11 @@ const SignIn = ({signIn}) => {
 
         if(!fields["password"]) {
             validate = false;
-            errors["password"] = "The field password is required";
+            errors["password"] = "Please enter your password";
         } else {
             if(fields["password"].length < 5) {
                 validate = false;
-                errors["password"] = "Please enter a password with at least 5 charachters";
+                errors["password"] = "The password has a minimum of 5 characters";
             }
         };
         
@@ -52,58 +52,50 @@ const SignIn = ({signIn}) => {
     };
 
     const handleSignIn = async (user) => {
+        let notificationOptions = { title: "", message: "", type: "", container: "center", dismiss: { duration: 4000, pauseOnHover: true } };
+        let showNotification = true;
         try {
             let response = await signIn(user);
-            store.addNotification({
-                title: `WELCOME BACK ${(response.data.response.user.firstName).toUpperCase()}!`,
-                message: "Thanks for choosing MyTinerary",
-                type: "success",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    pauseOnHover: true
-                }
-            });
+            notificationOptions.title = `WELCOME BACK ${(response.data.response.user.firstName).toUpperCase()}!`;
+            notificationOptions.message = "Thanks for choosing MyTinerary";
+            notificationOptions.type = "success";
+            notificationOptions.container = "top-right";
+            notificationOptions.dismiss.duration = 2000;
         } catch(error) {
-            let errorsOptions = {title:"", message:"", type:"warning"};
             if((typeof error) === "string") {
                 switch (error) {
                     case "1":
-                        errorsOptions.title = "Please Sign Up first";
-                        errorsOptions.message = " ";
+                        notificationOptions.title = "Please Sign Up first";
+                        notificationOptions.message = " ";
+                        notificationOptions.type = "warning";
                         break;
                     case "2":
-                        errorsOptions.title = "You Sign Up with your Google account";
-                        errorsOptions.message = "Please Sign In with Google";
+                        notificationOptions.title = "You Sign Up with your Google account";
+                        notificationOptions.message = "Please Sign In with Google";
+                        notificationOptions.type = "warning";
                         break;
                     case "3":
                         setErrorsValidation({signIn: "Wrong email and/or password"});
+                        showNotification = false;
                         break;
                     default:
-                        errorsOptions.title = "Sorry, we are having connection errors";
-                        errorsOptions.message = "Please come back later";
-                        errorsOptions.type = "danger";
+                        notificationOptions.title = "Sorry, we are having connection errors";
+                        notificationOptions.message = "Please come back later";
+                        notificationOptions.type = "danger";
                         break;
                 }
             } else {
-                errorsOptions.title = "Sorry, we are having connection errors";
-                errorsOptions.message = "Please come back later";
-                errorsOptions.type = "danger";
+                notificationOptions.title = "Sorry, we are having connection errors";
+                notificationOptions.message = "Please come back later";
+                notificationOptions.type = "danger";
             };
-            if (!(error === "3")) {
+        } finally {
+            if (showNotification) {
                 store.addNotification({
-                    ...errorsOptions,
+                    ...notificationOptions,
                     insert: "top",
-                    container: "center",
                     animationIn: ["animate__animated", "animate__fadeIn"],
                     animationOut: ["animate__animated", "animate__fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        pauseOnHover: true
-                    }
                 });
             };
         };
@@ -127,45 +119,54 @@ const SignIn = ({signIn}) => {
     return (
         <div className="containerSign">
             <Header /> 
-            
+
             <div className="containerForm">
                 <div className="formTitle">
                     <h2>Welcome Back!</h2>
                     <h4>Sign-In for a better expirience on MyTinerary</h4>
                 </div>
                 <div className="form">
-                    <input 
-                        type="email"
-                        placeholder="Enter your Email"
-                        name="email"
-                        value={email}
-                        onChange={inputHandler}
-                    />
-                    <p className="error">&nbsp;{errorsValidation["email"]}</p>
-                    <input 
-                        type="password"
-                        placeholder="Enter a password with at least 5 characters"
-                        name="password"
-                        value={password}
-                        onChange={inputHandler}
-                    />
-                    <p className="error">&nbsp;{errorsValidation["password"]}</p>
-                    
-                    <div className="sign">
-                        <p className="error">&nbsp;{errorsValidation["signIn"]}</p>
-                        <button onClick={submitUser}> SIGN-IN </button>
+                    <div className="inputContainer">
                         <div>
-                            <hr /> OR <hr />
+                            <img src={require("../assets/email.png").default} alt="" className="logoInput" />
+                            <input
+                                type="email"
+                                placeholder="Enter your Email"
+                                name="email"
+                                value={email}
+                                onChange={inputHandler}
+                            />
                         </div>
-                        <GoogleLogin
-                            clientId="123395486350-7vkdk0812656ukr4p18pi6h4gc40jm8s.apps.googleusercontent.com"
-                            buttonText="Sign In with Google"
-                            onSuccess={responseGoogle}
-                            onFailure={responseGoogle}
-                            cookiePolicy={'single_host_origin'}
-                        />
-                        {/* <button> SIGN-IN with Google</button> */}
+                        <p className="error">&nbsp;{errorsValidation["email"]}</p>
                     </div>
+
+                    <div className="inputContainer">
+                        <div>
+                            <img src={require("../assets/password.png").default} alt="" className="logoInput" />
+                            <input
+                                type="password"
+                                placeholder="Enter your Password"
+                                name="password"
+                                value={password}
+                                onChange={inputHandler}
+                            />
+                        </div>
+                        <p className="error">&nbsp;{errorsValidation["password"]}</p>
+                    </div>
+                </div>
+                <div className="sign">
+                    <p className="error">&nbsp;{errorsValidation["signIn"]}</p>
+                    <button onClick={submitUser}> SIGN-IN </button>
+                    <div>
+                        <hr /> OR <hr />
+                    </div>
+                    <GoogleLogin
+                        clientId="123395486350-7vkdk0812656ukr4p18pi6h4gc40jm8s.apps.googleusercontent.com"
+                        buttonText="Sign In with Google"
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                    />
                 </div>
                 <div className="switchSign">
                     <p>Do not have an account yet? <Link to="/signup">Sign Up here!</Link></p>

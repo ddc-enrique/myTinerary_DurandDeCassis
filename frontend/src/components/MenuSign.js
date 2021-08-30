@@ -23,15 +23,13 @@ const MenuSign = ({token, profilePic, signOut}) => {
                     style={token && {backgroundImage: `url(${profilePic})`, display: "block"}}
                     className="userProfilePic"
                 >
-
                 </div>
             </div>
             <div
-                style={{display: displaySign ? "block" : "none"}}
+                style={{display: displaySign ? "block" : "none", height: window.document.body.offsetHeight - (window.innerHeight*0.17)}}
                 onClick={() => setDisplaySign(!displaySign)}
                 className="divToCloseMenuSign"
             >
-
             </div>
             <div
                 id="displaySign"
@@ -61,6 +59,12 @@ const MenuSign = ({token, profilePic, signOut}) => {
                             </Link>
                         </nav>
                     }
+                    <div
+                        className="divDownDisplaySign" 
+                        onClick={() => setDisplaySign(!displaySign)}
+                        style={{ display: displaySign ? "block" : "none", height: window.document.body.offsetHeight - (window.innerHeight*0.30)}}    
+                    >
+                    </div>
             </div>
         </div>
     )    

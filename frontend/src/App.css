@@ -7,6 +7,42 @@ html * {
   font-family: 'Acme', sans-serif;
 }
 
+/* SCROLLBAR */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: whitesmoke; 
+  box-shadow: inset 0 0 5px #3A3A5A; 
+  border-radius: 5px
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3A3A5A; 
+  border-radius: 5px
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #3A3A5A; 
+}
+
+/* REACT NOTIFICATIONS */
+
+.notifications-component .notification .notification__item .notification__content .notification__title{
+  font-weight: 400 !important;
+}
+
+.notifications-component .notification .notification__item--danger .notification__content,
+.notifications-component .notification .notification__item--warning .notification__content {
+  text-align: center;
+}
+
 /*HEADER*/
 
 header {
@@ -74,7 +110,7 @@ header>#menuSign {
 #logoMenuSign img {
   height: 13vh;
 }
-
+/* user image */
 #logoMenuSign .userProfilePic {
   height: 7vh;
   width: 48px;
@@ -87,11 +123,11 @@ header>#menuSign {
 }
 
 .divToCloseMenuSign{
+  /* background-color: #3a3a5a49; */
   cursor: context-menu;
   position: absolute;
   width: 100vw;
-  height: 83vh;
-  top: 20vh;
+  top: 15vh;
   left: -100vw;
 }
 
@@ -109,6 +145,12 @@ header>#menuSign {
   align-items: center !important;
   background-color: #3A3A5A;
   width: 100%;
+}
+
+#displaySign .divDownDisplaySign{
+  width: 105px;
+  /* background-color: #3a3a5a49; */
+  cursor: context-menu;
 }
 
 header #displaySign nav a {
@@ -135,7 +177,8 @@ header #displaySign nav a {
 /* HOME */
 
 .containerHome,
-.containerCities{
+.containerCities,
+.containerSign{
   background: rgb(204, 204, 204);
   background: linear-gradient(90deg, rgba(204, 204, 204, 1) 0%, rgba(141, 141, 148, 1) 50%, rgba(204, 204, 204, 1) 100%);
   display: flex;
@@ -647,12 +690,11 @@ in mediaquerie keeping the ux responsive*/
 
 .containerSign{
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 .containerSign .containerForm {
   flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -662,37 +704,54 @@ in mediaquerie keeping the ux responsive*/
 .containerSign .containerForm .formTitle, .formTitle *{
   text-align: center;
   margin: 1vh 0;
+  color: #22223f;
 }
 
 .containerSign .containerForm .form {
+  width: 100%;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.containerSign .containerForm .form .inputContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.containerSign .containerForm .form input, 
-.containerSign .containerForm .form select{
+.containerSign .containerForm .form .inputContainer input, 
+.containerSign .containerForm .form .inputContainer select{
   width: 400px;
   text-align: center;
 }
 
-.containerSign .containerForm .form input::placeholder,
+.containerSign .containerForm .form .inputContainer div input::placeholder,
 .containerSign .containerForm .form select{
   text-align: center;
   color: #3A3A5A;
 }
 
-.containerSign .containerForm .form>*{
+.containerSign .containerForm .form>div{
   margin: 1vh 0;
 }
 
+.containerSign .containerForm .form .inputContainer img.logoInput{
+  width: 60px;
+}
+
 /* errors in validation */
-.containerSign .containerForm .form p.error {
+.containerSign .containerForm .form .inputContainer p.error {
+  display: block;
   color: red;
-  font-size: small;
+  align-self: center;
+  margin-left: 60px;
+  margin-top: -12px;
 }
 
 .containerSign .containerForm .sign {
+  align-self: center;
   width: 400px;
   display: flex;
   flex-direction: column;
@@ -702,7 +761,26 @@ in mediaquerie keeping the ux responsive*/
 .containerSign .containerForm .sign>*{
   text-align: center;
   margin: 1vh 0;
+  width: 100%;
 }
+
+.containerSign .containerForm .sign button {
+  border-radius: 20px !important;
+  width: 200px;
+  padding: 5px 0;
+  background-color: #3A3A5A;
+  color: whitesmoke;
+}
+
+.containerSign .containerForm .sign button:last-child{
+  display: flex;
+  justify-content: center;
+}
+
+.containerSign .containerForm .sign button span{
+  color: #3A3A5A;
+}
+
 .containerSign .containerForm .sign div {
   display: flex;
   justify-content: space-between;
@@ -713,7 +791,11 @@ in mediaquerie keeping the ux responsive*/
   color: #3A3A5A;
   background-color: #3A3A5A;
   height: 4px;
-  /* border-width:0; */
+  border-width:0;
+}
+
+.containerSign .containerForm .switchSign{
+  margin-bottom: 5vh;
 }
 
 /* FOOTER */
@@ -844,9 +926,44 @@ footer div a:hover {
     align-items: center;
   }
 
-  .containerSign .containerForm .form input, 
-  .containerSign .containerForm .form select,
+  .containerSign .containerForm .form .inputContainer input, 
+  .containerSign .containerForm .form .inputContainer select{
+    width: 85vw;
+  }
+
   .containerSign .containerForm .sign{
     width: 65vw;
   }
+}
+
+@media screen and (max-width: 515px) {
+  .containerHome .imageCity .cityData {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .containerSign .containerForm .form .inputContainer input, 
+  .containerSign .containerForm .form .inputContainer select{
+    width: 80vw;  
+  }
+}
+
+@media screen and (min-width: 916px) {
+  .containerSign .containerForm .form{
+    align-items: center;
+  }
+  .containerSign .containerForm .form .inputContainer{
+    position: relative;
+    right: 30px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+
+  #logoMenuSign .userProfilePic {
+    width: 4vw;
+  }
+
 }

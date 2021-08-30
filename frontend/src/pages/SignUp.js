@@ -88,55 +88,46 @@ const SignUp = ({signUp}) => {
     };
 
     const handleSignUp = async(user) => {
+        let notificationOptions = { title: "", message: "", type: "", container: "center", dismiss: { duration: 4000, pauseOnHover: true } };
+        let showNotification = true;
         try {
             let response = await signUp(user);
-            store.addNotification({
-                title: `WELCOME ${(response.data.response.user.firstName).toUpperCase()}!`,
-                message: "Thanks for choosing MyTinerary",
-                type: "success",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    pauseOnHover: true
-                }
-            });
+            notificationOptions.title = `WELCOME ${(response.data.response.user.firstName).toUpperCase()}!`;
+            notificationOptions.message = "Thanks for choosing MyTinerary";
+            notificationOptions.type = "success";
+            notificationOptions.container = "top-right";
+            notificationOptions.dismiss.duration = 2000;
         } catch(error) {
-            let errorsOptions = {title:"", message:"", type:"danger"};
             if((typeof error) === "string") {
                 switch (error) {
                     case "1":
-                        errorsOptions.title = "You already Sign Up with this Google account";
-                        errorsOptions.message = "Now you just have to Sign In";
-                        errorsOptions.type = "warning";
+                        notificationOptions.title = "You already Sign Up with this Google account";
+                        notificationOptions.message = "Now you just have to Sign In";
+                        notificationOptions.type = "warning";
                         break;
                     case "2":
                         setErrorsValidation({email: "User with this email already exist"});
+                        showNotification = false;
                         break;
                     default:
-                        errorsOptions.title = "Sorry, we are having connection errors";
-                        errorsOptions.message = "Please come back later";
+                        notificationOptions.title = "Sorry, we are having connection errors";
+                        notificationOptions.message = "Please come back later";
+                        notificationOptions.type = "danger";
                         break;
                 }
             } else {
-                errorsOptions.title = "Sorry, we are having connection errors";
-                errorsOptions.message = "Please come back later";
+                notificationOptions.title = "Sorry, we are having connection errors";
+                notificationOptions.message = "Please come back later";
+                notificationOptions.type = "danger";
             };
-            if (!(error === "2")) {
-                store.addNotification({
-                    ...errorsOptions,
-                    insert: "top",
-                    container: "center",
-                    animationIn: ["animate__animated", "animate__fadeIn"],
-                    animationOut: ["animate__animated", "animate__fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        pauseOnHover: true
-                    }
-                });
-            };
+        };
+        if (showNotification) {
+            store.addNotification({
+                ...notificationOptions,
+                insert: "top",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+            });
         };
     }
 
@@ -171,77 +162,106 @@ const SignUp = ({signUp}) => {
                     <h4>Please fill the form with the fields requested below</h4>
                 </div>
                 <div className="form">
-                    <input 
-                        type="text" 
-                        placeholder="Enter your First Name"
-                        name="firstName"
-                        value={firstName}                        
-                        onChange={inputHandler}
-                    />
-                    <p className="error">&nbsp;{errorsValidation["firstName"]}</p>
-                    <input 
-                        type="text" 
-                        placeholder="Enter your Last Name"
-                        name="lastName"
-                        value={lastName}                        
-                        onChange={inputHandler}
-                    />
-                    <p className="error">&nbsp;{errorsValidation["lastName"]}</p>
-                    <input 
-                        type="email"
-                        placeholder="Enter your Email"
-                        name="email"
-                        value={email}
-                        onChange={inputHandler}
-                    />
-                    <p className="error">&nbsp;{errorsValidation["email"]}</p>
-                    <input 
-                        type="password"
-                        placeholder="Enter a password with at least 5 characters"
-                        name="password"
-                        value={password}
-                        onChange={inputHandler}
-                    />
-                    <p className="error">&nbsp;{errorsValidation["password"]}</p>
-                    <input 
-                        type="text" 
-                        placeholder="Enter a URL for your profile picture"
-                        name="profilePic"
-                        value={profilePic}                        
-                        onChange={inputHandler}
-                    />
-                    <p className="error">&nbsp;{errorsValidation["profilePic"]}</p>
-                    <select 
-                        name="country" 
-                        value={country}
-                        onChange={inputHandler}
-                    >
-                        <option 
-                            value="chooseCountry"
-                        >
-                            Choose your Country
-                        </option>
-                        {
-                            countriesSelect.map((country, index) => (
-                                <option value={country.name} key={index}>{country.name}</option>
-                            ))
-                        }
-                    </select>
-                    <p className="error">&nbsp;{errorsValidation["country"]}</p>
-                    <div className="sign">
-                        <button onClick={submitUser}> SIGN-UP </button>
+                    <div className="inputContainer">
                         <div>
-                            <hr /> OR <hr />
+                            <img src={require("../assets/firstName.png").default} alt="" className="logoInput" />
+                            <input
+                                type="text"
+                                placeholder="Enter your First Name"
+                                name="firstName"
+                                value={firstName}
+                                onChange={inputHandler}
+                            />
                         </div>
-                        <GoogleLogin
-                            clientId="123395486350-7vkdk0812656ukr4p18pi6h4gc40jm8s.apps.googleusercontent.com"
-                            buttonText="Sign Up with Google"
-                            onSuccess={responseGoogle}
-                            onFailure={responseGoogle}
-                            cookiePolicy={'single_host_origin'}
-                        />
-                        {/* <button> SIGN-UP with Google</button> */}
+                        <p className="error">&nbsp;{errorsValidation["firstName"]}</p>
                     </div>
+                    <div className="inputContainer">
+                        <div>
+                            <img src={require("../assets/lastName.png").default} alt="" className="logoInput" />
+                            <input
+                                type="text"
+                                placeholder="Enter your Last Name"
+                                name="lastName"
+                                value={lastName}
+                                onChange={inputHandler}
+                            />
+                        </div>
+                        <p className="error">&nbsp;{errorsValidation["lastName"]}</p>
+                    </div>
+                    <div className="inputContainer">
+                        <div>
+                            <img src={require("../assets/email.png").default} alt="" className="logoInput" />
+                            <input
+                                type="email"
+                                placeholder="Enter your Email"
+                                name="email"
+                                value={email}
+                                onChange={inputHandler}
+                            />
+                        </div>
+                        <p className="error">&nbsp;{errorsValidation["email"]}</p>
+                    </div>
+                    <div className="inputContainer">
+                        <div>
+                            <img src={require("../assets/password.png").default} alt="" className="logoInput" />
+                            <input
+                                type="password"
+                                placeholder="Enter a password with at least 5 characters"
+                                name="password"
+                                value={password}
+                                onChange={inputHandler}
+                            />
+                        </div>
+                        <p className="error">&nbsp;{errorsValidation["password"]}</p>
+                    </div>
+                    <div className="inputContainer">
+                        <div>
+                            <img src={require("../assets/profilePic.png").default} alt="" className="logoInput" />
+                            <input
+                                type="text"
+                                placeholder="Enter a URL for your profile picture"
+                                name="profilePic"
+                                value={profilePic}
+                                onChange={inputHandler}
+                            />
+                        </div>
+                        <p className="error">&nbsp;{errorsValidation["profilePic"]}</p>
+                    </div>
+                    <div className="inputContainer">
+                        <div>
+                            <img src={require("../assets/country.png").default} alt="" className="logoInput" />
+                            <select
+                                name="country"
+                                value={country}
+                                onChange={inputHandler}
+                            >
+                                <option
+                                    value="chooseCountry"
+                                >
+                                    Choose your Country
+                                </option>
+                                {
+                                    countriesSelect.map((country, index) => (
+                                        <option value={country.name} key={index}>{country.name}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        <p className="error">&nbsp;{errorsValidation["country"]}</p>
+                    </div>
+                </div>
+                <div className="sign">
+                    <button onClick={submitUser}> SIGN-UP </button>
+                    <div>
+                        <hr /> OR <hr />
+                    </div>
+                    <GoogleLogin
+                        clientId="123395486350-7vkdk0812656ukr4p18pi6h4gc40jm8s.apps.googleusercontent.com"
+                        buttonText="Sign Up with Google"
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                    />
                 </div>
                 <div className="switchSign">
                     <p>Already have an account? <Link to="/signin">Sign In here!</Link></p>
