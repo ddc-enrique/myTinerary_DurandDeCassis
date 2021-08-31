@@ -1,7 +1,6 @@
 const joi = require("joi");
 
 const validator = (req, res, next) => {
-    console.log(req);
     const schema = !req.body.google 
         ? joi.object({
             firstName: joi.string().trim().min(2).max(15).required().pattern(/^[a-zA-Z\s]+$/).messages({

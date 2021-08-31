@@ -580,12 +580,13 @@ aside .displayTransportHubs p {
 
 /* ITINERARY */
 .itinerary{
-  min-height: 40hv;
+  min-height: 40vh;
   width: 70vw;
   margin: 2vh 0;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   position: relative;
   color: whitesmoke;
   background: rgb(149,151,209);
@@ -593,7 +594,7 @@ aside .displayTransportHubs p {
 }
 
 /*div of the title and image */
-.headerItinerary{
+.itinerary .headerItinerary{
   width: 100%;
   height: 35vh;
   border-top-right-radius: inherit;
@@ -607,7 +608,7 @@ aside .displayTransportHubs p {
 
 
 /* author picture & name, short description */
-.author{
+.itinerary .author{
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -616,7 +617,7 @@ aside .displayTransportHubs p {
   top: 25vh;
 }
 
-.author .authorPic{
+.itinerary .author .authorPic{
   height: 100px;
   width: 100px;
   border-radius: 100%;
@@ -624,13 +625,13 @@ aside .displayTransportHubs p {
   background-position: center;
 }
 
-.author p {
+.itinerary .author p {
   max-width: 50%;
   text-align: center;
   text-decoration: underline;
 }
 
-.bodyItinerary{
+.itinerary .bodyItinerary{
   width: 100%;
   margin-top: 10vh;
   display: flex;
@@ -641,45 +642,120 @@ aside .displayTransportHubs p {
 
 /* order the content of the itinerary, 
 in mediaquerie keeping the ux responsive*/
-.bodyItinerary>div{
+.itinerary .bodyItinerary>div{
   width: 22%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.bodyItinerary .description {
+.itinerary .bodyItinerary .description {
   width: 30%;
   text-align: center;
 }
 
 /* align center bootstrap icons with text */
-.bodyItinerary .details p, p.likes{
+.itinerary .bodyItinerary .details p,
+.itinerary .bodyItinerary .social p.likes{
   display: flex;
   align-items: center;
 }
 
-.bodyItinerary svg{
+.itinerary .bodyItinerary svg{
   margin: 0 3px
 }
 /* price cash color*/
-.bodyItinerary .details p:first-child svg {
+.itinerary .bodyItinerary .details p:first-child svg {
   color: rgb(25, 238, 25);
 }
 /* clock duration color */
-.bodyItinerary .details p:last-child svg {
+.itinerary .bodyItinerary .details p:last-child svg {
   color: whitesmoke;
 }
 /* likes heart color */
-.bodyItinerary .social .likes svg{
+.itinerary .bodyItinerary .social .likes svg{
   color: red;
+}
+.itinerary .bodyItinerary .social .likes{
   cursor: pointer;
 }
 
+
 /* order hashtgs */
-.bodyItinerary .social .hashtags{
+.itinerary .bodyItinerary .social .hashtags{
   text-align: center;
   padding: 10px 0;
+}
+
+.itinerary .commentsActivities{
+  margin-bottom: 2vh;
+  display: none;    
+  flex-direction: column;
+  border: 1px solid whitesmoke;
+  height: 70vh;
+  width: 94%;
+}
+
+.itinerary .commentsActivities .activities,
+.itinerary .commentsActivities .comments{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* the div with the activities */
+.itinerary .commentsActivities .activities .activitiesContainer{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  overflow-x: auto;
+}
+
+/* each activity with each pic */
+.itinerary .commentsActivities .activities .activitiesContainer .activityPic{
+  height: 200px;
+  min-width: 400px;
+  margin: 10px;
+  box-sizing: content-box;
+  background-position: center;
+  background-size: cover;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* the title of the activity */
+.itinerary .commentsActivities .activities .activitiesContainer .activityPic p.title{
+  display: block;
+  padding-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  text-shadow: 1px 1px 1px #3A3A5A;
+  color: whitesmoke;
+  background-color: #3a3a5a5b;
+}
+
+/* the div of the comments */
+.itinerary .commentsActivities .comments .commentsContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+/* info of the user who made the comment */
+.itinerary .commentsActivities .comments .commentsContainer .userComment .infoUser{
+  display: flex;
+  align-items: center;
+}
+
+/* user profile pic */
+.itinerary .commentsActivities .comments .commentsContainer .userComment .infoUser .userPic{
+  height: 80px;
+  width: 80px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 100%;
 }
 
 .itinerary button{
@@ -910,19 +986,24 @@ footer div a:hover {
   .containerHome .imageHero h3 {
     width: 60vw;
   }
+
+  .itinerary {
+    width: 80vw;
+  }
+
   /* order the content to keep description on center
   and first to appear */
-  .bodyItinerary .description {
-    width: 90%;
+  .itinerary .bodyItinerary .description {
+    width: 70%;
     order: 1;
     padding-top: 10px;
   }
-  .bodyItinerary>div{
+  .itinerary .bodyItinerary>div{
     width: 35%;
     order: 2;
   }
 /* put the heart on the center on responsive */
-  .bodyItinerary .social{
+  .itinerary .bodyItinerary .social{
     width: 60%;
     display: flex;
     flex-direction: row;
@@ -941,11 +1022,20 @@ footer div a:hover {
 }
 
 @media screen and (max-width: 515px) {
+
   .containerHome .imageCity .cityData {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .itinerary{
+    width: 90vw;
+  }
+
+  .itinerary .bodyItinerary .description{
+    width: 90%;
   }
 
   .containerSign .containerForm .form .inputContainer input, 

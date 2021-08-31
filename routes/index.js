@@ -4,6 +4,7 @@ const passport = require("passport");
 const citiesControllers = require("../controllers/citiesControllers");
 const itinerariesControllers = require("../controllers/itinerariesControllers");
 const usersControllers = require("../controllers/usersControllers");
+const activitiesControllers = require("../controllers/activitiesControllers");
 const validator = require("../controllers/validator");
 
 router
@@ -43,5 +44,13 @@ router
 router
     .route("/verifyToken")
     .get(passport.authenticate("jwt", { session: false }), usersControllers.verifyToken);
+
+router
+    .route("/activities/:itineraryId")
+    .get(activitiesControllers.getActivities);
+
+router
+    .route("/activity")
+    .post(activitiesControllers.uploadActivity);
 
 module.exports = router;

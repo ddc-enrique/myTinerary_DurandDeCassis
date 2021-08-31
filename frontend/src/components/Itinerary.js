@@ -1,21 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { Cash, Heart, HeartFill, Stopwatch } from 'react-bootstrap-icons';
 import Aos from 'aos';
+import { connect } from "react-redux";
+import itinerariesActions from '../redux/actions/itinerariesActions';
 
-
-
-const Itinerary = ({itinerary}) => {
+const Itinerary = ({itinerary, getActivities}) => {
     const [ extraContent, setExtraContent] = useState(false);
     const [hovered, setHovered] = useState(false);
-    
+    const [loading, setLoading] = useState(true);
+    const [activities, setActivities] = useState([]);
+
     useEffect(() => {
         Aos.init({ duration: 500 });
+        console.log(loading);
     }, [])
     
+    const showCommentActivities = async () => {
+        console.log(itinerary._id);
+        try{
+            let response = await getActivities(itinerary._id);
+            console.log("hola");
+            setActivities(response);
+            console.log(activities);
+            setLoading(false);
+        }catch(error){
+            console.log(error);
+        }
+        console.log(loading);
+    }
+
     let cash = [];
     for (let i = 1; i <= itinerary.price; i++) {
         cash.push(<Cash key={itinerary._id + "P" + i.toString() }/>)
-    }
+    };
     return (
         <div 
             className="itinerary"
@@ -53,7 +70,7 @@ const Itinerary = ({itinerary}) => {
                 </div>
                 <div className="social">
                     <p className="likes">
-                            {(itinerary.likes ? <HeartFill /> : <Heart />)} {itinerary.likes.toString()}
+                            {(itinerary.likes.length ? <HeartFill /> : <Heart />)} {itinerary.likes.length.toString()}
                     </p>
                     <div className="hashtags">
                         {itinerary.hashtags.map((hashtag, index)=> (
@@ -67,14 +84,60 @@ const Itinerary = ({itinerary}) => {
             
             <div 
                 className="commentsActivities"
-                style={{display: extraContent ? "flex" : "none"}}
+                style={{ display: extraContent ? "flex" : "none"}}
             >
-                <p>Page Under Construction</p>
+                <div
+                    className="activities"
+                >
+                    <h4>Activities</h4>
+                    <div
+                        className="activitiesContainer"
+                    >
+                    { activities.map(activity => (
+                        <div 
+                            className="activityPic"
+                            key={activity._id}
+                            style={{ backgroundImage: `url(${activity.src})`}}
+                        >
+                            <p className="title">{activity.title}</p>
+                        </div>
+                    ))}
+                    </div>
+                </div>
+                <div
+                    className="comments"
+                >
+                    <h4>Comments</h4>
+                    <div
+                        className="commentsContainer"
+                    >
+                    { itinerary.comments.map( comment => (
+                        <div 
+                            className="userComment"
+                            key={comment._id}
+                        >
+                            <div className="infoUser">
+                                <div
+                                    className="userPic"
+                                    style={{ backgroundImage: `url(${comment.userId.profilePic})`}}
+                                >
+                                </div>
+                                <p className="userName">{comment.userId.firstName + " " + comment.userId.lastName}</p>
+                            </div>
+                            <div 
+                                className="textComment"
+                            >
+                            {comment.commentText}
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+                </div>
             </div>
 
             <button
                 className="buttonView"
-                onClick={() => setExtraContent(!extraContent)}
+                onClick={() => {setExtraContent(!extraContent); showCommentActivities()}}
             >
                 View {extraContent ? " Less" : " More"} 
             </button>
@@ -82,4 +145,8 @@ const Itinerary = ({itinerary}) => {
     )
 };
 
-export default Itinerary;
+const mapDispatchToProps = {
+    getActivities: itinerariesActions.getActivities,
+}
+
+export default connect(null, mapDispatchToProps)(Itinerary);

@@ -16,17 +16,21 @@ const itinerariesControllers = {
 
     getItinerariesByCityId: (req, res) => {
         Itinerary.find( {cityId: req.params.cityId} )
-        .then( (itineraries) => 
-            res.json({ success: true, response: itineraries })
-        )
-        .catch( () => res.json({ success: false, response: "Page Not Found" }));
+            .populate({ 
+                path: "comments", 
+                populate: { path:"userId", select: "firstName lastName profilePic"} 
+            })
+            .then( (itineraries) => 
+                res.json({ success: true, response: itineraries })
+            )
+            .catch( () => res.json({ success: false, response: "Network Error" }));
     },
 
     uploadNewItinerary: (req, res) => {
-        const {title, author, price, duration, hashtags, description, src, cityId} = req.body;
+        const {title, author, price, duration, hashtags, comments, description, src, cityId} = req.body;
         const {name, profilePic} = author;
         const itineraryToUpload = new Itinerary ({
-            title, price, duration, hashtags, description, src, cityId,
+            title, price, duration, hashtags, comments, description, src, cityId,
             author: {
                 name: name,
                 profilePic: profilePic,
@@ -40,6 +44,7 @@ const itinerariesControllers = {
 
     getItineraryById: (req, res) => {
         Itinerary.findOne({ _id: req.params.id })
+            .populate("userId", "firstName lastName profilePic")
             .then((itinerary) => {
                 if (itinerary) {
                     res.json({ success: true, response: itinerary });

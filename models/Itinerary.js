@@ -5,12 +5,15 @@ const ItinerarySchema = new mongoose.Schema({
     author: { name:{ type: String}, profilePic:{ type: String} },
     price: { type: Number, min: 1, max: 5, required: true },
     duration: { type: Number, min: 1, required: true },
-    likes: { type: Number, default: 0, min: 0},
+    likes: [ String ],
     hashtags: [String],
-    comments: [],
+    comments: [ {
+        userId: { type: mongoose.Types.ObjectId, ref: "user"},
+        commentText: { type: String, required: true}
+    } ],
     description: { type: String, required: true },
     src: { type: String, required: true },
-    cityId: { type: mongoose.Types.ObjectId, ref: 'city' },
+    cityId: { type: mongoose.Types.ObjectId, ref: "city" },
 });
 
 const Itinerary = mongoose.model("itinerary", ItinerarySchema);
