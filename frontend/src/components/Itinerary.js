@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Cash, Heart, HeartFill, Stopwatch } from 'react-bootstrap-icons';
+import { Cash, Heart, HeartFill, PencilSquare, Stopwatch, Trash } from 'react-bootstrap-icons';
 import Aos from 'aos';
 import { connect } from "react-redux";
 import itinerariesActions from '../redux/actions/itinerariesActions';
 
-const Itinerary = ({itinerary, getActivities}) => {
+const Itinerary = ({itinerary, getActivities, userId}) => {
     const [ extraContent, setExtraContent] = useState(false);
     const [hovered, setHovered] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -12,21 +12,17 @@ const Itinerary = ({itinerary, getActivities}) => {
 
     useEffect(() => {
         Aos.init({ duration: 500 });
-        console.log(loading);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     const showCommentActivities = async () => {
-        console.log(itinerary._id);
         try{
             let response = await getActivities(itinerary._id);
-            console.log("hola");
             setActivities(response);
-            console.log(activities);
             setLoading(false);
         }catch(error){
             console.log(error);
         }
-        console.log(loading);
     }
 
     let cash = [];
@@ -113,21 +109,30 @@ const Itinerary = ({itinerary, getActivities}) => {
                     >
                     { itinerary.comments.map( comment => (
                         <div 
-                            className="userComment"
+                            className="eachComment"
                             key={comment._id}
                         >
-                            <div className="infoUser">
-                                <div
-                                    className="userPic"
-                                    style={{ backgroundImage: `url(${comment.userId.profilePic})`}}
-                                >
-                                </div>
-                                <p className="userName">{comment.userId.firstName + " " + comment.userId.lastName}</p>
-                            </div>
-                            <div 
-                                className="textComment"
+                            <div
+                                className="userPic"
+                                style={{ backgroundImage: `url(${comment.userId.profilePic})`}}
                             >
-                            {comment.commentText}
+                            </div>
+                            <div className="commentWithoutPic">
+                                <div className="nameAndEdit">
+                                    <p className="userName">{comment.userId.firstName + " " + comment.userId.lastName}</p>
+                                    {
+                                    (userId === comment.userId._id) &&
+                                    <div className="editDelete">
+                                        <PencilSquare />
+                                        <Trash />
+                                    </div>
+                                    }
+                                </div>
+                                <div
+                                    className="textComment"
+                                >
+                                {comment.commentText}
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -149,4 +154,10 @@ const mapDispatchToProps = {
     getActivities: itinerariesActions.getActivities,
 }
 
-export default connect(null, mapDispatchToProps)(Itinerary);
+const mapStateToProps = (state) => {
+    return{
+        userId: state.users.userId,
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Itinerary);

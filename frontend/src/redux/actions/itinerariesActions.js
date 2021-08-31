@@ -21,7 +21,6 @@ const itinerariesActions = {
         return async () => {
             let response = await axios.get(`http://localhost:4000/api/activities/${itineraryId}`);
             if (!response.data.success) throw response.data.error;
-            console.log(response.data.response);
             return response.data.response;
         }
     },

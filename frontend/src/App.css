@@ -737,25 +737,59 @@ in mediaquerie keeping the ux responsive*/
   background-color: #3a3a5a5b;
 }
 
+.activitiesContainer::-webkit-scrollbar {
+  height: 10px;
+}
+
 /* the div of the comments */
 .itinerary .commentsActivities .comments .commentsContainer{
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 /* info of the user who made the comment */
-.itinerary .commentsActivities .comments .commentsContainer .userComment .infoUser{
+.itinerary .commentsActivities .comments .commentsContainer .eachComment {
+  width: 90%;
   display: flex;
   align-items: center;
 }
 
 /* user profile pic */
-.itinerary .commentsActivities .comments .commentsContainer .userComment .infoUser .userPic{
-  height: 80px;
-  width: 80px;
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .userPic{
+  height: 50px;
+  width: 50px;
   background-size: cover;
   background-position: center;
   border-radius: 100%;
+  align-self: flex-start;
+}
+/* container of the comment without the user pic */
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic{
+  width: 80%;
+}
+/* container of the user name and for edit and delete */
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic .nameAndEdit{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* user name */
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic .nameAndEdit p.userName{
+  display: block;
+}
+/* edit and delete */
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic .nameAndEdit .editDelete{
+  width: 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic .nameAndEdit .editDelete svg{
+  cursor: pointer;
 }
 
 .itinerary button{

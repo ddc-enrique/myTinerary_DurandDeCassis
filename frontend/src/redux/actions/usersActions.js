@@ -36,6 +36,7 @@ const usersActions = {
                     .get("http://localhost:4000/api/verifyToken", { 
                     headers: { Authorization: "Bearer " + token } 
                 });
+                console.log(response.data.user._id);
                 dispatch({ type:"SIGN_USER_ON_LS_&_STORE", payload: {
                     token, user: response.data.user } 
                 });
@@ -43,6 +44,10 @@ const usersActions = {
                 dispatch({ type:"SIGN_OUT"});
             }
         }
+    },
+
+    dataUserWithToken: (token) => {
+        
     }
 }
 

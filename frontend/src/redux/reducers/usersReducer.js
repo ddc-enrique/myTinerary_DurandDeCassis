@@ -1,4 +1,4 @@
-const usersReducer = (state = { token:null, firstName: null, profilePic: null}, action) => {
+const usersReducer = (state = { token:null, userId: null, firstName: null, profilePic: null}, action) => {
     switch(action.type) {
         case "SIGN_USER_ON_LS_&_STORE":
             localStorage.setItem("token", action.payload.token);
@@ -6,8 +6,8 @@ const usersReducer = (state = { token:null, firstName: null, profilePic: null}, 
             localStorage.setItem("profilePic", action.payload.user.profilePic);
             return{
                 // ...state,
-                token: action.payload.token, firstName: action.payload.user.firstName,
-                profilePic: action.payload.user.profilePic,
+                token: action.payload.token, userId: action.payload.user._id,
+                firstName: action.payload.user.firstName, profilePic: action.payload.user.profilePic,
             };
         
         case "SIGN_OUT":
@@ -15,7 +15,7 @@ const usersReducer = (state = { token:null, firstName: null, profilePic: null}, 
             localStorage.removeItem("firstName");
             localStorage.removeItem("profilePic");
             return{
-                token: null, firstName: null, profilePic: null,
+                token: null, firstName: null, profilePic: null, userId: null,
             };
 
         default:
