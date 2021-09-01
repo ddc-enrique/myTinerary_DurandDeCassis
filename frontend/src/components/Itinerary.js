@@ -116,7 +116,7 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
                 style={{ display: extraContent ? "flex" : "none"}}
             >   
                 {loading ? 
-                <img src={require("../assets/preLoader2.gif").default} alt="Pre Loader" />
+                <img src={require("../assets/preLoader1.gif").default} alt="Pre Loader" />
                 :<>
                     <div
                         className="activities"
