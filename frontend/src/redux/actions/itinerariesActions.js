@@ -24,6 +24,14 @@ const itinerariesActions = {
             return response.data.response;
         }
     },
+
+    likeItinerary: (itineraryId, user_Id, flag) => {
+        return async () => {
+            let response = await axios.put(`http://localhost:4000/api/removeLike/${itineraryId}`, { userId: user_Id, addLike: flag});
+            if(!response.data.success) throw response.data.response;
+            return response.data.success;
+        }
+    },
 };
 
 export default itinerariesActions;

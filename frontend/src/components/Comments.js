@@ -1,11 +1,22 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import { PencilSquare, PlusSquare, Trash } from 'react-bootstrap-icons';
+import { PencilSquare, Trash } from 'react-bootstrap-icons';
 
 const Comments = ({userId, comments}) => {
     const [edit, setEdit] = useState(false);
     const [remove, setRemove] = useState(false);
 
+    const deleteComment = async() => {
+
+    };
+
+    const uploadNewComment = async() => {
+
+    };
+
+    const updateNewComment = async() => {
+
+    };
 
     return (
         <div
@@ -34,8 +45,8 @@ const Comments = ({userId, comments}) => {
                                 <p className="userName">{comment.userId.firstName + " " + comment.userId.lastName}</p>
                                 {flagID &&
                                 <div className="editDelete">
-                                    <PencilSquare />
-                                    <Trash />
+                                    <PencilSquare onClick={() => setEdit(!edit)} />
+                                    <Trash onClick={() => setRemove(!remove)} />
                                 </div>
                                 }
                             </div>
@@ -51,15 +62,19 @@ const Comments = ({userId, comments}) => {
                                 <textarea
                                     name="commentText"
                                     id="commentText"
+                                    defaultValue={comment.commentText}
                                 >
-                                    {comment.commentText}
                                 </textarea>}
                                 {(edit && flagID) && 
                                 <div 
                                     className="cancelConfirm"
                                 >
                                     <button>Confirm</button>
-                                    <button>Cancel</button>
+                                    <button
+                                        onClick={() => setEdit(false)}
+                                    >
+                                        Cancel
+                                    </button>
                                 </div>}
                             </div>
                         </div>}
@@ -73,8 +88,16 @@ const Comments = ({userId, comments}) => {
                             <div 
                                     className="cancelConfirm"
                                 >
-                                    <button>Delete</button>
-                                    <button>Leave</button>
+                                    <button
+                                        onClick={() =>{}}
+                                    >
+                                        Delete
+                                    </button>
+                                    <button
+                                        onClick={() => setRemove(false)}
+                                    >
+                                        Leave
+                                    </button>
                             </div>
                         </div>}
                     </div>
@@ -88,12 +111,10 @@ const Comments = ({userId, comments}) => {
                     disabled={userId ? false : true}
                 >
                 </textarea>
-                <button
-                    disabled={userId ? false : true}
-                    style={{cursor:userId ? "auto" : "no-drop"}}
-                >
+                {userId &&
+                <button>
                     Confirm
-                </button>
+                </button>}
             </div>
         </div>
     )

@@ -110,7 +110,7 @@ const SignIn = ({signIn}) => {
         handleSignIn(googleUser);
     };
 
-    const submitUser = () => {
+    const submitUser = (e) => {
         if (handleValidation()) {
             handleSignIn(checkUser);
         };

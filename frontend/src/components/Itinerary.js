@@ -10,6 +10,7 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
     const [hovered, setHovered] = useState(false);
     const [loading, setLoading] = useState(true);
     const [activities, setActivities] = useState([]);
+    const [changeLike, setChangeLike] = useState(true);
     const activitiesContainer = useRef({});
     
     useEffect(() => {
@@ -19,14 +20,22 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
     
     useEffect(() => {
         if (Object.keys(activitiesContainer.current).length) {
-            console.log(activitiesContainer.current.scrollLeft, "aca arranca");
             let scrollNumber = Math.round(activitiesContainer.current.scrollWidth/2);
-            console.log("scrolleate a la derecha", scrollNumber)
-            // activitiesContainer.current.scrollLeft = scrollNumber;
-            activitiesContainer.current.scrollBy(scrollNumber,0);
-            console.log(activitiesContainer.current.scrollLeft, "aca termina");
+            activitiesContainer.current.scrollLeft = scrollNumber;
+            // activitiesContainer.current.scrollBy(scrollNumber,0);
         }
     }, [extraContent]);
+
+    const likeItinerary = () => {
+        //itinerary._id y userId
+        if (userId && changeLike){
+            setChangeLike(false);
+        }
+    };
+
+    const removeLike = (userId) => {
+
+    };
 
     const showCommentActivities = async () => {
         try{
@@ -36,12 +45,13 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
         }catch(error){
             console.log(error);
         }
-    }
+    };
 
     let cash = [];
     for (let i = 1; i <= itinerary.price; i++) {
         cash.push(<Cash key={itinerary._id + "P" + i.toString() }/>)
     };
+
     return (
         <div 
             className="itinerary"
@@ -80,8 +90,15 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
                 <div className="social">
                     <p className="likes">
                             {(itinerary.likes.includes(userId) ? 
-                                                        <HeartFill style={{cursor:userId ? "pointer" : "no-drop"}} /> 
-                                                        : <Heart style={{cursor:userId ? "pointer" : "no-drop"}} />)} 
+                                <HeartFill
+                                    style={{cursor:userId ? "pointer" : "no-drop"}}
+                                    onClick={() => removeLike()}
+                                /> 
+                                : <Heart 
+                                    style={{cursor:userId ? "pointer" : "no-drop"}} 
+                                    onClick={() => likeItinerary()}
+                                />
+                            )} 
                             {itinerary.likes.length.toString()}
                     </p>
                     <div className="hashtags">
@@ -97,27 +114,31 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
             <div 
                 className="commentsActivities"
                 style={{ display: extraContent ? "flex" : "none"}}
-            >
-                <div
-                    className="activities"
-                >
-                    <h4>Activities</h4>
+            >   
+                {loading ? 
+                <img src={require("../assets/preLoader2.gif").default} alt="Pre Loader" />
+                :<>
                     <div
-                        ref={activitiesContainer}
-                        className="activitiesContainer"
+                        className="activities"
                     >
-                    { activities.map(activity => (
-                        <div 
-                            className="activityPic"
-                            key={activity._id}
-                            style={{ backgroundImage: `url(${activity.src})`}}
+                        <h4>Activities</h4>
+                        <div
+                            ref={activitiesContainer}
+                            className="activitiesContainer"
                         >
-                            <p className="title">{activity.title}</p>
+                        { activities.map(activity => (
+                            <div 
+                                className="activityPic"
+                                key={activity._id}
+                                style={{ backgroundImage: `url(${activity.src})`}}
+                            >
+                                <p className="title">{activity.title}</p>
+                            </div>
+                        ))}
                         </div>
-                    ))}
                     </div>
-                </div>
-                <Comments comments={itinerary.comments}/>
+                    <Comments comments={itinerary.comments}/>
+                </>}
             </div>
 
             <button

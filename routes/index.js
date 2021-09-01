@@ -30,6 +30,10 @@ router
     .delete(itinerariesControllers.deleteItinerary);
 
 router
+    .route("/likeItinerary/:itineraryId")
+    .put(itinerariesControllers.likeItinerary);
+
+router
     .route("/itineraries/:cityId")
     .get(itinerariesControllers.getItinerariesByCityId);
 

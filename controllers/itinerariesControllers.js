@@ -64,7 +64,7 @@ const itinerariesControllers = {
                 throw new Error(`No itinerary found with the _id: ${req.params._id}`)
             }
         })
-        .catch( (err) => res.json({ success: false, response: err }) )
+        .catch( (err) => res.json({ success: false, response: err }) );
     },
 
     deleteItinerary: (req, res) => {
@@ -76,7 +76,16 @@ const itinerariesControllers = {
                 throw new Error(`No itinerary found with the _id: ${req.params._id}`)
             }
         })
-        .catch( (err) => res.json({ success: false, response: err }) )
+        .catch( (err) => res.json({ success: false, response: err }) );
+    },
+
+    likeItinerary: (req, res) => {
+        const {userId, addLike} = req.body;
+        const arrayOperator = addLike ? {$push: { likes: userId }} : {$pull: { likes: userId }};
+        Itinerary.findOneAndUpdate( 
+            { _id: req.params.itineraryId }, arrayOperator 
+        ).then( () => res.json({ success: true }) )
+        .catch( err => res.json({ success: false, response: err }) );
     },
 };
 

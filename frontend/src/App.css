@@ -811,6 +811,10 @@ in mediaquerie keeping the ux responsive*/
   cursor: pointer;
 }
 
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic .nameAndEdit .editDelete svg:last-child:hover{
+  color: red;
+}
+
 /* comment text */
 .itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText{
   width: 100%;
