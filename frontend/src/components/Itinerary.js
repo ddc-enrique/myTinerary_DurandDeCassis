@@ -1,20 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { Cash, Heart, HeartFill, PencilSquare, Stopwatch, Trash } from 'react-bootstrap-icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { Cash, Heart, HeartFill, Stopwatch } from 'react-bootstrap-icons';
 import Aos from 'aos';
 import { connect } from "react-redux";
 import itinerariesActions from '../redux/actions/itinerariesActions';
+import Comments from './Comments';
 
 const Itinerary = ({itinerary, getActivities, userId}) => {
     const [ extraContent, setExtraContent] = useState(false);
     const [hovered, setHovered] = useState(false);
     const [loading, setLoading] = useState(true);
     const [activities, setActivities] = useState([]);
-
+    const activitiesContainer = useRef({});
+    
     useEffect(() => {
         Aos.init({ duration: 500 });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
+    useEffect(() => {
+        if (Object.keys(activitiesContainer.current).length) {
+            console.log(activitiesContainer.current.scrollLeft, "aca arranca");
+            let scrollNumber = Math.round(activitiesContainer.current.scrollWidth/2);
+            console.log("scrolleate a la derecha", scrollNumber)
+            // activitiesContainer.current.scrollLeft = scrollNumber;
+            activitiesContainer.current.scrollBy(scrollNumber,0);
+            console.log(activitiesContainer.current.scrollLeft, "aca termina");
+        }
+    }, [extraContent]);
+
     const showCommentActivities = async () => {
         try{
             let response = await getActivities(itinerary._id);
@@ -66,7 +79,10 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
                 </div>
                 <div className="social">
                     <p className="likes">
-                            {(itinerary.likes.length ? <HeartFill /> : <Heart />)} {itinerary.likes.length.toString()}
+                            {(itinerary.likes.includes(userId) ? 
+                                                        <HeartFill style={{cursor:userId ? "pointer" : "no-drop"}} /> 
+                                                        : <Heart style={{cursor:userId ? "pointer" : "no-drop"}} />)} 
+                            {itinerary.likes.length.toString()}
                     </p>
                     <div className="hashtags">
                         {itinerary.hashtags.map((hashtag, index)=> (
@@ -87,6 +103,7 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
                 >
                     <h4>Activities</h4>
                     <div
+                        ref={activitiesContainer}
                         className="activitiesContainer"
                     >
                     { activities.map(activity => (
@@ -100,44 +117,7 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
                     ))}
                     </div>
                 </div>
-                <div
-                    className="comments"
-                >
-                    <h4>Comments</h4>
-                    <div
-                        className="commentsContainer"
-                    >
-                    { itinerary.comments.map( comment => (
-                        <div 
-                            className="eachComment"
-                            key={comment._id}
-                        >
-                            <div
-                                className="userPic"
-                                style={{ backgroundImage: `url(${comment.userId.profilePic})`}}
-                            >
-                            </div>
-                            <div className="commentWithoutPic">
-                                <div className="nameAndEdit">
-                                    <p className="userName">{comment.userId.firstName + " " + comment.userId.lastName}</p>
-                                    {
-                                    (userId === comment.userId._id) &&
-                                    <div className="editDelete">
-                                        <PencilSquare />
-                                        <Trash />
-                                    </div>
-                                    }
-                                </div>
-                                <div
-                                    className="textComment"
-                                >
-                                {comment.commentText}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                    </div>
-                </div>
+                <Comments comments={itinerary.comments}/>
             </div>
 
             <button

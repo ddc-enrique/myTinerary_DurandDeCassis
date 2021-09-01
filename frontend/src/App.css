@@ -675,11 +675,8 @@ in mediaquerie keeping the ux responsive*/
 /* likes heart color */
 .itinerary .bodyItinerary .social .likes svg{
   color: red;
-}
-.itinerary .bodyItinerary .social .likes{
   cursor: pointer;
 }
-
 
 /* order hashtgs */
 .itinerary .bodyItinerary .social .hashtags{
@@ -691,9 +688,12 @@ in mediaquerie keeping the ux responsive*/
   margin-bottom: 2vh;
   display: none;    
   flex-direction: column;
-  border: 1px solid whitesmoke;
-  height: 70vh;
+  min-height: 70vh;
   width: 94%;
+}
+
+.itinerary .commentsActivities .activities{
+  min-height: 60%;
 }
 
 .itinerary .commentsActivities .activities,
@@ -709,7 +709,7 @@ in mediaquerie keeping the ux responsive*/
   width: 100%;
   display: flex;
   justify-content: space-between;
-  overflow-x: auto;
+  overflow-x: scroll;
 }
 
 /* each activity with each pic */
@@ -736,9 +736,26 @@ in mediaquerie keeping the ux responsive*/
   color: whitesmoke;
   background-color: #3a3a5a5b;
 }
-
+/* SCROLLBAR OF ACTIVITIES */
 .activitiesContainer::-webkit-scrollbar {
   height: 10px;
+}
+/* .activitiesContainer::-webkit-scrollbar-track {
+  background: #3a3a5a; 
+  box-shadow: inset 0 0 5px whitesmoke; 
+  border-radius: 5px
+}
+.activitiesContainer::-webkit-scrollbar-thumb {
+  background: #9191a5; 
+  border-radius: 5px
+}
+.activitiesContainer::-webkit-scrollbar-thumb:hover {
+  background: #8d8dd4; 
+} */
+
+.itinerary .commentsActivities .comments{
+  min-height: 40%;
+  justify-content: space-between;
 }
 
 /* the div of the comments */
@@ -747,11 +764,13 @@ in mediaquerie keeping the ux responsive*/
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-grow: 1;
+  overflow-y: scroll;
 }
 
 /* info of the user who made the comment */
 .itinerary .commentsActivities .comments .commentsContainer .eachComment {
-  width: 90%;
+  width: 97%;
   display: flex;
   align-items: center;
 }
@@ -760,6 +779,7 @@ in mediaquerie keeping the ux responsive*/
 .itinerary .commentsActivities .comments .commentsContainer .eachComment .userPic{
   height: 50px;
   width: 50px;
+  margin: 5px 10px 0 0;
   background-size: cover;
   background-position: center;
   border-radius: 100%;
@@ -767,7 +787,7 @@ in mediaquerie keeping the ux responsive*/
 }
 /* container of the comment without the user pic */
 .itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic{
-  width: 80%;
+  width: 90%;
 }
 /* container of the user name and for edit and delete */
 .itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic .nameAndEdit{
@@ -787,14 +807,104 @@ in mediaquerie keeping the ux responsive*/
   justify-content: space-between;
   align-items: center;
 }
-
 .itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic .nameAndEdit .editDelete svg{
   cursor: pointer;
 }
 
-.itinerary button{
-  min-width: 90px;
+/* comment text */
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText{
+  width: 100%;
+  color: whitesmoke;
+  padding: 3px;
+  border: 1px solid whitesmoke;
+  /* background-color: #4b4264bd; */
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
 }
+
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText p.commentText,
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText textarea{
+  width: 100%;
+}
+/* TEXT AREA FOR EDIT */
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText textarea{
+  resize: none;
+}
+
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText .cancelConfirm,
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .removeComment .cancelConfirm{
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText .cancelConfirm button,
+.itinerary .commentsActivities .comments .newComment button,
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .removeComment .cancelConfirm button{
+  min-width: 65px;
+  margin-top: 5px;
+  border-radius: 5px;
+  background-color: #b3aab9;
+  color: #22223f;
+}
+
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText .cancelConfirm button:first-child:hover,
+.itinerary .commentsActivities .comments .newComment button:hover,
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .removeComment .cancelConfirm button:last-child:hover{
+  background-color: rgb(24, 85, 24);
+  color: whitesmoke;
+}
+
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText .cancelConfirm button:last-child:hover,
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .removeComment .cancelConfirm button:first-child:hover{
+  background-color: rgb(110, 21, 5);
+  color: whitesmoke;
+}
+
+/* delete message */
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .removeComment{
+  width: 100%;
+  border-radius: 10px;
+  background-color: #4b4264bd;
+  color: whitesmoke;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .removeComment p.removeMessage{
+  display: block;
+}
+
+.itinerary .commentsActivities .comments .newComment{
+  width: 100%;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itinerary .commentsActivities .comments .newComment textarea{
+  width: 100%;
+  min-height: 50px;
+  resize: none;
+}
+
+.itinerary .commentsActivities .comments .newComment button{
+  margin:0 2vw;
+}
+
+
+
+/* View More Less */
+.itinerary button.buttonView{
+  min-width: 90px;
+  margin-top: 5px;
+}
+
 
 /* SIGN-UP and SIGN-IN */
 
