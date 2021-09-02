@@ -67,6 +67,13 @@ const citiesControllers = {
         })
         .catch( (err) => res.json({ success: false, response: err }) )
     },
+
+    updateCityLikes: (req, res) => {
+        City.findOneAndUpdate( 
+            { _id: req.params.id }, { $inc: {likes: req.body.addLike ? 1 : -1} } 
+        ).then( () => res.json({ success: true }) )
+        .catch( err => res.json({ success: false, response: err }) );
+    },
 };
 
 module.exports = citiesControllers;

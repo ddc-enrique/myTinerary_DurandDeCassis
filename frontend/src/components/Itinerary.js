@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import itinerariesActions from '../redux/actions/itinerariesActions';
 import Comments from './Comments';
 import { store } from 'react-notifications-component';
+import citiesActions from '../redux/actions/citiesActions';
 
-const Itinerary = ({itinerary, getActivities, userId, token, likeItinerary}) => {
+const Itinerary = ({itinerary, getActivities, userId, token, likeItinerary, updateCityLikes}) => {
     const [ extraContent, setExtraContent] = useState(false);
     const [hovered, setHovered] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -33,18 +34,20 @@ const Itinerary = ({itinerary, getActivities, userId, token, likeItinerary}) => 
         if (userId && changeLike){
             setChangeLike(false);
             try {
-                success = await likeItinerary(itinerary._id, userId, flag, token);
-                // agregar action para sumarle un like a la ciudad tmb
+                success = await likeItinerary(itinerary._id, token,userId, flag);
+                await updateCityLikes(token, itinerary.cityId, flag);
             } catch (error) {
                 notificationOptions.title = "Sorry, we are having connection errors";
                 notificationOptions.message = "Please come back later";
                 notificationOptions.type = "danger";
             } finally {
-                if (flag) {
-                    itinerary.likes.push(userId);
-                } else { 
-                    itinerary.likes.pop();
-                }
+                if(success) {
+                    if (flag) {
+                        itinerary.likes.push(userId);
+                    } else { 
+                        itinerary.likes.pop();
+                    }
+                };
                 setChangeLike(success);
             }
         };
@@ -186,6 +189,7 @@ const Itinerary = ({itinerary, getActivities, userId, token, likeItinerary}) => 
 const mapDispatchToProps = {
     getActivities: itinerariesActions.getActivities,
     likeItinerary: itinerariesActions.likeItinerary,
+    updateCityLikes: citiesActions.updateCityLikes,
 }
 
 const mapStateToProps = (state) => {

@@ -16,6 +16,15 @@ const citiesActions = {
         }
     },
 
+    updateCityLikes: (token, cityId, addLike) => {
+        return async(dispatch) => {
+            await axios.put(`http://localhost:4000/api/city/likes/${cityId}`, 
+                addLike, { headers: { Authorization: "Bearer " + token } }
+            );
+            dispatch({ type: "UPDATE_CITY_LIKES", payload: {cityId, addLike}});
+        }
+    },
+
 };
 
 export default citiesActions;

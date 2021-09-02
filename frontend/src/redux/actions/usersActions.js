@@ -30,7 +30,7 @@ const usersActions = {
             try {
                 let response = await axios
                     .get("http://localhost:4000/api/verifyToken", { 
-                    headers: { Authorization: "Bearer " + token } 
+                    headers: { Authorization: "Bearer " + token }
                 });
                 dispatch({ type:"SIGN_USER_ON_LS_&_STORE", payload: {
                     token, user: response.data.user } 

@@ -52,11 +52,11 @@ const MenuSign = ({token, profilePic, signOut}) => {
                         </nav>
                         :
                         <nav>
-                            <Link className="sign" onClick={() => signOut()} to="/">
+                            <span className="sign" onClick={() => signOut()} >
                                 <div className="sign signIconText">
                                     <PersonX></PersonX> <p className="sign"> SIGN-OUT</p>
                                 </div>
-                            </Link>
+                            </span>
                         </nav>
                     }
                     <div

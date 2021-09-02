@@ -19,6 +19,10 @@ router
     .delete(citiesControllers.deleteCity);
 
 router
+    .route("/city/likes/:id")
+    .put(passport.authenticate("jwt", { session: false }), citiesControllers.updateCityLikes)
+
+router
     .route("/itineraries")
     .get(itinerariesControllers.getAllItineraries)
     .post(itinerariesControllers.uploadNewItinerary);

@@ -16,7 +16,17 @@ const citiesReducer = ( state = { citiesList: [], citiesFiltered: [],}, action) 
                 ...state,
                 citiesFiltered: newList,
             };
-            
+        case "UPDATE_CITIES_LIKES":
+            let citiesLikesUpdated = state.citiesList.map(city => {
+                if (city._id === action.payload.cityId) {
+                    city.likes = action.payload.addLike ? (city.likes + 1) : (city.likes - 1);
+                }
+                return city
+            });
+            return{
+                citiesList: citiesLikesUpdated,
+            };
+
         default: 
             return state;
     }

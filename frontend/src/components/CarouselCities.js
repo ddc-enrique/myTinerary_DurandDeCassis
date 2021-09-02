@@ -29,7 +29,7 @@ const CarouselCities = ({getCities, cities}) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    citiesAux = cities.sort((cityA, cityB) => cityA.likes - cityB.likes);
+    citiesAux = cities.sort((cityA, cityB) => cityB.likes - cityA.likes);
 
     items = items.map((slide, i) => {
         for (let j = i*4; j < (i+1)*4; j++) {

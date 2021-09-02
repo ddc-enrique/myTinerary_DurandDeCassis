@@ -26,7 +26,7 @@ const itinerariesActions = {
     },
 
     likeItinerary: (itineraryId, token, userId, addLike) => {
-        return async () => {
+        return async () => {            
             let response = await axios.put(`http://localhost:4000/api/likeItinerary/${itineraryId}`, 
                 { userId, addLike }, { headers: { Authorization: "Bearer " + token } }
             );
