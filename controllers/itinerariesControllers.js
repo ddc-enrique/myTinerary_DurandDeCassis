@@ -87,6 +87,26 @@ const itinerariesControllers = {
         ).then( () => res.json({ success: true }) )
         .catch( err => res.json({ success: false, response: err }) );
     },
+    
+    commentItinerary: (req, res) => {
+        const {userId, commentText, commentId} = req.body;
+        const arrayOperator = userId ? { $push: {comments: {userId, commentText} } }
+                            : {$pull: { comments: {_id: commentId} }};
+        Itinerary.findOneAndUpdate(
+            { _id: req.params.itineraryId }, arrayOperator, {returnOriginal: false}
+        ).then( (itinerary) => res.json({ success: true, response: (userId && itinerary.comments[itinerary.comments.length-1]) }) )
+        .catch( err => res.json({ success: false, response: err }) );
+    },
+
+    editComment: (req, res) => {
+        const {commentId, newCommentText} = req.body;
+        Itinerary.findOneAndUpdate(
+            { "comments._id": commentId },
+            {$set: {"comments.$.commentText": newCommentText} }
+        ).then( () => res.json({ success: true }) )
+        .catch( err => res.json({ success: false, response: err }) );
+    },
+
 };
 
 module.exports = itinerariesControllers;

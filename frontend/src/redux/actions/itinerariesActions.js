@@ -25,13 +25,38 @@ const itinerariesActions = {
         }
     },
 
-    likeItinerary: (itineraryId, user_Id, flag) => {
+    likeItinerary: (itineraryId, token, userId, addLike) => {
         return async () => {
-            let response = await axios.put(`http://localhost:4000/api/removeLike/${itineraryId}`, { userId: user_Id, addLike: flag});
+            let response = await axios.put(`http://localhost:4000/api/likeItinerary/${itineraryId}`, 
+                { userId, addLike }, { headers: { Authorization: "Bearer " + token } }
+            );
             if(!response.data.success) throw response.data.response;
             return response.data.success;
         }
     },
+
+    addOrDeleteComment: (itineraryId, token, userId, commentText, commentId) => {
+        return async () => {
+            let response = await axios.put(`http://localhost:4000/api/commentItinerary/${itineraryId}`,
+                { userId, commentText, commentId }, { headers: { Authorization: "Bearer " + token } }
+            );
+            if(!response.data.success) throw response.data.response;
+            return response.data;
+        }
+    },
+
+    editComment: (commentId, token, newCommentText) => {
+        return async () => {
+            let response = await axios.put("http://localhost:4000/api/editComment", 
+                { commentId, newCommentText },
+                { headers: { Authorization: "Bearer " + token } }
+            );
+            if(!response.data.success) throw response.data.response;
+            return response.data.success;
+        }
+    },
+
+
 };
 
 export default itinerariesActions;

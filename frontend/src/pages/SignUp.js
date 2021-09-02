@@ -88,7 +88,7 @@ const SignUp = ({signUp}) => {
     };
 
     const handleSignUp = async(user) => {
-        let notificationOptions = { title: "", message: "", type: "", container: "center", dismiss: { duration: 4000, pauseOnHover: true } };
+        let notificationOptions = { title: "", message: "", type: "", container: "center", dismiss: { duration: 4000, pauseOnHover: true, showIcon: true } };
         let showNotification = true;
         try {
             let response = await signUp(user);

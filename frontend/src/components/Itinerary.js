@@ -4,8 +4,9 @@ import Aos from 'aos';
 import { connect } from "react-redux";
 import itinerariesActions from '../redux/actions/itinerariesActions';
 import Comments from './Comments';
+import { store } from 'react-notifications-component';
 
-const Itinerary = ({itinerary, getActivities, userId}) => {
+const Itinerary = ({itinerary, getActivities, userId, token, likeItinerary}) => {
     const [ extraContent, setExtraContent] = useState(false);
     const [hovered, setHovered] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -26,15 +27,46 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
         }
     }, [extraContent]);
 
-    const likeItinerary = () => {
-        //itinerary._id y userId
+    const likeThisItinerary = async (flag) => {
+        let success;
+        let notificationOptions = { title: "", message: "", type: ""};
         if (userId && changeLike){
             setChangeLike(false);
-        }
-    };
-
-    const removeLike = (userId) => {
-
+            try {
+                success = await likeItinerary(itinerary._id, userId, flag, token);
+                // agregar action para sumarle un like a la ciudad tmb
+            } catch (error) {
+                notificationOptions.title = "Sorry, we are having connection errors";
+                notificationOptions.message = "Please come back later";
+                notificationOptions.type = "danger";
+            } finally {
+                if (flag) {
+                    itinerary.likes.push(userId);
+                } else { 
+                    itinerary.likes.pop();
+                }
+                setChangeLike(success);
+            }
+        };
+        if (!userId) {
+            notificationOptions.title = "Please Sign In";
+            notificationOptions.message = "If you want to put a like on an Itinerary.";
+            notificationOptions.type = "warning";
+        };
+        if (notificationOptions.title) {
+            store.addNotification({
+                ...notificationOptions,
+                insert: "top",
+                container: "center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: { 
+                    duration: 3000, 
+                    pauseOnHover: true, 
+                    showIcon: true 
+                },
+            });
+        };
     };
 
     const showCommentActivities = async () => {
@@ -92,11 +124,11 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
                             {(itinerary.likes.includes(userId) ? 
                                 <HeartFill
                                     style={{cursor:userId ? "pointer" : "no-drop"}}
-                                    onClick={() => removeLike()}
+                                    onClick={() => likeThisItinerary(false)}
                                 /> 
                                 : <Heart 
                                     style={{cursor:userId ? "pointer" : "no-drop"}} 
-                                    onClick={() => likeItinerary()}
+                                    onClick={() => likeThisItinerary(true)}
                                 />
                             )} 
                             {itinerary.likes.length.toString()}
@@ -137,7 +169,7 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
                         ))}
                         </div>
                     </div>
-                    <Comments comments={itinerary.comments}/>
+                    <Comments itineraryId={itinerary._id} comments={itinerary.comments}/>
                 </>}
             </div>
 
@@ -153,10 +185,12 @@ const Itinerary = ({itinerary, getActivities, userId}) => {
 
 const mapDispatchToProps = {
     getActivities: itinerariesActions.getActivities,
+    likeItinerary: itinerariesActions.likeItinerary,
 }
 
 const mapStateToProps = (state) => {
     return{
+        token: state.users.token,
         userId: state.users.userId,
     }
 };

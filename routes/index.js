@@ -31,8 +31,16 @@ router
 
 router
     .route("/likeItinerary/:itineraryId")
-    .put(itinerariesControllers.likeItinerary);
+    .put(passport.authenticate("jwt", { session: false }), itinerariesControllers.likeItinerary);
+ 
+router
+    .route("/commentItinerary/:itineraryId")
+    .put(passport.authenticate("jwt", { session: false }), itinerariesControllers.commentItinerary);
 
+router
+    .route("/editComment")
+    .put(passport.authenticate("jwt", { session: false }), itinerariesControllers.editComment);
+   
 router
     .route("/itineraries/:cityId")
     .get(itinerariesControllers.getItinerariesByCityId);

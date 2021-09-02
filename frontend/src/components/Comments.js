@@ -1,21 +1,70 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
+import itinerariesActions from '../redux/actions/itinerariesActions';
 
-const Comments = ({userId, comments}) => {
+const Comments = ({itineraryId, userId, comments, addOrDeleteComment, editComment, token, profilePic, firstName, lastName}) => {
     const [edit, setEdit] = useState(false);
     const [remove, setRemove] = useState(false);
+    const [stagingComments, setStagingComments] = useState(comments);
+    const editCommentText = useRef("");
+    const commentText = useRef("");
 
-    const deleteComment = async() => {
+    useEffect(() => {
+        
+    }, [stagingComments])
 
+    const updateComment = async(commentId, index) => {
+        let response, newCommentText;
+        try {
+            newCommentText = editCommentText.current.value;
+            response = await editComment(commentId, token, newCommentText);
+        } catch (error) {
+            
+        } finally {
+            if(response){
+                let commentsAux = stagingComments.map((comment, i) => {
+                    if( i === index ) {
+                        comment.commentText = newCommentText;
+                        return comment;
+                    };
+                    return comment;
+                });
+                setStagingComments(commentsAux);
+                setEdit(false);
+            };
+        };
+    };
+    
+    const deleteComment = async(commentId) => {
+        let response;
+        try {
+            response = await addOrDeleteComment(itineraryId, token, null, null, commentId);
+        } catch (error) {
+            
+        } finally {
+            if(response.success){
+                let commentsAux = stagingComments.filter( comment => comment._id !== commentId);
+                setStagingComments(commentsAux);
+                setRemove(false);
+            }
+        };
     };
 
-    const uploadNewComment = async() => {
-
-    };
-
-    const updateNewComment = async() => {
-
+    const addComment = async() => {
+        let response, newCommentText;
+        try {
+            newCommentText = commentText.current.value;
+            response = await addOrDeleteComment(itineraryId, token, userId, newCommentText);
+        } catch (error) {
+            
+        } finally {
+            if(response.success){
+                let commentToShow = {...response.response, userId:{ _id: userId, profilePic, firstName, lastName }}
+                setStagingComments([...stagingComments, commentToShow]);
+                commentText.current.value = null;
+            }
+        };
     };
 
     return (
@@ -27,23 +76,23 @@ const Comments = ({userId, comments}) => {
                 className="commentsContainer"
                 style={{height: edit ? "32vh" : "20vh"}}
             >
-                { comments.map( comment => {
-                    let flagID = userId === comment.userId._id;
+                { stagingComments.map( (comment, index) => {
+                    let flagUserID = userId === comment.userId._id;
                     return (<div 
                         className="eachComment"
                         key={comment._id}
                     >
-                        {(!flagID || (!remove && flagID)) &&
+                        {(!flagUserID || (!remove && flagUserID)) &&
                         <div
                             className="userPic"
                             style={{ backgroundImage: `url(${comment.userId.profilePic})`}}
                         >
                         </div>}
-                        {(!flagID || (!remove && flagID)) &&
+                        {(!flagUserID || (!remove && flagUserID)) &&
                         <div className="commentWithoutPic">
                             <div className="nameAndEdit">
                                 <p className="userName">{comment.userId.firstName + " " + comment.userId.lastName}</p>
-                                {flagID &&
+                                {flagUserID &&
                                 <div className="editDelete">
                                     <PencilSquare onClick={() => setEdit(!edit)} />
                                     <Trash onClick={() => setRemove(!remove)} />
@@ -52,24 +101,30 @@ const Comments = ({userId, comments}) => {
                             </div>
                             <div 
                                 className="commentText"
-                                style={{backgroundColor: (!edit && flagID) ? "#4b4264bd" : "inherit"}}
+                                style={{backgroundColor: (!edit && flagUserID) ? "#4b4264bd" : "inherit"}}
                             >
-                                {(!flagID || (!edit && flagID)) && 
+                                {(!flagUserID || (!edit && flagUserID)) && 
                                 <p className="commentText">
                                     {comment.commentText}
                                 </p>}
-                                {(edit && flagID) && 
+                                {(edit && flagUserID) && 
                                 <textarea
                                     name="commentText"
                                     id="commentText"
                                     defaultValue={comment.commentText}
+                                    ref={editCommentText}
                                 >
                                 </textarea>}
-                                {(edit && flagID) && 
+                                {(edit && flagUserID) && 
                                 <div 
                                     className="cancelConfirm"
                                 >
-                                    <button>Confirm</button>
+                                    <button
+                                        onClick={() => updateComment(comment._id, index)}
+                                    >
+                                        Confirm
+                                    </button>
+                                    
                                     <button
                                         onClick={() => setEdit(false)}
                                     >
@@ -78,9 +133,10 @@ const Comments = ({userId, comments}) => {
                                 </div>}
                             </div>
                         </div>}
-                        {(remove && flagID) && 
+                        {(remove && flagUserID) && 
                         <div 
                             className="removeComment"
+                            // style={{display: comment._id === "talCOsa" ? "flex" : "none"}}
                         >
                             <p className="removeMessage">
                                 Are you sure? It cannot be reversed after confirming.
@@ -89,7 +145,7 @@ const Comments = ({userId, comments}) => {
                                     className="cancelConfirm"
                                 >
                                     <button
-                                        onClick={() =>{}}
+                                        onClick={() => deleteComment(comment._id)}
                                     >
                                         Delete
                                     </button>
@@ -109,21 +165,34 @@ const Comments = ({userId, comments}) => {
                     placeholder={userId ? "Enter a new comment" : "Please Sign In to enter a new comment"}
                     style={{cursor:userId ? "auto" : "no-drop"}}
                     disabled={userId ? false : true}
+                    ref={commentText}
                 >
                 </textarea>
                 {userId &&
-                <button>
-                    Confirm
-                </button>}
+                    <button
+                        onClick={() => addComment()}
+                    >
+                        Confirm
+                    </button>
+                }
             </div>
         </div>
     )
 };
 
+const mapDispatchToProps = {
+    addOrDeleteComment: itinerariesActions.addOrDeleteComment,
+    editComment: itinerariesActions.editComment,
+};
+
 const mapStateToProps = (state) => {
     return{
+        token: state.users.token,
         userId: state.users.userId,
+        firstName: state.users.firstName,
+        lastName: state.users.lastName,
+        profilePic: state.users.profilePic,
     }
 };
 
-export default connect(mapStateToProps)(Comments);
+export default connect(mapStateToProps, mapDispatchToProps)(Comments);
