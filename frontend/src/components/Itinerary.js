@@ -78,7 +78,21 @@ const Itinerary = ({itinerary, getActivities, userId, token, likeItinerary, upda
             setActivities(response);
             setLoading(false);
         }catch(error){
-            console.log(error);
+            store.addNotification({
+                title: "Sorry, we are having connection errors",
+                message: "Please come back later",
+                type: "danger",
+                insert: "top",
+                container: "center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: { 
+                    duration: 3000, 
+                    pauseOnHover: true, 
+                    showIcon: true 
+                },
+            });
+            setExtraContent(false);
         }
     };
 
@@ -126,10 +140,14 @@ const Itinerary = ({itinerary, getActivities, userId, token, likeItinerary, upda
                     <p className="likes">
                             {(itinerary.likes.includes(userId) ? 
                                 <HeartFill
+                                    width="1.5em"
+                                    height="2em"
                                     style={{cursor:userId ? "pointer" : "no-drop"}}
                                     onClick={() => likeThisItinerary(false)}
                                 /> 
                                 : <Heart 
+                                    width="1.5em"
+                                    height="2em"
                                     style={{cursor:userId ? "pointer" : "no-drop"}} 
                                     onClick={() => likeThisItinerary(true)}
                                 />
@@ -148,7 +166,8 @@ const Itinerary = ({itinerary, getActivities, userId, token, likeItinerary, upda
             
             <div 
                 className="commentsActivities"
-                style={{ display: extraContent ? "flex" : "none"}}
+                style={{ display: extraContent ? "flex" : "none", 
+                        backgroundColor: loading ? "#3a3a5a" : "inherit"}}
             >   
                 {loading ? 
                 <img src={require("../assets/preLoader1.gif").default} alt="Pre Loader" />

@@ -254,6 +254,10 @@ header #displaySign nav>* {
   margin-left: 10%;
 }
 
+.divSlide a{
+  text-decoration: none;
+}
+
 .imageCity {
   width: 37vw;
   height: 35vh;
@@ -463,6 +467,10 @@ or the city doesnt have any itinerary registered */
   background-size: 72px 51px;
   margin-left: 20px;
   cursor: pointer;
+}
+
+.subContainerCityPage aside .containerTranportHubs .transportHub:last-child{
+  margin-bottom: 5vh;
 }
 
 /* list of each transport hub */
@@ -692,8 +700,13 @@ in mediaquerie keeping the ux responsive*/
   width: 94%;
 }
 
+.itinerary .commentsActivities img{
+  width: 50%;
+  align-self: center;
+}
+
 .itinerary .commentsActivities .activities{
-  min-height: 60%;
+  height: 60%;
 }
 
 .itinerary .commentsActivities .activities,
@@ -754,7 +767,7 @@ in mediaquerie keeping the ux responsive*/
 } */
 
 .itinerary .commentsActivities .comments{
-  min-height: 32vh;
+  height: 42vh;
   justify-content: space-between;
 }
 
@@ -773,6 +786,7 @@ in mediaquerie keeping the ux responsive*/
   width: 97%;
   display: flex;
   align-items: center;
+  margin: 4px 0;
 }
 
 /* user profile pic */
@@ -820,8 +834,8 @@ in mediaquerie keeping the ux responsive*/
   width: 100%;
   color: whitesmoke;
   padding: 3px;
+  background-color: #4b4264bd;
   border: 1px solid whitesmoke;
-  /* background-color: #4b4264bd; */
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
@@ -843,6 +857,10 @@ in mediaquerie keeping the ux responsive*/
   width: 30%;
   display: flex;
   justify-content: space-between;
+}
+
+.itinerary .commentsActivities .comments .commentsContainer .eachComment .removeComment .cancelConfirm{
+  width: 25%;
 }
 
 .itinerary .commentsActivities .comments .commentsContainer .eachComment .commentWithoutPic div.commentText .cancelConfirm button,
@@ -873,6 +891,8 @@ in mediaquerie keeping the ux responsive*/
   width: 100%;
   border-radius: 10px;
   background-color: #4b4264bd;
+  border: 1px solid whitesmoke;
+  border-radius: 5px;
   color: whitesmoke;
   display: flex;
   justify-content: space-around;
@@ -895,6 +915,24 @@ in mediaquerie keeping the ux responsive*/
   width: 100%;
   min-height: 50px;
   resize: none;
+  padding: 2px 5px;
+}
+
+.itinerary .commentsActivities .comments .newComment textarea:disabled{
+  height: auto;
+  line-height: 120%;
+}
+
+.itinerary .commentsActivities .comments .newComment textarea::placeholder{
+  width: 100%;
+  min-height: 50px;
+  resize: none;
+}
+
+.itinerary .commentsActivities .comments .newComment textarea:disabled::placeholder{
+  text-align: center;
+  vertical-align: middle;
+  color: #22223f;
 }
 
 .itinerary .commentsActivities .comments .newComment button{

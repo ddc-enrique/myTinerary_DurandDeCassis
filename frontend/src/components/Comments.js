@@ -1,12 +1,41 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import itinerariesActions from '../redux/actions/itinerariesActions';
 import EachComment from './EachComment';
+import { store } from 'react-notifications-component';
+
 
 const Comments = (props) => {
     const {itineraryId, userId, comments, addOrDeleteComment, token, profilePic, firstName, lastName} = props;
     const [stagingComments, setStagingComments] = useState(comments);
     const commentText = useRef("");
+    const commentsContainer = useRef({});
+
+
+    useEffect(() => {
+        if (Object.keys(commentsContainer.current).length) {
+            // let scrollNumber = Math.round(commentsContainer.current.scrollWidth);
+            commentsContainer.current.scrollTop = commentsContainer.current.scrollHeight;
+            // activitiesContainer.current.scrollBy(scrollNumber,0);
+        }
+    }, [stagingComments]);
+
+    const showError = () => {
+        store.addNotification({
+            title: "Sorry, we are having connection errors",
+            message: "Please come back later",
+            type: "danger",
+            insert: "top",
+            container: "center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: { 
+                duration: 3000, 
+                pauseOnHover: true, 
+                showIcon: true 
+            },
+        });
+    };
 
     const addComment = async() => {
         let response, newCommentText;
@@ -14,7 +43,7 @@ const Comments = (props) => {
             newCommentText = commentText.current.value;
             response = await addOrDeleteComment(itineraryId, token, userId, newCommentText);
         } catch (error) {
-            
+            showError();
         } finally {
             if(response.success){
                 let commentToShow = {...response.response, userId:{ _id: userId, profilePic, firstName, lastName }}
@@ -31,6 +60,7 @@ const Comments = (props) => {
             <h4>Comments</h4>
             <div
                 className="commentsContainer"
+                ref={commentsContainer}
             >
                 { stagingComments.map( (comment, index) => (
                     <EachComment
@@ -38,6 +68,7 @@ const Comments = (props) => {
                         {...props}
                         comment={comment} index={index} 
                         stagingComments={stagingComments} setStagingComments={setStagingComments}
+                        showError={showError}
                     />
                 ))}
             </div>

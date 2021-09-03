@@ -8,6 +8,7 @@ import {
 import ConnectionError from "../pages/ConnectionError";
 import { connect } from "react-redux";
 import citiesActions from "../redux/actions/citiesActions";
+import { Link } from "react-router-dom";
 
 const CarouselCities = ({getCities, cities}) => {
     const [loading, setLoading] = useState(true);
@@ -28,9 +29,8 @@ const CarouselCities = ({getCities, cities}) => {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+    
     citiesAux = cities.sort((cityA, cityB) => cityB.likes - cityA.likes);
-
     items = items.map((slide, i) => {
         for (let j = i*4; j < (i+1)*4; j++) {
             slide.push(citiesAux[j]);    
@@ -97,16 +97,20 @@ const CarouselCities = ({getCities, cities}) => {
                         {slide.map(city => {
                             let picture = require(`../assets/${city.src}.jpeg`);
                             return (
-                                <div
-                                    className="imageCity"
-                                    style={{ backgroundImage: `url(${picture.default})` }}
+                                <Link 
+                                    to={`/city/${city._id}`}
                                     key={city._id}
                                 >
-                                    <div className="cityData">
-                                        <h5>{city.name}</h5>
-                                        <h5>{city.country}</h5>
+                                    <div
+                                        className="imageCity"
+                                        style={{ backgroundImage: `url(${picture.default})` }}
+                                    >
+                                        <div className="cityData">
+                                            <h5>{city.name}</h5>
+                                            <h5>{city.country}</h5>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             );
                         })}
                     </div>
@@ -136,7 +140,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
     return{
-        cities: state.cities.citiesList,
+        cities: state.cities.carouselCities,
     }
 };
 

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import itinerariesActions from '../redux/actions/itinerariesActions';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
 
-const EachComment = ({comment, index, stagingComments, setStagingComments, userId, token, editComment, addOrDeleteComment, itineraryId}) => {
+const EachComment = (props) => {
+    const {comment, index, stagingComments, setStagingComments, userId, token, editComment, addOrDeleteComment, itineraryId, showError} = props;
     const [edit, setEdit] = useState(false);
     const [remove, setRemove] = useState(false);
     const editCommentText = useRef("");
@@ -21,7 +22,7 @@ const EachComment = ({comment, index, stagingComments, setStagingComments, userI
             newCommentText = editCommentText.current.value;
             response = await editComment(commentId, token, newCommentText);
         } catch (error) {
-            
+            showError();
         } finally {
             if(response){
                 let commentsAux = stagingComments.map((comment, i) => {
@@ -42,7 +43,7 @@ const EachComment = ({comment, index, stagingComments, setStagingComments, userI
         try {
             response = await addOrDeleteComment(itineraryId, token, null, null, commentId);
         } catch (error) {
-            
+            showError();
         } finally {
             if(response.success){
                 let commentsAux = stagingComments.filter( comment => comment._id !== commentId);
@@ -75,7 +76,7 @@ const EachComment = ({comment, index, stagingComments, setStagingComments, userI
                 </div>
                 <div 
                     className="commentText"
-                    style={{backgroundColor: (!edit && flagUserID) ? "#4b4264bd" : "inherit"}}
+                    // style={{backgroundColor: (!edit && flagUserID) ? "#4b4264bd" : "inherit"}}
                 >
                     {(!flagUserID || (!edit && flagUserID)) && 
                     <p className="commentText">
