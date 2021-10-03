@@ -3,7 +3,7 @@ import axios from "axios";
 const itinerariesActions = {
     getItinerariesList: (cityId) => {
         return async (dispatch) => {
-            let response = await axios.get(`http://mytinerary-duranddecassis.herokuapp.com/api/itineraries/${cityId}`);
+            let response = await axios.get(`https://mytinerary-duranddecassis.herokuapp.com/api/itineraries/${cityId}`);
             let data = response.data.response;
             if(!response.data.success) throw data;
             dispatch({ type:"GET_ITINERARIES", payload: data});
@@ -19,7 +19,7 @@ const itinerariesActions = {
 
     getActivities: (itineraryId) => {
         return async () => {
-            let response = await axios.get(`http://mytinerary-duranddecassis.herokuapp.com/api/activities/${itineraryId}`);
+            let response = await axios.get(`https://mytinerary-duranddecassis.herokuapp.com/api/activities/${itineraryId}`);
             if (!response.data.success) throw response.data.error;
             return response.data.response;
         }
@@ -27,7 +27,7 @@ const itinerariesActions = {
 
     likeItinerary: (itineraryId, token, userId, addLike) => {
         return async () => {            
-            let response = await axios.put(`http://mytinerary-duranddecassis.herokuapp.com/api/likeItinerary/${itineraryId}`, 
+            let response = await axios.put(`https://mytinerary-duranddecassis.herokuapp.com/api/likeItinerary/${itineraryId}`, 
                 { userId, addLike }, { headers: { Authorization: "Bearer " + token } }
             );
             if(!response.data.success) throw response.data.response;
@@ -37,7 +37,7 @@ const itinerariesActions = {
 
     addOrDeleteComment: (itineraryId, token, userId, commentText, commentId) => {
         return async () => {
-            let response = await axios.put(`http://mytinerary-duranddecassis.herokuapp.com/api/commentItinerary/${itineraryId}`,
+            let response = await axios.put(`https://mytinerary-duranddecassis.herokuapp.com/api/commentItinerary/${itineraryId}`,
                 { userId, commentText, commentId }, { headers: { Authorization: "Bearer " + token } }
             );
             if(!response.data.success) throw response.data.response;
@@ -47,7 +47,7 @@ const itinerariesActions = {
 
     editComment: (commentId, token, newCommentText) => {
         return async () => {
-            let response = await axios.put("http://mytinerary-duranddecassis.herokuapp.com/api/editComment", 
+            let response = await axios.put("https://mytinerary-duranddecassis.herokuapp.com/api/editComment", 
                 { commentId, newCommentText },
                 { headers: { Authorization: "Bearer " + token } }
             );
