@@ -17,6 +17,7 @@ const CitySchema = new mongoose.Schema({
         trainStations: [ TransportHubSchema ], 
     },
     likes: { type: Number, default: 0, min: 0},
+    uri: { type: String }
 });
 
 const City = mongoose.model("city", CitySchema);

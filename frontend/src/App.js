@@ -29,7 +29,7 @@ function App({token, signFromLS}) {
 
   return (
     <BrowserRouter>
-      <ReactNotification />
+      <ReactNotification />      
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/cities" component={Cities} />
