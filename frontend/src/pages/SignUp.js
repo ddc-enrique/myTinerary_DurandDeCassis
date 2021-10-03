@@ -264,7 +264,7 @@ const SignUp = ({signUp}) => {
                         <hr /> OR <hr />
                     </div>
                     <GoogleLogin
-                        clientId="123395486350-7vkdk0812656ukr4p18pi6h4gc40jm8s.apps.googleusercontent.com"
+                        clientId="123395486350-r0vk22coico8c2hnfpdi5nl582mq7sqf.apps.googleusercontent.com"
                         buttonText="Sign Up with Google"
                         onSuccess={responseGoogle}
                         onFailure={responseGoogle}

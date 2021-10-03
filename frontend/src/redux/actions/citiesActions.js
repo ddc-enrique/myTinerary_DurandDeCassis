@@ -3,7 +3,7 @@ import axios from "axios";
 const citiesActions = {
     getCitiesList: () => {
         return async (dispatch) => {
-            let response =await axios.get("http://localhost:4000/api/cities");
+            let response =await axios.get("https://mytinerary-duranddecassis.herokuapp.com/api/cities");
             let data = response.data.response;
             if (!response.data.success) throw data;
             dispatch({ type: "GET_ALL_CITIES", payload: data });
@@ -18,7 +18,7 @@ const citiesActions = {
 
     updateCityLikes: (token, cityId, addLike) => {
         return async(dispatch) => {
-            await axios.put(`http://localhost:4000/api/city/likes/${cityId}`, 
+            await axios.put(`https://mytinerary-duranddecassis.herokuapp.com/api/city/likes/${cityId}`, 
                 {addLike}, { headers: { Authorization: "Bearer " + token } }
             );
             let sendObject = {cityId, addLike};
