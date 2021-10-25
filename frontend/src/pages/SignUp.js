@@ -26,7 +26,7 @@ const SignUp = ({signUp}) => {
     const [errorsValidation, setErrorsValidation] = useState({});
     
     useEffect(() => {
-        axios.get("https://restcountries.eu/rest/v2/all?fields=name")
+        axios.get("https://restcountries.com/v2/all?fields=name")
             .then( res => setCountriesSelect(res.data));
         setLoading(false);
     }, []);
